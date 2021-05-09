@@ -22,7 +22,7 @@ REQUISITOS:
                     Servido ->;
                     Fechado -> ir para histórico de pedidos para consulta;
                             Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
-                                     liberta a messa e passa para histórico;
+                                     liberta a mesa e passa para histórico;
 
     Item -> Produto, quantidade;
 
