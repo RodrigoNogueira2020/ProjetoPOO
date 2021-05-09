@@ -3,6 +3,7 @@ package restaurante;
 /**
  *
  * @author Ricardo Reis 200262024
+ *         Rodrigo Nogueira 200262002
  */
 public class Restaurante {
 

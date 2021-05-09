@@ -10,6 +10,34 @@ HIERARQUIA:
 
 
 REQUISITOS:
+Mesa:
+		Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
+		Ocupada (NÃO) -> mensagem de erro;
+
+Pedido -> Item, data/hora abertura e fecho;
+		Aberto -> Pode-se adicionar mais produtos;
+		Em preparação ->;
+		Servido ->;
+		Fechado -> ir para histórico de pedidos para consulta;
+			Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
+				 liberta a messa e passa para histórico;
+
+Item -> Produto, quantidade;
+
+Produto -> nome, preço, IVA; (não pode haver duplicados)
+
+Bebica -> capacidade, sim/não acoólica;
+
+Prato -> descrição;
+
+Snack -> quantidade, sim/não picante;
+
+Doce -> descrição, feito/não feito no restaurante;
+
+
+
+
+
 	Definir número de mesas no inicio do programa;
 
 	Produto -> nome, preço, IVA; (não pode haver duplicados)
@@ -22,19 +50,9 @@ REQUISITOS:
 
 	Snack -> quantidade, sim/não picante;
 
-	Mesa:
-		Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
-		Ocupada (NÃO) -> mensagem de erro;
+	
 
-	Item -> Produto, quantidade;
-
-	Pedido -> Item, data/hora abertura e fecho;
-		Aberto -> Pode-se adicionar mais produtos;
-		Em preparação ->;
-		Servido ->;
-		Fechado -> ir para histórico de pedidos para consulta;
-			Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
-				 liberta a messa e passa para histórico;
+	
 	
 	Alterar o estado de um pedido para "Servido";
 	
