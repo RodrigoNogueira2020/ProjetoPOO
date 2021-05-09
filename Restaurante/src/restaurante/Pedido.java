@@ -21,23 +21,6 @@ public class Pedido {
         this.dataHoraAbertura = dataHoraChegada;
         listaItens = new ArrayList<>();
         
-        int diferenca = LocalDateTime.now().compareTo(dataHoraChegada);
-        
-        System.out.println("adasda " + diferenca);
-            
-//        if(0 < LocalDateTime.now().compareTo(dataHoraChegada)) {
-//            System.out.println("ERRO: Data ou hora inserida é anterior à atual.");
-//        } else if (LocalDateTime.now().compareTo(dataHoraChegada) < 0) {
-//            System.out.println(dataAtual + " é mais antiga que " + antigadata2);
-//        } else {
-//            System.out.println(dataAtual + " é igual a " + antigadata2);
-//        }
-        
-        /* Para o metodo de fechar o pedido e imprimir o recibo respetivamente
-        LocalDateTime dataAtual = LocalDateTime.now();
-        String dataAtualFormatada = dataAtual.format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm"));
-        */
-        
     }
 
     public void adicionarItem(String item) {
