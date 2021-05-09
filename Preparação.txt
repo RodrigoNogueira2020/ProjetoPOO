@@ -1,63 +1,47 @@
 HIERARQUIA:
+
 	MESA
-		PEDIDO	
-			ITEM
-				PRODUTO
-					BEBIDA
-					PRATO
-					SNACK
-					DOCE
+            PEDIDO	
+		ITEM
+                    PRODUTO
+			BEBIDA
+			PRATO
+			SNACK
+			DOCE
 
 
 REQUISITOS:
-Mesa:
-		Ocupada (SIM) -> nÃºmero, pedido (Aberto), hora de chegada(sem itens);
-		Ocupada (NÃƒO) -> mensagem de erro;
 
-Pedido -> Item, data/hora abertura e fecho;
-		Aberto -> Pode-se adicionar mais produtos;
-		Em preparaÃ§Ã£o ->;
-		Servido ->;
-		Fechado -> ir para histÃ³rico de pedidos para consulta;
-			Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
-				 liberta a messa e passa para histÃ³rico;
+    Mesa:
+        Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
+        Ocupada (NÃƒO) -> mensagem de erro;
 
-Item -> Produto, quantidade;
+    Pedido -> Item, data/hora abertura e fecho;
+                    Aberto -> Pode-se adicionar mais produtos;
+                    Em preparação ->;
+                    Servido ->;
+                    Fechado -> ir para histórico de pedidos para consulta;
+                            Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
+                                     liberta a messa e passa para histórico;
 
-Produto -> nome, preÃ§o, IVA; (nÃ£o pode haver duplicados)
+    Item -> Produto, quantidade;
 
-Bebica -> capacidade, sim/nÃ£o acoÃ³lica;
+    Produto -> nome, preço, IVA; (não pode haver duplicados)
 
-Prato -> descriÃ§Ã£o;
+    Bebica -> capacidade, sim/não alcoólica;
 
-Snack -> quantidade, sim/nÃ£o picante;
+    Prato -> descrição;
 
-Doce -> descriÃ§Ã£o, feito/nÃ£o feito no restaurante;
+    Snack -> quantidade, sim/não picante;
 
+    Doce -> descrição, feito/não feito no restaurante;
 
-
-
-
-	Definir nÃºmero de mesas no inicio do programa;
-
-	Produto -> nome, preÃ§o, IVA; (nÃ£o pode haver duplicados)
-
-	Bebica -> capacidade, sim/nÃ£o acoÃ³lica;
-
-	Doce -> descriÃ§Ã£o, feito/nÃ£o feito no restaurante;
-
-	Prato -> descriÃ§Ã£o;
-
-	Snack -> quantidade, sim/nÃ£o picante;
-
+    Definir número de mesas no inicio do programa;	
 	
-
+    Alterar o estado de um pedido para "Servido";
 	
-	
-	Alterar o estado de um pedido para "Servido";
-	
-	HistÃ³rico:
-		Ordenar por data da mais recente para a mais antiga;
-		Conseguir ver recibos;
-		Exportar histÃ³rico para ficheiro;
-		Se existir histÃ³rico, mostrar no inicio.
+    Histórico:
+	Ordenar por data da mais recente para a mais antiga;
+	Conseguir ver recibos;
+	Exportar histórico para ficheiro;
+	Se existir histórico, mostrar no inicio.
