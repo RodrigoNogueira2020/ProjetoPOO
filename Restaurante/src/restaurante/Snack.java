@@ -5,8 +5,8 @@ package restaurante;
  * @author Ricardo Reis
  */
 public class Snack extends Produto{
-    int quantidade;
-    boolean temPicante;
+    private int quantidade;
+    private boolean temPicante;
     
     public Snack(String nome, double preco, int quantidade, boolean ePicante) {
         super(nome, preco);
@@ -54,7 +54,7 @@ public class Snack extends Produto{
         return "Snack: " + getNome() + " | " + 
                "Capacidade: " + getQuantidade() + " | " +
                ePicante() + " | " + 
-               getPreco() + "€";
+               getPreco() + " €";
     }
     
 }

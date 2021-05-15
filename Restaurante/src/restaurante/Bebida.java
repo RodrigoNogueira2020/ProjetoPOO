@@ -5,8 +5,8 @@ package restaurante;
  * @author Ricardo Reis
  */
 public class Bebida extends Produto{
-    double capacidade;
-    boolean temAlcool;
+    private double capacidade;
+    private boolean temAlcool;
     
     public Bebida(String nome, double preco, double capacidade, boolean temAlcool) {
         super(nome, preco);
@@ -52,7 +52,7 @@ public class Bebida extends Produto{
     @Override
     public String toString(){
         return "Bebida: " + getNome() + " | " + 
-               "Capacidade: " + getCapacidade() + " | " +
+               "Capacidade: " + getCapacidade() + " L | " +
                eAlcoolica() + " | " + 
                getPreco() + "€";
     }

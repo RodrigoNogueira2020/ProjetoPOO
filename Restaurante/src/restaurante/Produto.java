@@ -55,4 +55,9 @@ public class Produto {
         return IVA;
     }
     
+    @Override
+    public String toString(){
+        return "Nome: " + nome + " | " + "Preco: " + preco;
+    }
+    
 }

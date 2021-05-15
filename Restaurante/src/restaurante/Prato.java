@@ -10,7 +10,7 @@ package restaurante;
  * @author Ricardo Reis
  */
 public class Prato extends Produto{
-    String descricao;
+    private String descricao;
     
     public Prato(String nome, double preco, String descricao) {
         super(nome, preco);
@@ -32,7 +32,7 @@ public class Prato extends Produto{
     public String toString(){
         return "Prato: " + getNome() + " | " + 
                descricao + " | " +
-               getPreco() + "€";
+               getPreco() + " €";
     }
     
     
