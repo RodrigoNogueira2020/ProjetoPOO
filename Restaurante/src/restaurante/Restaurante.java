@@ -3,6 +3,7 @@ package restaurante;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +16,7 @@ public class Restaurante {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Produto pro = new Bebida("asd", 90, 22, true);
         // https://www.callicoder.com/how-to-compare-date-time-java/
         // Guardar as horas
         LocalTime currentTime = LocalTime.now();

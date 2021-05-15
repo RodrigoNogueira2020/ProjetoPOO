@@ -24,15 +24,15 @@ REQUISITOS:
                             Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
                                      liberta a mesa e passa para histórico;
 
-    Item -> Produto, quantidade;
+    Item -> Produto produto, quantidade; -> Verificar se ha duplicados aqui
 
     Produto -> nome, preço, IVA; (não pode haver duplicados)
 
-    Bebica -> capacidade, sim/não alcoólica;
-
     Prato -> descrição;
 
-    Snack -> quantidade, sim/não picante;
+    -Bebida -> capacidade, sim/não alcoólica;
+
+    -Snack -> quantidade, sim/não picante;
 
     Doce -> descrição, feito/não feito no restaurante;
 
