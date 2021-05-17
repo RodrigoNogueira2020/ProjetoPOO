@@ -14,7 +14,7 @@ REQUISITOS:
 
     Mesa:
         Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
-        Ocupada (NÃƒO) -> mensagem de erro;
+        Ocupada (NÃO) -> mensagem de erro;
 
     Pedido -> Item, data/hora abertura e fecho;
                     Aberto -> Pode-se adicionar mais produtos;
