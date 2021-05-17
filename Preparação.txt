@@ -16,25 +16,25 @@ REQUISITOS:
         Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
         Ocupada (NÃO) -> mensagem de erro;
 
-    Pedido -> Item, data/hora abertura e fecho;
+    Pedido -> Item, data/hora abertura e fecho; -> Verificar se ha itens duplicados aqui
                     Aberto -> Pode-se adicionar mais produtos;
                     Em preparação ->;
                     Servido ->;
                     Fechado -> ir para histórico de pedidos para consulta;
                             Guardar: nome, quantidade, valor sem IVA, valor com IVA, valor final;
-                                     liberta a messa e passa para histórico;
+                                     liberta a mesa e passa para histórico;
 
-    Item -> Produto, quantidade;
+    Item -> Produto produto, quantidade;
 
     Produto -> nome, preço, IVA; (não pode haver duplicados)
 
-    Bebica -> capacidade, sim/não alcoólica;
+    -Prato -> descrição;
 
-    Prato -> descrição;
+    -Bebida -> capacidade, sim/não alcoólica;
 
-    Snack -> quantidade, sim/não picante;
+    -Snack -> quantidade, sim/não picante;
 
-    Doce -> descrição, feito/não feito no restaurante;
+    -Doce -> descrição, feito/não feito no restaurante;
 
     Definir número de mesas no inicio do programa;	
 	
