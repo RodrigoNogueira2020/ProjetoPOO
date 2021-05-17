@@ -16,7 +16,7 @@ REQUISITOS:
         Ocupada (SIM) -> número, pedido (Aberto), hora de chegada(sem itens);
         Ocupada (NÃƒO) -> mensagem de erro;
 
-    Pedido -> Item, data/hora abertura e fecho; -> Verificar se ha itens duplicados aqui
+    Pedido -> Item, data/hora abertura e fecho;
                     Aberto -> Pode-se adicionar mais produtos;
                     Em preparação ->;
                     Servido ->;
@@ -44,4 +44,4 @@ REQUISITOS:
 	Ordenar por data da mais recente para a mais antiga;
 	Conseguir ver recibos;
 	Exportar histórico para ficheiro;
-	Se existir histórico, mostrar no inicio.
+	Se existir ficheiro de histórico, devem ser carregados para a memória para poderem ser consultados.

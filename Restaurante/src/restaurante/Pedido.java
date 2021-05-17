@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  *
@@ -17,7 +16,6 @@ public class Pedido {
     private LocalDateTime dataHoraAbertura;
     private LocalDateTime dataHoraFecho; // = LocalDateTime.now();
     
-    // TODO: Mudar String pedido para Pedido pedido
     public Pedido (LocalDateTime dataHoraChegada){
         this.estado = PedidoEstado.ABERTO;
         this.dataHoraAbertura = dataHoraChegada;
@@ -26,9 +24,8 @@ public class Pedido {
     }
 
     public void adicionarItem(Item item) {
-        /* Para o metodo de introduzir um item ao pedido, recebe um Item item */
         if(estado == PedidoEstado.FECHADO)
-            System.out.println("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
+                System.out.println("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
         else if(item == null)
             System.out.println("ERRO: Pedido introduzido está nulo!");
         else
@@ -51,9 +48,10 @@ public class Pedido {
 
         for(Iterator<Item> it = listaItens.iterator(); it.hasNext(); ){
             Item temp = it.next();
+            System.out.println(temp);
             if (temp.equals(listaItens.get(i))) {
+//                System.out.println("--" + listaItens.get(i).getProduto().getNome() + " removido com sucesso!");
                 it.remove();
-                System.out.println("--" + temp.getProduto().getNome() + " removido com sucesso!");
                 return true;
             }
         }
@@ -70,6 +68,10 @@ public class Pedido {
        
     }
 
+    public void listarItens(){
+        for(Item u: listaItens)
+            System.out.println(u);
+    }
     
     public void imprimirRecibo(){
         System.out.println("== " + dataHoraAbertura.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==");
@@ -80,7 +82,7 @@ public class Pedido {
         
         System.out.println("++");
         
-        /* Ciclar por todos os itens e mostrar os detalhes de cada*/
+        /* Percorrer todos os itens e mostrar os detalhes de cada*/
         for(Item u: listaItens)
             System.out.println(u);
             
@@ -96,12 +98,12 @@ public class Pedido {
             case ABERTO: case EM_PREPARACAO: case SERVIDO:
                 estado = PedidoEstado.FECHADO;
                 dataHoraFecho = LocalDateTime.now();
+                imprimirRecibo();
                 break;
             case FECHADO:
                 System.out.println("ERRO: O pedido já está fechado!");
         }
         
-        imprimirRecibo();
     }
     
     public void definirEstado(PedidoEstado estado) {

@@ -11,8 +11,8 @@ public class Item {
     public Item(Produto produto, int quantidade) {
         if(produto != null)
             this.produto = produto;
-        else
-            this.produto = new Produto("", 0);
+        else;
+//            this.produto = new Produto("", 0);
         
         if(quantidade > 0)
             this.quantidade = quantidade;
@@ -24,8 +24,8 @@ public class Item {
     public void setProduto(Produto produto) {
         if(produto != null)
             this.produto = produto;
-        else
-            this.produto = new Produto("", 0);
+        else;
+//            this.produto = new Produto("", 0);
     }
 
     public void setQuantidade(int quantidade) {
@@ -34,9 +34,12 @@ public class Item {
         else
             this.quantidade = 0;
     }
-
+    
     public Produto getProduto() {
-        return produto;
+        if(produto instanceof Bebida)
+            return (Bebida) produto;
+        
+        return null;
     }
 
     public int getQuantidade() {

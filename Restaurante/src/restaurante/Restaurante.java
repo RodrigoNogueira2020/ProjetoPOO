@@ -16,6 +16,9 @@ public class Restaurante {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+//        Gestao restaurante = new Gestao();
+//        restaurante.definirNome();
+        /*
         // https://www.callicoder.com/how-to-compare-date-time-java/
         // Guardar as horas
         LocalTime currentTime = LocalTime.now();
@@ -43,21 +46,30 @@ public class Restaurante {
             System.out.println(dataAtual + " é igual a " + antigadata2);
         }
         
+        
+        */
+        LocalDateTime dataAtual = LocalDateTime.now();
         Pedido p = new Pedido(dataAtual);
-        Produto p1 = new Bebida("Chug Jug", 1, 1.5, false);
-        Produto p2 = new Snack("Rodrigo", 0, 1, true);
+        Bebida p1 = new Bebida("Danke", 1, 1.5, false);
+        Produto p2 = new Snack("Barra de cereal", 0, 1, true);
         Produto p3 = new Prato("Lasanha vegetariana", 10, "Melhor comida de sempre");
         Produto p4 = new Doce("Pintarolas", 3, "Hmmmm que bom", false);
         Item i1 = new Item(p1, 5);
         Item i2 = new Item(p2, 1);
         Item i3 = new Item(p3, 5);
         Item i4 = new Item(p4, 5);
+        
+        System.out.println("zxcvbnm " + (int)(i1.getProduto().getIVA()*100));
+//        System.out.println(i1.getProduto().getCapacidade());
         p.adicionarItem(i1);
         p.adicionarItem(i2);
         p.adicionarItem(i3);
         p.adicionarItem(i4);
+        p.listarItens();
         // p.imprimirRecibo();
         p.apagarItem(3);
+        System.out.println("-----");
+        p.listarItens();
 //        p.fecharPedido();
     }
     

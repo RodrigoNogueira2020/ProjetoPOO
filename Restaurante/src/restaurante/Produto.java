@@ -9,7 +9,7 @@ public class Produto {
     private final double IVA;
     
     public Produto(String nome, double preco){
-        if(nome != null && !nome.trim().equals(""))
+        if(nome != null || !nome.trim().equals(""))
             this.nome = nome.trim();
         else
             this.nome = "Um produto qualquer";
@@ -57,7 +57,7 @@ public class Produto {
     
     @Override
     public String toString(){
-        return "Nome: " + nome + " | " + "Preco: " + preco;
+        return "Nome: " + nome + " | Preco: " + preco + " | IVA: " + (IVA*100);
     }
     
 }

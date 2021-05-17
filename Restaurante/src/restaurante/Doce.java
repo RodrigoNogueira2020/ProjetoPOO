@@ -11,7 +11,7 @@ public class Doce extends Produto{
     public Doce(String nome, double preco, String descricao, boolean feitoNoRestaurante) {
         super(nome, preco);
         
-        if(descricao != null && !descricao.trim().equals(""))
+        if(descricao != null || !descricao.trim().equals(""))
             this.descricao = descricao.trim();
         
         this.feitoNoRestaurante = feitoNoRestaurante;

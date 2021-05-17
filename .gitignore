@@ -24,3 +24,7 @@ hs_err_pid*
 /Restaurante/nbproject/private/
 /Restaurante/build/
 /Restaurante/dist/
+
+# Diagrams
+*.dia
+*.dia~
