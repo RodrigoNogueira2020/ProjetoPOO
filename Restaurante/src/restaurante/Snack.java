@@ -18,6 +18,11 @@ public class Snack extends Produto{
         
         this.temPicante = ePicante;
     }
+    
+    public Snack(){
+        this.quantidade = 0;
+        this.temPicante = false;
+    }
 
     public void setQuantidade(int quantidade) {
         if(quantidade > 0)
