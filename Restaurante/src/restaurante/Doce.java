@@ -30,8 +30,8 @@ public class Doce extends Produto {
         }
     }
 
-    public void setFeitoNoRestaurante(boolean feitoNoRestaurante) {
-        this.feitoNoRestaurante = feitoNoRestaurante;
+    public void setFeitoNoRestaurante() {
+        feitoNoRestaurante = !feitoNoRestaurante;
     }
 
     public boolean isFeitoNoRestaurante() {

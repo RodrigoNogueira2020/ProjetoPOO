@@ -12,28 +12,32 @@ public class InputReader {
         reader = new Scanner(System.in);
     }
     
-    public String getText(String question){
-        if(question == null)
-            question = "";
+    public String receberTexto(String pergunta){
+        if(pergunta == null)
+            pergunta = "";
         
-        question += ">";
+        pergunta += ">";
         
-        System.out.print(question);
+        System.out.print(pergunta);
         
         return reader.nextLine();
     }
     
-    public int getNumberInt(String question){
-        if(question==null)
-            question="";
+    public char receberLetra(String pergunta){
+        return receberTexto(pergunta).charAt(0);
+    }
+    
+    public int receberNumeroInt(String pergunta){
+        if(pergunta==null)
+            pergunta="";
         
-        question+="> ";
+        pergunta+="> ";
         
-        System.out.print(question);
+        System.out.print(pergunta);
         
         while(!reader.hasNextInt()){
             reader.nextLine();
-            System.out.print(question);
+            System.out.print(pergunta);
         }
         
         int number = reader.nextInt();
@@ -41,17 +45,17 @@ public class InputReader {
         return number;
     }
     
-    public double getNumberDouble(String question){
-        if(question==null)
-            question="";
+    public double receberNumeroDouble(String pergunta){
+        if(pergunta==null)
+            pergunta="";
         
-        question+="> ";
+        pergunta+="> ";
         
-        System.out.print(question);
+        System.out.print(pergunta);
         
         while(!reader.hasNextDouble()){
             reader.nextLine();
-            System.out.print(question);
+            System.out.print(pergunta);
         }
         double number = reader.nextDouble();
         reader.nextLine();

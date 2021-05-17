@@ -71,7 +71,10 @@ public abstract class Produto {
 
     @Override
     public String toString() {
-        return "Nome: " + nome + " | Preco: " + preco + " | IVA: " + (IVA * 100);
+        return "Nome: " + nome + 
+               " | Preco: " + preco + 
+               "(com IVA: " + (preco * (1.00 - IVA)) + ")" +
+               " | IVA: " + (IVA * 100);
     }
 
 }

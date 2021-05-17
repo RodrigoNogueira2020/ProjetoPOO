@@ -16,8 +16,8 @@ public class Restaurante {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        Gestao restaurante = new Gestao();
-//        restaurante.definirNome();
+        Gestao restaurante = new Gestao();
+        restaurante.menu();
         /*
         // https://www.callicoder.com/how-to-compare-date-time-java/
         // Guardar as horas
@@ -47,7 +47,7 @@ public class Restaurante {
         }
         
         
-        */
+        
         LocalDateTime dataAtual = LocalDateTime.now();
         Pedido p = new Pedido(dataAtual);
         Bebida p1 = new Bebida("Danke", 1, 1.5, false);
@@ -76,7 +76,8 @@ public class Restaurante {
         Mesa mesa = new Mesa(1);
         mesa.setOcupada();
         mesa.setPedido(p);
-        mesa.getPedido().listarItens();
+        mesa.getPedido().listarItens();*/
+        
     }
     
 }
