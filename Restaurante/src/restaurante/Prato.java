@@ -13,6 +13,10 @@ public class Prato extends Produto{
         if(descricao != null || !descricao.trim().equals(""))
             this.descricao = descricao.trim();
     }
+    
+    public Prato(){
+        this.descricao = "Uma descrição qualquer";
+    }
 
     public void setDescricao(String descricao) {
         if(descricao != null && !descricao.trim().equals(""))
