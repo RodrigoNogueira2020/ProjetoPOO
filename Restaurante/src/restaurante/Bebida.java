@@ -52,7 +52,7 @@ public class Bebida extends Produto{
     @Override
     public String toString(){
         return "Bebida: " + getNome() + " | " + 
-               "Capacidade: " + getCapacidade() + " L | " +
+               "Capacidade: " + capacidade + " L | " +
                eAlcoolica() + " | " + 
                getPreco() + "€";
     }

@@ -71,6 +71,12 @@ public class Restaurante {
         System.out.println("-----");
         p.listarItens();
 //        p.fecharPedido();
+        
+        System.out.println("-----");
+        Mesa mesa = new Mesa(1);
+        mesa.setOcupada();
+        mesa.setPedido(p);
+        mesa.getPedido().listarItens();
     }
     
 }

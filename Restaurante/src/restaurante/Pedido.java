@@ -57,14 +57,6 @@ public class Pedido {
         }
         
         return false;
-//            
-//            if(j == i){
-//                it.indexOf(i).remove();
-//                System.out.println("removed");
-//                return;
-//            }
-//            j++;
-//            System.out.println(j);
        
     }
 
@@ -82,11 +74,7 @@ public class Pedido {
         
         System.out.println("++");
         
-        /* Percorrer todos os itens e mostrar os detalhes de cada*/
-        for(Item u: listaItens)
-            System.out.println(u);
-            
-        
+        listarItens();
     }
     
     /**

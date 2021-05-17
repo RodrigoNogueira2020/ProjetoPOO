@@ -1,44 +1,53 @@
 package restaurante;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-
-/**
- *
- * @author rodri
- */
 public class Mesa {
 
     private int numero;
-    //Pedido pedido;
-    String horaChegada;
-    boolean ocupada;
-    //Scanner scanner = new Scanner(System.in);
-
-        /*System.out.println("Número de mesas existentes: ");
-        int numeroMesas = scanner.nextInt();*/
+    private Pedido pedido;
+    private boolean ocupada;
     
-    public Mesa(int numero, String horaChegada, boolean ocupada) {
-        //listaItem = new ArrayList<>();
-
-        if (!ocupada) {
-
-            ocupada = false;
-            this.ocupada = ocupada;
-
-            if (numero < 0 || numero > numeroMesas) {
-                this.numero = numero;
-                //pedido.aberto;
-            }
-            if (horaChegada != null || equals(horaChegada)) {
-                LocalTime HoraAtual = LocalTime.now();
-            }
-        } else {
-            System.out.println("ERRO! Mesa ocupada!");
-        }
+    public Mesa(int numero) {
+        if(numero > 0)
+            this.numero = numero;
+        else
+            this.numero = -1;
+        
+        ocupada = false;
     }
+    
+    public Mesa() {
+        this.numero = -1;
+        ocupada = false;
+    }
+
+    public void setNumero(int numero) {
+        if(numero > 0)
+            this.numero = numero;
+        else
+            this.numero = -1;
+    }
+
+    public void setPedido(Pedido pedido) {
+        if(!ocupada)
+            System.out.println("ERRO: Mesa ainda não está ocupada!");
+        else if(pedido != null)
+            this.pedido = pedido;
+    }
+
+    public void setOcupada() {
+        ocupada = !ocupada;
+    }
+    
+    public int getNumero() {
+        return numero;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public boolean isOcupada() {
+        return ocupada;
+    }
+    
 }
