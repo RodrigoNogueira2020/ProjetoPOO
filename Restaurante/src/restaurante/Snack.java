@@ -24,11 +24,16 @@ public class Snack extends Produto{
         this.temPicante = false;
     }
 
-    public void setQuantidade(int quantidade) {
-        if(quantidade > 0)
+    public boolean setQuantidade(int quantidade) {
+        if(quantidade > 0){
             this.quantidade = quantidade;
+            return true;
+        } else if(quantidade < 0)
+            System.out.println("ERRO: O snack não pode ter uma quantidade negativa!");
         else
-            this.quantidade = 0;
+            System.out.println("ERRO: O snack precisa de um quantidade!");
+        
+        return false;
     }
     
     /**
@@ -37,6 +42,21 @@ public class Snack extends Produto{
      */
     public void setTemPicante() {
         temPicante = !temPicante;
+    }
+    
+    public boolean setTemPicante(char picante) {
+        switch(picante){
+            case 's':case 'S':
+                temPicante = true;
+                break;
+            case 'n':case 'N':
+                temPicante = false;
+                break;
+            default:
+                System.out.println("ERRO: É preciso especificar se o snack é picante!");
+                return false;
+        }
+        return true;
     }
     
     public int getQuantidade() {

@@ -25,12 +25,14 @@ public class Bebida extends Produto {
         this.temAlcool = false;
     }
 
-    public void setCapacidade(double capacidade) {
+    public boolean setCapacidade(double capacidade) {
         if (capacidade > 0.33) {
             this.capacidade = capacidade;
-        } else {
-            this.capacidade = 0.33;
+            return true;
         }
+        
+        System.out.println("ERRO: A bebida precisa de um nome!");
+        return false;
     }
 
     /**
@@ -39,6 +41,21 @@ public class Bebida extends Produto {
      */
     public void setTemAlcool() {
         temAlcool = !temAlcool;
+    }
+    
+    public boolean setTemAlcool(char alc) {
+        switch(alc){
+            case 's':case 'S':
+                temAlcool = true;
+                break;
+            case 'n':case 'N':
+                temAlcool = false;
+                break;
+            default:
+                System.out.println("ERRO: É preciso especificar se a bebida é álcoolica!");
+                return false;
+        }
+        return true;
     }
 
     public double getCapacidade() {

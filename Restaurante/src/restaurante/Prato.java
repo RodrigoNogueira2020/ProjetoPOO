@@ -17,10 +17,15 @@ public class Prato extends Produto{
     public Prato(){
         this.descricao = "Uma descrição qualquer";
     }
-
-    public void setDescricao(String descricao) {
-        if(descricao != null && !descricao.trim().equals(""))
+    
+    public boolean setDescricao(String descricao) {
+        if (descricao != null && !descricao.trim().equals("")) {
             this.descricao = descricao.trim();
+            return true;
+        }
+        
+        System.out.println("ERRO: O doce precisa de uma descrição!");
+        return false;
     }
 
     public String getDescricao() {

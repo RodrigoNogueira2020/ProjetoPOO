@@ -38,18 +38,46 @@ public abstract class Produto {
      *
      * @param nome Novo nome
      */
-    public void setNome(String nome) {
+    public boolean setNome(String nome) {
         if (nome != null && !nome.trim().equals("")) {
             this.nome = nome.trim();
+            return true;
         }
+        return false;
+    }
+    
+    public boolean setNome(String nome, String tipoProduto) {
+        if (nome != null && !nome.trim().equals("")) {
+            this.nome = nome.trim();
+            return true;
+        }
+        
+        if(tipoProduto == null || tipoProduto.trim().equals(""))
+            tipoProduto = "O produto";
+        
+        System.out.println("ERRO: " + tipoProduto + " precisa de um nome!");
+        return false;
     }
 
-    public void setPreco(double preco) {
+    public boolean setPreco(double preco) {
         if (preco >= 0) {
             this.preco = preco;
-        } else {
-            this.preco = 0;
+            return true;
         }
+        return false;
+    }
+    
+    public boolean setPreco(double preco, String tipoProduto) {
+        if (preco >= 0) {
+            this.preco = preco;
+            return true;
+        }
+        
+        if(tipoProduto == null || tipoProduto.trim().equals(""))
+            tipoProduto = "O produto";
+        
+        System.out.println("ERRO: " + tipoProduto + " precisa de um nome!");
+        return false;
     }
 
     public String getNome() {

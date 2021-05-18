@@ -24,14 +24,33 @@ public class Doce extends Produto {
         this.descricao = "Uma descrição qualquer";
     }
 
-    public void setDescricao(String descricao) {
+    public boolean setDescricao(String descricao) {
         if (descricao != null && !descricao.trim().equals("")) {
             this.descricao = descricao.trim();
+            return true;
         }
+        
+        System.out.println("ERRO: O doce precisa uma descrição!");
+        return false;
     }
 
     public void setFeitoNoRestaurante() {
         feitoNoRestaurante = !feitoNoRestaurante;
+    }
+    
+    public boolean setFeitoNoRestaurante(char res) {
+        switch(res){
+            case 's':case 'S':
+                feitoNoRestaurante = true;
+                break;
+            case 'n':case 'N':
+                feitoNoRestaurante = false;
+                break;
+            default:
+                System.out.println("ERRO: É preciso especificar se o doce é feito no restaurante!");
+                return false;
+        }
+        return true;
     }
 
     public boolean isFeitoNoRestaurante() {
