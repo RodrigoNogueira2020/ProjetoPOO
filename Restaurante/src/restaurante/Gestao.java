@@ -2,19 +2,30 @@ package restaurante;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Gestao {
 
     private String nome;
-//    private ArrayList<Mesa> listaMesa;
+    private ArrayList<Mesa> listaMesa;
     private ArrayList<Produto> listaProdutos;
     private InputReader scan;
+    private LocalDateTime data;
 
     public Gestao() {
-//        listaMesa = new ArrayList<>();
+        listaMesa = new ArrayList<>();
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
-        definirNome();
+        /*testes*/
+        nome = "Top";
+        Produto p1 = new Bebida();
+        Produto p2 = new Bebida("pop", 1, 5, true);
+        listaProdutos.add(p1);
+        listaProdutos.add(p2);
+        /* Depois dos testes */
+//        definirNome();
+//        adicionarMesas("Quantas mesas tem o restaurante?");
     }
 
     public Gestao(String nomeRestaurante) {
@@ -24,7 +35,7 @@ public class Gestao {
             nome = "Um restaurante qualquer";
         }
 
-//      listaMesa = new ArrayList<>();
+        listaMesa = new ArrayList<>();
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
     }
@@ -32,16 +43,38 @@ public class Gestao {
     private void definirNome() {
         do {
             nome = scan.receberTexto("Introduza o nome do restaurante").trim();
-            System.out.println(nome);
         } while (nome == null || nome.trim().equals(""));
+    }
+    
+    // "Quantas mesas pretende adicionar?"
+    private void adicionarMesas(String pedidoNumeroMesas) {
+        int numeroMesas = 0;
+         while (numeroMesas <= 0) {
+            numeroMesas = scan.receberNumeroInt(pedidoNumeroMesas);
+            
+            if(numeroMesas <= 0)
+                System.out.println("ERRO: Número de mesas precisa de ser um valor positivo!");
+        }
+         
+        int j = listaMesa.size() + numeroMesas;
+        
+        for(int i = listaMesa.size()+1; i <= j; i++){
+            Mesa novaMesa = new Mesa(i);
+            listaMesa.add(novaMesa);
+        }
+        imprimirMesas();
     }
 
     private void menuGrafico() { // TODO: Eliminar produto/mesa | Mostrar produtos (e ordena-los)
         System.out.println("=== " + nome + " ===");
-        System.out.println("* 1 - Adicionar produto *");
-        System.out.println("* 2 - Reservar uma nova mesa *");
-        System.out.println("* 3 - Adicionar uma nova mesa *");
-        System.out.println("* 0 - Sair do menu *");
+        System.out.println("* 1 - Adicionar produto");
+        System.out.println("* 2 - Remover produto");
+        System.out.println("* 3 - Listar produtos"); // ordenar
+        System.out.println("* 4 - Reservar uma nova mesa");
+        System.out.println("* 5 - Adicionar uma nova mesa");
+        System.out.println("* 6 - Editar uma mesa");
+        System.out.println("* 7 - Remover uma nova mesa");
+        System.out.println("* 0 - Sair da aplicação");
         System.out.println("**************");
     }
 
@@ -53,12 +86,28 @@ public class Gestao {
             opcao = scan.receberNumeroInt("Escolha uma opção: ");
 
             switch (opcao) {
+                case 0:
+                    break;
                 case 1:
                     adicionarProduto();
                     break;
                 case 2:
+                    removerProduto();
                     break;
                 case 3:
+                    listarProdutos();
+                    break;
+                case 4:
+                    reservarMesa();
+                    break;
+                case 5:
+                    adicionarMesas("Quantas mesas quer adicionar?");
+                    break;
+                case 6:
+//                    editarMesa();
+                    break;
+                case 7:
+//                    removerMesa();
                     break;
                 default:
                     System.out.println("ERRO! Opção inválida!");
@@ -95,13 +144,13 @@ public class Gestao {
         Bebida bebida = new Bebida();
         String tipoProduto = "A bebida";
 
-        while (true) {
+        while (!bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)){}
+            
 //            bebidaString = scan.receberTexto("Nome da bebida");
-            if (bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)) {
-                break;
-            }
+//            if (bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)) {
+//                break;
+//            }
 //                System.out.println("ERRO: A bebida precisa de um nome!");
-        }
 
         if (!verificarDuplicados(bebida)) {
 
@@ -184,9 +233,9 @@ public class Gestao {
 
         while (true) {
 //            doceString = scan.receberTexto("Nome do doce");
-            if (prato.setNome(scan.receberTexto("Nome do prato"), tipoProduto)) {
+            if (prato.setNome(scan.receberTexto("Nome do prato"), tipoProduto))
                 break;
-            }
+            
 //                System.out.println("ERRO: A bebida precisa de um nome!");
 
         }
@@ -284,20 +333,88 @@ public class Gestao {
             }
         }
     }
+    
+    private void removerProduto(){
+        int i;
+        listarProdutos();
+        
+        while(true){
+            i = scan.receberNumeroInt("Introduza o número do produto que deseja remover");
+            if(i <= listaProdutos.size())
+                break;
+            else
+                System.out.println("ERRO: Indique o número do produto apresentado na lista!");
+        }
+        --i;
+        for(Iterator<Produto> it = listaProdutos.iterator(); it.hasNext(); ){
+            Produto temp = it.next();
+            if (temp.equals(listaProdutos.get(i))) {
+                System.out.println("--" + listaProdutos.get(i).getNome() + " removido com sucesso!");
+                it.remove();
+            }
+        }
+    }
+    
+    private void listarProdutos(){
+        int i = 0;
+        for(Produto p: listaProdutos){
+            System.out.print(++i + ") ");
+            System.out.println(p);
+            
+        }
+    }
+    
+    private void reservarMesa(){
+        int i;
+        char j;
+        listarMesas();
+        
+        while(true){
+            i = scan.receberNumeroInt("Introduza o número da mesa que deseja reservar");
+            if(i <= listaMesa.size())
+                break;
+            else
+                System.out.println("ERRO: Indique o número do produto apresentado na lista!");
+        }
+        --i;
+        for(Iterator<Mesa> it = listaMesa.iterator(); it.hasNext(); ){
+            Mesa temp = it.next();
+            if (temp.equals(listaMesa.get(i))) {
+                
+                do{
+                    j = scan.receberTexto("Reserva-se a mesa para (a)gora ou para mais (t)arde?").toLowerCase().charAt(0);
+                    
+                }while(j != 'a' && j != 't');
+                
+                System.out.println("--Mesa " + listaMesa.get(i).getNumero() + " reservada com sucesso!");
+                listaMesa.get(i).setOcupada();
+            }
+        }
+    }
+    
+    private void listarMesas(){
+        int i = 0;
+        for(Mesa m: listaMesa){
+            System.out.print(++i + ") ");
+            System.out.println(m);
+        }
+    }
 
     public void setNome(String nomeRestaurante) {
-        if (nomeRestaurante != null || nomeRestaurante.trim().equals("")) {
+        if (nomeRestaurante != null || !"".equals(nomeRestaurante.trim())) {
             nome = nomeRestaurante;
         }
     }
 
-//    public void setListaMesa(ArrayList<Mesa> listaMesa) {
-//        this.listaMesa = listaMesa;
-//    }
     public void setListaProdutos(ArrayList<Produto> listaProdutos) {
         this.listaProdutos = listaProdutos;
     }
 
+    public void imprimirMesas(){
+        for(Mesa element: listaMesa)
+            System.out.println(element);
+    }
+    
     public String getNome() {
         return nome;
     }

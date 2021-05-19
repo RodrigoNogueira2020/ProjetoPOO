@@ -35,7 +35,7 @@ public class Restaurante {
         
         // Comparar as datas
         int diferenca = dataAtual.compareTo(antigadata2);
-        
+//        isBefore(antigadata2); <-- ver
         System.out.println("adasda " + diferenca);
             
         if(diferenca > 0) {

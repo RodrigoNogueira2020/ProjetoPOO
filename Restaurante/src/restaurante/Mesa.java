@@ -7,16 +7,18 @@ public class Mesa {
     private boolean ocupada;
     
     public Mesa(int numero) {
-        if(numero > 0)
+        if(numero > -1)
             this.numero = numero;
         else
             this.numero = -1;
         
+        pedido = new Pedido();
         ocupada = false;
     }
     
     public Mesa() {
         this.numero = -1;
+        pedido = new Pedido();
         ocupada = false;
     }
 
@@ -48,6 +50,18 @@ public class Mesa {
 
     public boolean isOcupada() {
         return ocupada;
+    }
+    
+    private String estaOcupada(){
+        if(ocupada)
+            return "Ocupada -> " + pedido.getDataHoraAbertura() + "|";
+        
+        return "Livre";
+    }
+    
+    @Override
+    public String toString(){
+        return "Mesa " + numero + " | " + estaOcupada();
     }
     
 }

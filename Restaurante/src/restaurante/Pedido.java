@@ -16,13 +16,32 @@ public class Pedido {
     private LocalDateTime dataHoraAbertura;
     private LocalDateTime dataHoraFecho; // = LocalDateTime.now();
     
-    public Pedido (LocalDateTime dataHoraChegada){
-        this.estado = PedidoEstado.ABERTO;
-        this.dataHoraAbertura = dataHoraChegada;
+    public Pedido(){
         listaItens = new ArrayList<>();
-        
     }
 
+    public void abrirPedido(LocalDateTime dataHoraAbertura) {
+        this.estado = PedidoEstado.ABERTO;
+        this.dataHoraAbertura = dataHoraAbertura;
+    }
+    
+    /**
+     * Fecha o pedido, guarda a data e hora que foi fechado
+     * e imprime o recibo
+     */
+    public void fecharPedido(){
+        switch(estado){
+            case ABERTO: case EM_PREPARACAO: case SERVIDO:
+                estado = PedidoEstado.FECHADO;
+                dataHoraFecho = LocalDateTime.now();
+                imprimirRecibo();
+                break;
+            case FECHADO:
+                System.out.println("ERRO: O pedido já está fechado!");
+        }
+        
+    }
+    
     public void adicionarItem(Item item) {
         if(estado == PedidoEstado.FECHADO)
                 System.out.println("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
@@ -77,23 +96,6 @@ public class Pedido {
         listarItens();
     }
     
-    /**
-     * Fecha o pedido, guarda a data e hora que foi fechado
-     * e imprime o recibo
-     */
-    public void fecharPedido(){
-        switch(estado){
-            case ABERTO: case EM_PREPARACAO: case SERVIDO:
-                estado = PedidoEstado.FECHADO;
-                dataHoraFecho = LocalDateTime.now();
-                imprimirRecibo();
-                break;
-            case FECHADO:
-                System.out.println("ERRO: O pedido já está fechado!");
-        }
-        
-    }
-    
     public void definirEstado(PedidoEstado estado) {
         switch(estado){
             case ABERTO:  case EM_PREPARACAO:
@@ -106,7 +108,8 @@ public class Pedido {
         
     }
 
-    
-    
+    public String getDataHoraAbertura() {
+        return dataHoraAbertura.format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm"));
+    }
     
 }
