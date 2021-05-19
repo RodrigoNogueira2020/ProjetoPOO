@@ -66,15 +66,15 @@ public class Gestao {
     }
 
     private void menuGrafico() { // TODO: Eliminar produto/mesa | Mostrar produtos (e ordena-los)
-        System.out.println("=== " + nome + " ===");
-        System.out.println("* 1 - Adicionar produto");
-        System.out.println("* 2 - Remover produto");
-        System.out.println("* 3 - Listar produtos"); // ordenar
-        System.out.println("* 4 - Reservar uma nova mesa");
-        System.out.println("* 5 - Adicionar uma nova mesa");
+        System.out.println("=== " + nome + " === Versão 0.5 19/05/2021 22:30");
+        System.out.println("* 1 - Adicionar produto"); // feito
+        System.out.println("* 2 - Remover produto"); // feito
+        System.out.println("* 3 - Listar produtos"); // feito, falta ordenar
+        System.out.println("* 4 - Reservar uma nova mesa"); // a fazer
+        System.out.println("* 5 - Adicionar uma nova mesa"); // feito
         System.out.println("* 6 - Editar uma mesa");
-        System.out.println("* 7 - Remover uma nova mesa");
-        System.out.println("* 0 - Sair da aplicação");
+        System.out.println("* 7 - Remover uma mesa");
+        System.out.println("* 0 - Sair da aplicação"); // feito
         System.out.println("**************");
     }
 
@@ -121,6 +121,7 @@ public class Gestao {
         System.out.println("* 2 - Doce       *");
         System.out.println("* 3 - Prato      *");
         System.out.println("* 4 - Snack      *");
+        System.out.println("* 0 - Sair       *");
         System.out.println("******************");
     }
 
@@ -237,7 +238,6 @@ public class Gestao {
                 break;
             
 //                System.out.println("ERRO: A bebida precisa de um nome!");
-
         }
 
         if (!verificarDuplicados(prato)) {
@@ -308,8 +308,6 @@ public class Gestao {
     }
 
     public void adicionarProduto() {
-        int opcao;
-        
         while(true){
             menuGraficoProdutos();
 
