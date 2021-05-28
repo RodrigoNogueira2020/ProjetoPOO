@@ -47,7 +47,7 @@ public class Doce extends Produto {
                 feitoNoRestaurante = false;
                 break;
             default:
-                System.out.println("ERRO: É preciso especificar se o doce é feito no restaurante!");
+                System.err.println("ERRO: É preciso especificar se o doce é feito no restaurante!");
                 return false;
         }
         return true;

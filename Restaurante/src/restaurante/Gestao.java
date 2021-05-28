@@ -1,5 +1,6 @@
 package restaurante;
 
+import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.time.LocalDateTime;
@@ -8,13 +9,12 @@ import java.time.format.DateTimeFormatter;
 public class Gestao {
 
     private String nome;
-    private ArrayList<Mesa> listaMesa;
+    private Mesa[] listaMesa;
     private ArrayList<Produto> listaProdutos;
     private InputReader scan;
     private LocalDateTime data;
 
     public Gestao() {
-        listaMesa = new ArrayList<>();
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
         /*testes*/
@@ -23,19 +23,18 @@ public class Gestao {
         Produto p2 = new Bebida("pop", 1, 5, true);
         listaProdutos.add(p1);
         listaProdutos.add(p2);
+        definirNumeroMesas();
         /* Depois dos testes */
 //        definirNome();
 //        adicionarMesas("Quantas mesas tem o restaurante?");
     }
 
     public Gestao(String nomeRestaurante) {
-        if (nomeRestaurante != null || !nomeRestaurante.trim().equals("")) {
+        if (nomeRestaurante != null || !nomeRestaurante.trim().equals(""))
             nome = nomeRestaurante;
-        } else {
+        else
             nome = "Um restaurante qualquer";
-        }
 
-        listaMesa = new ArrayList<>();
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
     }
@@ -46,22 +45,49 @@ public class Gestao {
         } while (nome == null || nome.trim().equals(""));
     }
     
+    private void preencherMesas(int numeroAtualMesas){
+        int quantidadeMesas;
+        
+        if(listaMesa[0] == null)
+            quantidadeMesas = listaMesa.length;
+        else
+            quantidadeMesas = listaMesa.length+1;
+            
+        for(int i = 0; i < quantidadeMesas; i++){
+            Mesa novaMesa = new Mesa(i);
+            listaMesa[i] = novaMesa;
+        }
+    }
+    
+    private void definirNumeroMesas(){
+        int numeroMesas = 0;
+        while (numeroMesas <= 0) {
+            numeroMesas = scan.receberNumeroInt("Quantas mesas tem o restaurante?");
+            
+            if(numeroMesas <= 0)
+                System.out.println("ERRO: Número de mesas precisa de ser um valor positivo!");
+        }
+        
+        listaMesa = new Mesa[numeroMesas];
+        preencherMesas(numeroMesas);
+    }
+    
     // "Quantas mesas pretende adicionar?"
     private void adicionarMesas(String pedidoNumeroMesas) {
         int numeroMesas = 0;
-         while (numeroMesas <= 0) {
+        while (numeroMesas <= 0) {
             numeroMesas = scan.receberNumeroInt(pedidoNumeroMesas);
             
             if(numeroMesas <= 0)
                 System.out.println("ERRO: Número de mesas precisa de ser um valor positivo!");
         }
-         
-        int j = listaMesa.size() + numeroMesas;
         
-        for(int i = listaMesa.size()+1; i <= j; i++){
-            Mesa novaMesa = new Mesa(i);
-            listaMesa.add(novaMesa);
-        }
+        int j = listaMesa.length + numeroMesas;
+        Mesa[] mesasTemp = new Mesa[j];
+        
+        listaMesa = new Mesa[j];
+        listaMesa = mesasTemp;
+        preencherMesas(j);
         imprimirMesas();
     }
 
@@ -132,11 +158,9 @@ public class Gestao {
      * @return true - se já houver um produto com o mesmo nome
      */
     private boolean verificarDuplicados(Produto produtoNovo) {
-        for (Produto elemento : listaProdutos) {
-            if (elemento.getNome().equals(produtoNovo.getNome())) {
+        for (Produto elemento : listaProdutos)
+            if (elemento.getNome().equals(produtoNovo.getNome()))
                 return true;
-            }
-        }
 
         return false;
     }
@@ -145,7 +169,7 @@ public class Gestao {
         Bebida bebida = new Bebida();
         String tipoProduto = "A bebida";
 
-        while (!bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)){}
+        while ( !bebida.setNome( scan.receberTexto("Nome da bebida"), tipoProduto ) ){}
             
 //            bebidaString = scan.receberTexto("Nome da bebida");
 //            if (bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)) {
@@ -322,7 +346,7 @@ public class Gestao {
                     break;
                 case 3:
                     adicionarPrato();
-    //                break;
+                    break;
                 case 4:
                     adicionarSnack();
                     break;
@@ -345,10 +369,11 @@ public class Gestao {
         }
         --i;
         for(Iterator<Produto> it = listaProdutos.iterator(); it.hasNext(); ){
-            Produto temp = it.next();
-            if (temp.equals(listaProdutos.get(i))) {
+            
+            if ( it.next().getNome().equals( listaProdutos.get(i).getNome() ) ) {
                 System.out.println("--" + listaProdutos.get(i).getNome() + " removido com sucesso!");
                 it.remove();
+                break;
             }
         }
     }
@@ -362,30 +387,94 @@ public class Gestao {
         }
     }
     
+    private void abrirPedido(){
+        
+    }
+    
     private void reservarMesa(){
         int i;
         char j;
-        listarMesas();
+        
+        switch(listaMesa.length){
+            case 0:
+                adicionarMesas("ERRO: Ainda não há mesas, adicione primeiro o número de mesas");
+                break;
+            default:
+                listarMesas();
+        }
         
         while(true){
             i = scan.receberNumeroInt("Introduza o número da mesa que deseja reservar");
-            if(i <= listaMesa.size())
+            if(i <= listaMesa.length && i-1 >= 0)
                 break;
             else
                 System.out.println("ERRO: Indique o número do produto apresentado na lista!");
         }
+        
+        // todo: adicionar exceção out of bounds
         --i;
-        for(Iterator<Mesa> it = listaMesa.iterator(); it.hasNext(); ){
-            Mesa temp = it.next();
-            if (temp.equals(listaMesa.get(i))) {
+        for(int m = 0; m <= listaMesa.length; m++){
+            if (listaMesa[i].equals(listaMesa[m])) {
                 
                 do{
                     j = scan.receberTexto("Reserva-se a mesa para (a)gora ou para mais (t)arde?").toLowerCase().charAt(0);
-                    
                 }while(j != 'a' && j != 't');
                 
-                System.out.println("--Mesa " + listaMesa.get(i).getNumero() + " reservada com sucesso!");
-                listaMesa.get(i).setOcupada();
+                // TODO: inserir pedido na mesa, através de um método à parte, para mais tarde se editar a mesa e adicionar itens ao pedido
+                Pedido pedidoTemp = new Pedido();
+                switch(j){
+                    case 'a':
+                        pedidoTemp.abrirPedido(LocalDateTime.now());
+                        listaMesa[i].setOcupada(); // Se a mesa é reservada para agora, é porque vai estar ocupada agora
+                        listaMesa[i].setPedido(pedidoTemp);
+                        break;
+                    case 't':
+                        LocalDateTime dataAtual = LocalDateTime.now();
+                        LocalDateTime dataReserva = LocalDateTime.of(2011, 1, 1, 1,1);
+                        String data;
+                        String[] dataFormatada = new String[10];
+                        do{
+                            try{
+                                data = scan.receberTexto("Introduza a data (DD-MM-AAAA)").trim();
+                                    
+                                if(data.length() <= 10){
+                                    if(data.contains("-"))
+                                        dataFormatada = data.split("-");
+                                    else if(data.contains("/"))
+                                        dataFormatada = data.split("/");
+                                    else if(data.contains(" "))
+                                        dataFormatada = data.split(" ");
+                                    else
+                                        System.err.println("ERRO: ");
+                                }
+                                
+                                // ["4" , "1", "1999"]
+                                dataReserva.withYear(Integer.parseInt(dataFormatada[2]));
+                                dataReserva.withMonth(Integer.parseInt(dataFormatada[1]));
+                                dataReserva.withDayOfMonth(Integer.parseInt(dataFormatada[0]));
+                                
+                                if(dataAtual.isAfter(dataReserva)){
+                                    pedidoTemp.abrirPedido(dataReserva);
+                                    break;
+                                }
+                                else
+                                    System.err.println("ERRO: Ano introduzido deve ser posterior ao ano atual!");
+                            }catch (DateTimeException dataExcecao){
+                                System.err.println("ERRO: 1)Data introduzida não está formatada conforme especificado! (DD-MM-AAAA)");
+                            }catch (NumberFormatException dataParseExcecao){
+                                System.err.println("ERRO: 2)Data introduzida não está formatada conforme especificado ou existe letras! (DD-MM-AAAA)");
+                            }
+                            
+                        }while(dataReserva.isBefore(dataAtual));
+                        
+                        pedidoTemp.abrirPedido(dataReserva);
+                        listaMesa[i].setOcupada(); 
+                        listaMesa[i].setPedido(pedidoTemp);
+                        
+                }
+                
+                System.out.println("++Mesa " + listaMesa[i].getNumero() + " reservada com sucesso!++");
+                return;
             }
         }
     }
@@ -410,7 +499,7 @@ public class Gestao {
 
     public void imprimirMesas(){
         for(Mesa element: listaMesa)
-            System.out.println(element);
+            System.err.println(element);
     }
     
     public String getNome() {

@@ -54,14 +54,14 @@ public class Mesa {
     
     private String estaOcupada(){
         if(ocupada)
-            return "Ocupada -> " + pedido.getDataHoraAbertura() + "|";
+            return "Ocupada -> " + pedido.getDataHoraAbertura();
         
         return "Livre";
     }
     
     @Override
     public String toString(){
-        return "Mesa " + numero + " | " + estaOcupada();
+        return "Mesa " + (numero+1) + " | " + estaOcupada();
     }
     
 }

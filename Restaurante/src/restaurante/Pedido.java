@@ -49,7 +49,6 @@ public class Pedido {
             System.out.println("ERRO: Pedido introduzido está nulo!");
         else
             listaItens.add(item);
-
     }
     
     /**

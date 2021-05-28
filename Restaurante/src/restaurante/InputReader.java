@@ -42,6 +42,7 @@ public class InputReader {
         
         int number = reader.nextInt();
         reader.nextLine();
+        
         return number;
     }
     

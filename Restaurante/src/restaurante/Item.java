@@ -12,7 +12,7 @@ public class Item {
         if(produto != null)
             this.produto = produto;
         else;
-//            this.produto = new Produto("", 0);
+//            throw exception;
         
         if(quantidade > 0)
             this.quantidade = quantidade;
