@@ -54,8 +54,10 @@ public class Gestao {
             quantidadeMesas = listaMesa.length+1;
             
         for(int i = 0; i < quantidadeMesas; i++){
-            Mesa novaMesa = new Mesa(i);
-            listaMesa[i] = novaMesa;
+            if(listaMesa[i] == null){
+                Mesa novaMesa = new Mesa(i);
+                listaMesa[i] = novaMesa;
+            }
         }
     }
     
@@ -90,14 +92,14 @@ public class Gestao {
         preencherMesas(j);
         imprimirMesas();
     }
-
-    private void menuGrafico() { // TODO: Eliminar produto/mesa | Mostrar produtos (e ordena-los)
-        System.out.println("=== " + nome + " === Versão 0.5 19/05/2021 22:30");
+    
+    private void menuGrafico() { // TODO: Eliminar mesa | Mostrar produtos (e ordena-los) | Adicionar mesas e preservar dados do array atual para o novo
+        System.out.println("=== " + nome + " === Versão 0.5.8 29/05/2021 23:12");
         System.out.println("* 1 - Adicionar produto"); // feito
         System.out.println("* 2 - Remover produto"); // feito
         System.out.println("* 3 - Listar produtos"); // feito, falta ordenar
-        System.out.println("* 4 - Reservar uma nova mesa"); // a fazer
-        System.out.println("* 5 - Adicionar uma nova mesa"); // feito
+        System.out.println("* 4 - Reservar uma nova mesa"); // Falta abrir o pedido
+        System.out.println("* 5 - Adicionar uma nova mesa");
         System.out.println("* 6 - Editar uma mesa");
         System.out.println("* 7 - Remover uma mesa");
         System.out.println("* 0 - Sair da aplicação"); // feito
@@ -130,7 +132,7 @@ public class Gestao {
                     adicionarMesas("Quantas mesas quer adicionar?");
                     break;
                 case 6:
-//                    editarMesa();
+                    editarMesa();
                     break;
                 case 7:
 //                    removerMesa();
@@ -180,23 +182,18 @@ public class Gestao {
         if (!verificarDuplicados(bebida)) {
 
             while (true) {
-//                bebidaDouble = scan.receberNumeroDouble("Preço da bebida");
                 if (bebida.setPreco(scan.receberNumeroDouble("Preço da bebida"), tipoProduto)) {
                     break;
                 }
-//                    System.out.println("ERRO: O preço não pode ser negativo!");
             }
 
             while (true) {
-//                bebidaDouble = scan.receberNumeroDouble("Capacidade da bebida (L)");
                 if (bebida.setCapacidade(scan.receberNumeroDouble("Capacidade da bebida (L)"))) {
                     break;
                 }
-//                    System.out.println("ERRO: A capacidade da bebida não pode ser menor que 0,33 L!");
             }
 
             while (true) {
-//                bebidaChar = scan.receberLetra("Bebida alcoólica? (s/n): ");
                 if (bebida.setTemAlcool(scan.receberLetra("Bebida alcoólica? (s/n): "))) {
                     break;
                 }
@@ -204,9 +201,8 @@ public class Gestao {
 
             listaProdutos.add(bebida);
             System.out.println("++ Bebida adicionada com sucesso! ++");
-        } else {
+        } else
             System.out.println("ERRO: Já existe um produto com esse nome!");
-        }
     }
 
     private void adicionarDoce() {
@@ -214,42 +210,35 @@ public class Gestao {
         String tipoProduto = "O doce";
 
         while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
             if (doce.setNome(scan.receberTexto("Nome do doce"), tipoProduto)) {
                 break;
             }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
 
         }
 
         if (!verificarDuplicados(doce)) {
 
             while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
                 if (doce.setPreco(scan.receberNumeroDouble("Preço do doce"), tipoProduto)) {
                     break;
                 }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
             }
 
             while (true) {
-//                doceString = scan.receberTexto("Descrição do doce");
                 if (doce.setDescricao(scan.receberTexto("Descrição do doce")))
                     break;
-//                    System.out.println("ERRO: A descrição não pode estar em branco!");
 
             }
-//            doce.setDescricao(doceString);
 
             while (true) {
-//               doceChar = scan.receberLetra("É feito no restaurante? (s/n): ");
                 if (doce.setFeitoNoRestaurante(scan.receberLetra("É feito no restaurante? (s/n): ")))
                     break;
             }
 
             listaProdutos.add(doce);
             System.out.println("++ Doce adicionado com sucesso! ++");
-        }
+        } else
+            System.out.println("ERRO: Já existe um produto com esse nome!");
     }
 
     private void adicionarPrato() {
@@ -257,35 +246,29 @@ public class Gestao {
         String tipoProduto = "O prato";
 
         while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
             if (prato.setNome(scan.receberTexto("Nome do prato"), tipoProduto))
                 break;
             
-//                System.out.println("ERRO: A bebida precisa de um nome!");
         }
 
         if (!verificarDuplicados(prato)) {
 
             while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
                 if (prato.setPreco(scan.receberNumeroDouble("Preço do prato"), tipoProduto)) {
                     break;
                 }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
             }
 
             while (true) {
-//                doceString = scan.receberTexto("Descrição do doce");
                 if (prato.setDescricao(scan.receberTexto("Descrição do prato")))
                     break;
-//                    System.out.println("ERRO: A descrição não pode estar em branco!");
 
             }
-//            doce.setDescricao(doceString);
 
             listaProdutos.add(prato);
             System.out.println("++ Prato adicionado com sucesso! ++");
-        }
+        } else
+            System.out.println("ERRO: Já existe um produto com esse nome!");
     }
 
     private void adicionarSnack() {
@@ -293,42 +276,34 @@ public class Gestao {
         String tipoProduto = "O snack";
 
         while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
             if (snack.setNome(scan.receberTexto("Nome do snack"), tipoProduto)) {
                 break;
             }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
 
         }
 
         if (!verificarDuplicados(snack)) {
 
             while (true) {
-//            doceString = scan.receberTexto("Nome do doce");
                 if (snack.setPreco(scan.receberNumeroDouble("Preço do snack"), tipoProduto)) {
                     break;
                 }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
             }
 
             while (true) {
-//                doceString = scan.receberTexto("Descrição do doce");
                 if (snack.setQuantidade(scan.receberNumeroInt("Quantidade do snack")))
                     break;
-//                    System.out.println("ERRO: A descrição não pode estar em branco!");
             }
-//            doce.setDescricao(doceString);
 
             while (true) {
-//                doceString = scan.receberTexto("Descrição do doce");
                 if (snack.setTemPicante(scan.receberLetra("Descrição do snack")))
                     break;
-//                    System.out.println("ERRO: A descrição não pode estar em branco!");
             }
 
             listaProdutos.add(snack);
             System.out.println("++ Snack adicionado com sucesso! ++");
-        }
+        } else
+            System.out.println("ERRO: Já existe um produto com esse nome!");
     }
 
     public void adicionarProduto() {
@@ -388,31 +363,183 @@ public class Gestao {
     }
     
     private void abrirPedido(){
+        listarProdutos();
+    }
+    
+    private Mesa selecionarMesa(){
+        int i=0;
+        while(true){
+            listarMesas();
+            try{
+                i = scan.receberNumeroInt("Introduza o número da mesa que deseja editar");
+                --i;
+
+                if(i == -1)
+                    return null;
+                else if(listaMesa[i].isOcupada() && 0 <= i && i<= listaMesa.length)
+                    break;
+                else if(i<= listaMesa.length && i >= 0 && !listaMesa[i].isOcupada())
+                    System.out.println("ERRO: Mesa ainda não está reservada!");
+            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
+                System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
+                continue;
+            }
+        }
+        return listaMesa[i];
+    }
+    
+    private void fazerPedido(Mesa mesa){
+        int j=0;
+        char adicionarMais=' ';
+            
+//        switch(mesa.getPedido().getEstado()){
+//            case ABERTO:  
+//                break;
+//            case EM_PREPARACAO: case SERVIDO:
+//                System.out.println("A mesa " + mesa.getNumero() + " tem o estado: " + mesa.getPedido().mostrarEstado());
+//            case FECHADO:
+//            default:
+//                System.out.println("ERRO: Estado do pedido inserido é inválido!");
+//        }
         
+        while(true){
+            Item item = new Item();
+            try{
+                listarProdutos();
+                j = scan.receberNumeroInt("Introduza o número dos produtos que deseja adicionar (0 - Sair)");
+                --j;
+
+                if(j == -1)
+                    break;
+                else if(j<= listaProdutos.size() && j >= 0)
+                    item.setProduto(listaProdutos.get(j));
+
+                while(true){
+                    j = scan.receberNumeroInt("Introduza a quantidade");
+
+                    if(j == 0)
+                        break;
+                    else if(j > 0){
+                        item.setQuantidade(j);
+                        break;
+                    }
+                    else
+                        System.err.println("ERRO: Quantidade tem de ser maior que zero!");
+                }
+                mesa.getPedido().adicionarItem(item);
+                System.out.println("++" + item.getProduto().getNome() + " adicionado com sucesso!");
+            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
+                System.err.println("ERRO: Indique o número do produto apresentado na lista!");
+            }
+
+            mesa.getPedido().definirEstado(PedidoEstado.EM_PREPARACAO);
+            do{
+                adicionarMais = scan.receberTexto("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
+                if(adicionarMais != 's' && adicionarMais != 'n')
+                    System.out.println("ERRO: Introduza 's' ou 'n' para sim ou não respetivamente");
+            }while(adicionarMais != 's' && adicionarMais != 'n');
+
+            if(adicionarMais == 'n')
+                break;
+        }
+        
+        System.out.println("== Items adicionados ao pedido da mesa " + mesa.getNumero() + " ====");
+        mesa.getPedido().listarItens();
+        System.out.println("== ===================================== ====");
+    }
+    
+    private void editarMesa(){
+        int i=0, j=0;
+        char adicionarMais=' ';
+        fazerPedido(selecionarMesa());
+        /*
+        while(true){
+            try{
+                while(true){
+                    listarMesas();
+                    i = scan.receberNumeroInt("Introduza o número da mesa que deseja editar");
+                    --i;
+
+                    if(i == -1)
+                        return;
+                    else if(listaMesa[i].isOcupada() == true)
+                        break;
+                    else if(i<= listaMesa.length && i >= 0 && !listaMesa[i].isOcupada())
+                        System.out.println("ERRO: Mesa ainda não está reservada!");
+                }
+            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
+                System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
+            }
+            
+            try{
+                while(true){
+                    Item item = new Item();
+                    listarProdutos();
+                    j = scan.receberNumeroInt("Introduza o número dos produtos que deseja adicionar (0 - Sair)");
+                    --j;
+
+                    if(j == -1)
+                        break;
+                    else if(j<= listaProdutos.size() && j >= 0)
+                        item.setProduto(listaProdutos.get(j));
+
+                    while(true){
+                        j = scan.receberNumeroInt("Introduza a quantidade");
+
+                        if(j == 0)
+                            break;
+                        else if(j > 0){
+                            item.setQuantidade(j);
+                            break;
+                        }
+                        else
+                            System.err.println("ERRO: Quantidade tem de ser maior que zero!");
+                    }
+                    listaMesa[i].getPedido().adicionarItem(item);
+                    System.out.println("++" + item.getProduto().getNome() + " adicionado com sucesso!");
+
+                    System.out.println("\nProdutos adicionados a este pedido");
+                    listaMesa[i].getPedido().listarItens();
+                }
+            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
+                System.err.println("ERRO: Indique o número do produto apresentado na lista!");
+            }
+            
+            listaMesa[i].getPedido().definirEstado(PedidoEstado.EM_PREPARACAO);
+            do{
+                adicionarMais = scan.receberTexto("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
+                if(adicionarMais == 's' && adicionarMais != 'n')
+                    System.out.println("ERRO: Introduza 's' ou 'n' para sim ou não respetivamente");
+            }while(adicionarMais != 's' && adicionarMais != 'n');
+            
+            if(adicionarMais == 'n')
+                break; // Dividir o
+        }
+        // */
     }
     
     private void reservarMesa(){
         int i;
         char j;
         
-        switch(listaMesa.length){
-            case 0:
-                adicionarMesas("ERRO: Ainda não há mesas, adicione primeiro o número de mesas");
-                break;
-            default:
-                listarMesas();
-        }
-        
         while(true){
-            i = scan.receberNumeroInt("Introduza o número da mesa que deseja reservar");
-            if(i <= listaMesa.length && i-1 >= 0)
-                break;
-            else
-                System.out.println("ERRO: Indique o número do produto apresentado na lista!");
+            listarMesas();
+            
+            try{
+                i = scan.receberNumeroInt("Introduza o número da mesa que deseja reservar");
+                --i;
+                if(i == -1)
+                    return;
+                else if(listaMesa[i].isOcupada() == true)
+                    System.out.println("ERRO: Mesa já está reservada!");
+                else if(i<= listaMesa.length && i >= 0 && !listaMesa[i].isOcupada())
+                    break;
+            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
+                System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
+            }
         }
         
         // todo: adicionar exceção out of bounds
-        --i;
         for(int m = 0; m <= listaMesa.length; m++){
             if (listaMesa[i].equals(listaMesa[m])) {
                 
@@ -448,37 +575,69 @@ public class Gestao {
                                         System.err.println("ERRO: ");
                                 }
                                 
-                                // ["4" , "1", "1999"]
-                                dataReserva.withYear(Integer.parseInt(dataFormatada[2]));
-                                dataReserva.withMonth(Integer.parseInt(dataFormatada[1]));
-                                dataReserva.withDayOfMonth(Integer.parseInt(dataFormatada[0]));
+                                // ["1" , "5", "2005"]
+                                dataReserva = dataReserva.withYear(Integer.parseInt(dataFormatada[2]));
+                                dataReserva = dataReserva.withMonth(Integer.parseInt(dataFormatada[1]));
+                                dataReserva = dataReserva.withDayOfMonth(Integer.parseInt(dataFormatada[0]));
                                 
-                                if(dataAtual.isAfter(dataReserva)){
+                                if(dataReserva.isAfter(dataAtual))
+                                    break;
+                                else
+                                    System.err.println("ERRO: Ano introduzido deve ser posterior ao ano atual!");
+                            }catch (DateTimeException dataExcecao){
+                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado! (DD-MM-AAAA)");
+                            }catch (NumberFormatException dataParseExcecao){
+                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado ou existe letras! (DD-MM-AAAA)");
+                            }
+                            
+                        }while(dataReserva.isBefore(dataAtual));
+                        data = "";
+                        do{
+                            try{
+                                data = scan.receberTexto("Introduza a hora (HH:MM)").trim();
+                                    
+                                if(data.length() <= 5){
+                                    if(data.contains(":"))
+                                        dataFormatada = data.split(":");
+                                    else if(data.contains("-"))
+                                        dataFormatada = data.split("-");
+                                    else if(data.contains("/"))
+                                        dataFormatada = data.split("/");
+                                    else if(data.contains(" "))
+                                        dataFormatada = data.split(" ");
+                                    else
+                                        System.err.println("ERRO: ");
+                                }
+                                
+                                // ["10", "30"]
+                                dataReserva = dataReserva.withHour(Integer.parseInt(dataFormatada[0]));
+                                dataReserva = dataReserva.withMinute(Integer.parseInt(dataFormatada[1]));
+                                
+                                if(dataReserva.isAfter(dataAtual)){
                                     pedidoTemp.abrirPedido(dataReserva);
                                     break;
                                 }
                                 else
-                                    System.err.println("ERRO: Ano introduzido deve ser posterior ao ano atual!");
+                                    System.err.println("ERRO: Hora introduzida deve ser posterior à hora atual!");
                             }catch (DateTimeException dataExcecao){
-                                System.err.println("ERRO: 1)Data introduzida não está formatada conforme especificado! (DD-MM-AAAA)");
+                                System.err.println("ERRO: Hora introduzida não está formatada conforme especificado! (HH:MM)");
                             }catch (NumberFormatException dataParseExcecao){
-                                System.err.println("ERRO: 2)Data introduzida não está formatada conforme especificado ou existe letras! (DD-MM-AAAA)");
+                                System.err.println("ERRO: Hora introduzida não está formatada conforme especificado! (HH:MM)");
                             }
                             
                         }while(dataReserva.isBefore(dataAtual));
                         
-                        pedidoTemp.abrirPedido(dataReserva);
                         listaMesa[i].setOcupada(); 
                         listaMesa[i].setPedido(pedidoTemp);
                         
                 }
                 
                 System.out.println("++Mesa " + listaMesa[i].getNumero() + " reservada com sucesso!++");
-                return;
+                break;
             }
         }
     }
-    
+        
     private void listarMesas(){
         int i = 0;
         for(Mesa m: listaMesa){
@@ -499,16 +658,13 @@ public class Gestao {
 
     public void imprimirMesas(){
         for(Mesa element: listaMesa)
-            System.err.println(element);
+            System.out.println(element);
     }
     
     public String getNome() {
         return nome;
     }
 
-//    public ArrayList<Mesa> getListaMesa() {
-//        return listaMesa;
-//    }
     public ArrayList<Produto> getListaProdutos() {
         return listaProdutos;
     }

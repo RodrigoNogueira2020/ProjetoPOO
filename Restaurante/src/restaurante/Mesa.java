@@ -41,7 +41,7 @@ public class Mesa {
     }
     
     public int getNumero() {
-        return numero;
+        return numero+1;
     }
 
     public Pedido getPedido() {

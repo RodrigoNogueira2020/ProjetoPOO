@@ -8,6 +8,11 @@ public class Item {
     private Produto produto;
     private int quantidade;
 
+    public Item() {
+        produto = null;
+        quantidade = 0;
+    }
+    
     public Item(Produto produto, int quantidade) {
         if(produto != null)
             this.produto = produto;
@@ -46,9 +51,15 @@ public class Item {
         return quantidade;
     }
     
+    private String mostrarProduto(){
+        if(produto != null)
+            return ""+produto;
+        return "";
+    }
+    
     @Override
     public String toString(){
-        return produto + " | " + "Quantidade: " + quantidade;
+        return "Quantidade: " + quantidade + " -> " + mostrarProduto();
     }
     
 }

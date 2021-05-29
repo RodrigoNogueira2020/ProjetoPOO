@@ -16,9 +16,9 @@ public class Restaurante {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime dataAntiga0 = LocalDateTime.of(2010, 11, 25, 11,12);
-        System.out.println(dataAntiga0.isBefore(currentTime));
+//        LocalDateTime currentTime = LocalDateTime.now();
+//        LocalDateTime dataAntiga0 = LocalDateTime.of(2010, 11, 25, 11,12);
+//        System.out.println(dataAntiga0.isBefore(currentTime));
         
         Gestao restaurante = new Gestao();
         restaurante.menu();

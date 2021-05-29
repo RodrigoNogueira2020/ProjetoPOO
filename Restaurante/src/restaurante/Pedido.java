@@ -18,6 +18,7 @@ public class Pedido {
     
     public Pedido(){
         listaItens = new ArrayList<>();
+        estado = PedidoEstado.ABERTO;
     }
 
     public void abrirPedido(LocalDateTime dataHoraAbertura) {
@@ -107,8 +108,44 @@ public class Pedido {
         
     }
 
+    public String mostrarEstado(){
+        switch(estado){
+            case ABERTO:
+                return "aberto";
+            case EM_PREPARACAO:
+                return "em preparação";
+            case SERVIDO:
+                return "servido";
+             case FECHADO:
+                return "fechado";
+             default:
+                 return "";
+        }
+    }
+    
+    public PedidoEstado getEstado() {
+        return estado;
+    }
+
+    public ArrayList<Item> getListaItens() {
+        return listaItens;
+    }
+
     public String getDataHoraAbertura() {
         return dataHoraAbertura.format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm"));
+    }
+
+    public LocalDateTime getDataHoraFecho() {
+        return dataHoraFecho;
+    }
+    
+    @Override
+    public String toString(){
+        String devolverItems = "";
+        for(Item u: listaItens)
+            devolverItems += u;
+        
+        return devolverItems;
     }
     
 }
