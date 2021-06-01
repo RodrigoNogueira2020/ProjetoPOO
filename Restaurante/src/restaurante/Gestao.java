@@ -11,12 +11,14 @@ public class Gestao {
     private String nome;
     private Mesa[] listaMesa;
     private ArrayList<Produto> listaProdutos;
+    private Historico historicoPedidos;
     private InputReader scan;
     private LocalDateTime data;
 
     public Gestao() {
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
+        historicoPedidos = new Historico();
         /*testes*/
         nome = "Top";
         Produto p1 = new Bebida();
@@ -74,7 +76,6 @@ public class Gestao {
         preencherMesas(numeroMesas);
     }
     
-    // "Quantas mesas pretende adicionar?"
     private void adicionarMesas(String pedidoNumeroMesas) {
         int numeroMesas = 0;
         while (numeroMesas <= 0) {
@@ -86,10 +87,11 @@ public class Gestao {
         
         int j = listaMesa.length + numeroMesas;
         Mesa[] mesasTemp = new Mesa[j];
+        mesasTemp = listaMesa;
         
         listaMesa = new Mesa[j];
         listaMesa = mesasTemp;
-        preencherMesas(j);
+//        preencherMesas(j);
         imprimirMesas();
     }
     
@@ -98,7 +100,7 @@ public class Gestao {
         System.out.println("* 1 - Adicionar produto"); // feito
         System.out.println("* 2 - Remover produto"); // feito
         System.out.println("* 3 - Listar produtos"); // feito, falta ordenar
-        System.out.println("* 4 - Reservar uma nova mesa"); // Falta abrir o pedido
+        System.out.println("* 4 - Reservar uma nova mesa"); // Falta perguntar se quer mudar para servido o estado do pedido
         System.out.println("* 5 - Adicionar uma nova mesa");
         System.out.println("* 6 - Editar uma mesa");
         System.out.println("* 7 - Remover uma mesa");
@@ -132,10 +134,14 @@ public class Gestao {
                     adicionarMesas("Quantas mesas quer adicionar?");
                     break;
                 case 6:
-                    editarMesa();
+                    editarMesa(selecionarMesa());
+                    
                     break;
                 case 7:
 //                    removerMesa();
+                case 8:
+//                    removerMesa();
+                    System.out.println(historicoPedidos);
                     break;
                 default:
                     System.out.println("ERRO! Opção inválida!");
@@ -358,12 +364,7 @@ public class Gestao {
         for(Produto p: listaProdutos){
             System.out.print(++i + ") ");
             System.out.println(p);
-            
         }
-    }
-    
-    private void abrirPedido(){
-        listarProdutos();
     }
     
     private Mesa selecionarMesa(){
@@ -382,25 +383,84 @@ public class Gestao {
                     System.out.println("ERRO: Mesa ainda não está reservada!");
             }catch(ArrayIndexOutOfBoundsException OutOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
-                continue;
             }
         }
         return listaMesa[i];
     }
     
-    private void fazerPedido(Mesa mesa){
-        int j=0;
-        char adicionarMais=' ';
-            
-//        switch(mesa.getPedido().getEstado()){
-//            case ABERTO:  
-//                break;
-//            case EM_PREPARACAO: case SERVIDO:
-//                System.out.println("A mesa " + mesa.getNumero() + " tem o estado: " + mesa.getPedido().mostrarEstado());
-//            case FECHADO:
-//            default:
-//                System.out.println("ERRO: Estado do pedido inserido é inválido!");
-//        }
+    private boolean verificarEstado(Mesa mesa){
+        char pedirCaracter=' ';
+        if(mesa == null)
+            return false;
+        
+        try{
+            switch(mesa.getPedido().getEstado()){
+                case ABERTO:
+                    return true;
+                case EM_PREPARACAO: 
+                    do{
+                        System.out.println("A mesa " + mesa.getNumero() + " tem o estado: " + mesa.getPedido().mostrarEstado());
+                        
+                        pedirCaracter = scan.receberTexto("Deseja (a)dicionar mais produtos, passar o estado para (s)ervido, (f)echar o pedido ou sair(= 0)?").trim().toLowerCase().charAt(0);
+                        switch(pedirCaracter){
+                            case 'a':
+                                return true;
+                            case 's':
+                                mesa.getPedido().definirEstado(PedidoEstado.SERVIDO);
+                                return false;
+                            case 'f':
+                                mesa.getPedido().fecharPedido();
+                                /*todo: Meter no historico*/
+                                historicoPedidos.adicionarPedido(mesa.getPedido());
+                                mesa.setOcupada();
+                                mesa.removerPedido();
+                                return false;
+                            case '0':
+                                return false;
+                            default:
+                                System.out.println("ERRO: Introduza (a), (s) ou (f) apenas.");
+                        }
+                        
+                    }while(true);
+                    
+                case SERVIDO:
+                    do{
+                        System.out.println("A mesa " + mesa.getNumero() + " tem o estado: " + mesa.getPedido().mostrarEstado());
+                        
+                        pedirCaracter = scan.receberTexto("Deseja (a)dicionar mais produtos, (f)echar o pedido ou sair(= 0)?").trim().toLowerCase().charAt(0);
+                        switch(pedirCaracter){
+                            case 'a':
+                                return true;
+                            case 'f':
+                                mesa.getPedido().fecharPedido();
+                                /*todo: Meter no historico*/
+                                historicoPedidos.adicionarPedido(mesa.getPedido());
+                                mesa.setOcupada();
+                                mesa.removerPedido();
+                                return false;
+                            case '0':
+                                return false;
+                            default:
+                                System.out.println("ERRO: Introduza (a) ou (f) apenas.");
+                        }
+                        
+                    }while(true);
+                default:
+                    System.out.println("ERRO: Estado do pedido inserido é inválido!");
+            }
+        }catch(java.lang.NullPointerException semPedido){
+            System.err.println("ERRO: Mesa ainda não está reservada!");
+            return false;
+        }
+        return false;
+    }
+    
+    private void editarMesa(Mesa mesa){
+        int j;
+        char pedirCaracter=' ';
+        
+        if(!verificarEstado(mesa) || mesa == null)
+            return;
         
         while(true){
             Item item = new Item();
@@ -434,88 +494,18 @@ public class Gestao {
 
             mesa.getPedido().definirEstado(PedidoEstado.EM_PREPARACAO);
             do{
-                adicionarMais = scan.receberTexto("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
-                if(adicionarMais != 's' && adicionarMais != 'n')
+                pedirCaracter = scan.receberTexto("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
+                if(pedirCaracter != 's' && pedirCaracter != 'n')
                     System.out.println("ERRO: Introduza 's' ou 'n' para sim ou não respetivamente");
-            }while(adicionarMais != 's' && adicionarMais != 'n');
+            }while(pedirCaracter != 's' && pedirCaracter != 'n');
 
-            if(adicionarMais == 'n')
+            if(pedirCaracter == 'n')
                 break;
         }
         
         System.out.println("== Items adicionados ao pedido da mesa " + mesa.getNumero() + " ====");
         mesa.getPedido().listarItens();
         System.out.println("== ===================================== ====");
-    }
-    
-    private void editarMesa(){
-        int i=0, j=0;
-        char adicionarMais=' ';
-        fazerPedido(selecionarMesa());
-        /*
-        while(true){
-            try{
-                while(true){
-                    listarMesas();
-                    i = scan.receberNumeroInt("Introduza o número da mesa que deseja editar");
-                    --i;
-
-                    if(i == -1)
-                        return;
-                    else if(listaMesa[i].isOcupada() == true)
-                        break;
-                    else if(i<= listaMesa.length && i >= 0 && !listaMesa[i].isOcupada())
-                        System.out.println("ERRO: Mesa ainda não está reservada!");
-                }
-            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
-                System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
-            }
-            
-            try{
-                while(true){
-                    Item item = new Item();
-                    listarProdutos();
-                    j = scan.receberNumeroInt("Introduza o número dos produtos que deseja adicionar (0 - Sair)");
-                    --j;
-
-                    if(j == -1)
-                        break;
-                    else if(j<= listaProdutos.size() && j >= 0)
-                        item.setProduto(listaProdutos.get(j));
-
-                    while(true){
-                        j = scan.receberNumeroInt("Introduza a quantidade");
-
-                        if(j == 0)
-                            break;
-                        else if(j > 0){
-                            item.setQuantidade(j);
-                            break;
-                        }
-                        else
-                            System.err.println("ERRO: Quantidade tem de ser maior que zero!");
-                    }
-                    listaMesa[i].getPedido().adicionarItem(item);
-                    System.out.println("++" + item.getProduto().getNome() + " adicionado com sucesso!");
-
-                    System.out.println("\nProdutos adicionados a este pedido");
-                    listaMesa[i].getPedido().listarItens();
-                }
-            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
-                System.err.println("ERRO: Indique o número do produto apresentado na lista!");
-            }
-            
-            listaMesa[i].getPedido().definirEstado(PedidoEstado.EM_PREPARACAO);
-            do{
-                adicionarMais = scan.receberTexto("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
-                if(adicionarMais == 's' && adicionarMais != 'n')
-                    System.out.println("ERRO: Introduza 's' ou 'n' para sim ou não respetivamente");
-            }while(adicionarMais != 's' && adicionarMais != 'n');
-            
-            if(adicionarMais == 'n')
-                break; // Dividir o
-        }
-        // */
     }
     
     private void reservarMesa(){
@@ -539,7 +529,6 @@ public class Gestao {
             }
         }
         
-        // todo: adicionar exceção out of bounds
         for(int m = 0; m <= listaMesa.length; m++){
             if (listaMesa[i].equals(listaMesa[m])) {
                 
@@ -547,7 +536,6 @@ public class Gestao {
                     j = scan.receberTexto("Reserva-se a mesa para (a)gora ou para mais (t)arde?").toLowerCase().charAt(0);
                 }while(j != 'a' && j != 't');
                 
-                // TODO: inserir pedido na mesa, através de um método à parte, para mais tarde se editar a mesa e adicionar itens ao pedido
                 Pedido pedidoTemp = new Pedido();
                 switch(j){
                     case 'a':
@@ -562,15 +550,18 @@ public class Gestao {
                         String[] dataFormatada = new String[10];
                         do{
                             try{
-                                data = scan.receberTexto("Introduza a data (DD-MM-AAAA)").trim();
+                                data = scan.receberTexto("Introduza a data (DD-MM-AAAA)").trim(); // 2-12-2021
                                     
                                 if(data.length() <= 10){
                                     if(data.contains("-"))
                                         dataFormatada = data.split("-");
+                                    
                                     else if(data.contains("/"))
                                         dataFormatada = data.split("/");
+                                    
                                     else if(data.contains(" "))
                                         dataFormatada = data.split(" ");
+                                    
                                     else
                                         System.err.println("ERRO: ");
                                 }
@@ -587,7 +578,7 @@ public class Gestao {
                             }catch (DateTimeException dataExcecao){
                                 System.err.println("ERRO: Data introduzida não está formatada conforme especificado! (DD-MM-AAAA)");
                             }catch (NumberFormatException dataParseExcecao){
-                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado ou existe letras! (DD-MM-AAAA)");
+                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado ou foram introduzidos outros caracteres não releveantes! (DD-MM-AAAA)");
                             }
                             
                         }while(dataReserva.isBefore(dataAtual));
@@ -605,8 +596,6 @@ public class Gestao {
                                         dataFormatada = data.split("/");
                                     else if(data.contains(" "))
                                         dataFormatada = data.split(" ");
-                                    else
-                                        System.err.println("ERRO: ");
                                 }
                                 
                                 // ["10", "30"]
@@ -622,7 +611,7 @@ public class Gestao {
                             }catch (DateTimeException dataExcecao){
                                 System.err.println("ERRO: Hora introduzida não está formatada conforme especificado! (HH:MM)");
                             }catch (NumberFormatException dataParseExcecao){
-                                System.err.println("ERRO: Hora introduzida não está formatada conforme especificado! (HH:MM)");
+                                System.err.println("ERRO: Hora introduzida não está formatada conforme especificado ou foram introduzidos outros caracteres não releveantes! (HH:MM)");
                             }
                             
                         }while(dataReserva.isBefore(dataAtual));

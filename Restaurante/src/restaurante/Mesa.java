@@ -35,6 +35,10 @@ public class Mesa {
         else if(pedido != null)
             this.pedido = pedido;
     }
+    
+    public void removerPedido() {
+        this.pedido = null;
+    }
 
     public void setOcupada() {
         ocupada = !ocupada;

@@ -17,11 +17,50 @@ public class Restaurante {
      */
     public static void main(String[] args) {
 //        LocalDateTime currentTime = LocalDateTime.now();
-//        LocalDateTime dataAntiga0 = LocalDateTime.of(2010, 11, 25, 11,12);
+//        LocalDateTime dataAntiga = LocalDateTime.of(2022, 11, 25, 11,12);
 //        System.out.println(dataAntiga0.isBefore(currentTime));
+//        Pedido p1 = new Pedido();
+//        p1.abrirPedido(currentTime);
+//        
+//        Produto produto1 = new Prato();
+//        Item item1 = new Item(produto1, 1);
+//        
+//        p1.adicionarItem(item1);
+//        p1.fecharPedido();
+//        
+//        LocalDateTime currentTime2 = LocalDateTime.of(2022, 11, 25, 11,12);
+//        LocalDateTime dataAntiga2 = LocalDateTime.of(2022, 11, 25, 11,12);
+//        
+//        Pedido p2 = new Pedido();
+//        p2.abrirPedido(dataAntiga);
+//        p2.adicionarItem(item1);
+//        p2.fecharPedido();
+//        
+//        Historico his = new Historico();
+//        his.adicionarPedido(p1);
+//        his.adicionarPedido(p2);
+//        System.out.println(his);
         
         Gestao restaurante = new Gestao();
         restaurante.menu();
+        
+        
+        // Comparar as datas
+//        LocalDateTime dataAtual = LocalDateTime.now();
+//        LocalDateTime antigadata2 = LocalDateTime.of(2010, 11, 25, 11,12);
+//        int diferenca = dataAtual.compareTo(antigadata2);
+//        System.out.println("adasda " + diferenca);
+//            
+//        if(diferenca > 0){
+//            System.out.println(dataAtual + " é mais recente que " + antigadata2);
+//            System.out.println("TROCAR");
+//        }
+//        else if (diferenca < 0)
+//            System.out.println(dataAtual + " é mais antiga que " + antigadata2);
+//        else
+//            System.out.println(dataAtual + " é igual a " + antigadata2);
+
+
         /*
         // https://www.callicoder.com/how-to-compare-date-time-java/
         // Guardar as horas
