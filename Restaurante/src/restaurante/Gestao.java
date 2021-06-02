@@ -4,23 +4,21 @@ import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+//import java.time.format.DateTimeFormatter;
 
 public class Gestao {
 
-    private String nome;
+    private final String NOME = "Top Wings";
     private Mesa[] listaMesa;
     private ArrayList<Produto> listaProdutos;
     private Historico historicoPedidos;
     private InputReader scan;
-    private LocalDateTime data;
 
     public Gestao() {
         listaProdutos = new ArrayList<>();
         scan = new InputReader();
         historicoPedidos = new Historico();
         /*testes*/
-        nome = "Top";
         Produto p1 = new Bebida();
         Produto p2 = new Bebida("pop", 1, 5, true);
         listaProdutos.add(p1);
@@ -29,22 +27,6 @@ public class Gestao {
         /* Depois dos testes */
 //        definirNome();
 //        adicionarMesas("Quantas mesas tem o restaurante?");
-    }
-
-    public Gestao(String nomeRestaurante) {
-        if (nomeRestaurante != null || !nomeRestaurante.trim().equals(""))
-            nome = nomeRestaurante;
-        else
-            nome = "Um restaurante qualquer";
-
-        listaProdutos = new ArrayList<>();
-        scan = new InputReader();
-    }
-
-    private void definirNome() {
-        do {
-            nome = scan.receberTexto("Introduza o nome do restaurante").trim();
-        } while (nome == null || nome.trim().equals(""));
     }
     
     private void preencherMesas(int numeroAtualMesas){
@@ -76,34 +58,13 @@ public class Gestao {
         preencherMesas(numeroMesas);
     }
     
-    private void adicionarMesas(String pedidoNumeroMesas) {
-        int numeroMesas = 0;
-        while (numeroMesas <= 0) {
-            numeroMesas = scan.receberNumeroInt(pedidoNumeroMesas);
-            
-            if(numeroMesas <= 0)
-                System.out.println("ERRO: Número de mesas precisa de ser um valor positivo!");
-        }
-        
-        int j = listaMesa.length + numeroMesas;
-        Mesa[] mesasTemp = new Mesa[j];
-        mesasTemp = listaMesa;
-        
-        listaMesa = new Mesa[j];
-        listaMesa = mesasTemp;
-//        preencherMesas(j);
-        imprimirMesas();
-    }
-    
-    private void menuGrafico() { // TODO: Eliminar mesa | Mostrar produtos (e ordena-los) | Adicionar mesas e preservar dados do array atual para o novo
-        System.out.println("=== " + nome + " === Versão 0.5.8 29/05/2021 23:12");
+    private void menuGrafico() { // Adicionar mesas e preservar dados do array atual para o novo
+        System.out.println("=== " + NOME + " === Versão 0.6.0 02/06/2021 22:26");
         System.out.println("* 1 - Adicionar produto"); // feito
         System.out.println("* 2 - Remover produto"); // feito
-        System.out.println("* 3 - Listar produtos"); // feito, falta ordenar
-        System.out.println("* 4 - Reservar uma nova mesa"); // Falta perguntar se quer mudar para servido o estado do pedido
-        System.out.println("* 5 - Adicionar uma nova mesa");
-        System.out.println("* 6 - Editar uma mesa");
-        System.out.println("* 7 - Remover uma mesa");
+        System.out.println("* 3 - Listar produtos"); // feito
+        System.out.println("* 4 - Reservar uma nova mesa"); // feito
+        System.out.println("* 5 - Editar uma mesa"); // feito, falta mostra o recibo com: Data de abertura/fecho, itens, preco sem/com IVA
         System.out.println("* 0 - Sair da aplicação"); // feito
         System.out.println("**************");
     }
@@ -131,16 +92,9 @@ public class Gestao {
                     reservarMesa();
                     break;
                 case 5:
-                    adicionarMesas("Quantas mesas quer adicionar?");
-                    break;
-                case 6:
                     editarMesa(selecionarMesa());
-                    
                     break;
-                case 7:
-//                    removerMesa();
-                case 8:
-//                    removerMesa();
+                case 6: // Teste todo: retirars
                     System.out.println(historicoPedidos);
                     break;
                 default:
@@ -161,13 +115,13 @@ public class Gestao {
 
     /**
      *
-     * @param produtoNovo Produto a ser introduzido na lista, verifica se o nome
-     * de um produto já existe.
-     * @return true - se já houver um produto com o mesmo nome
+     * @param produtoNovo Produto a ser introduzido na lista, verifica se o NOME
+ de um produto já existe.
+     * @return true - se já houver um produto com o mesmo NOME
      */
     private boolean verificarDuplicados(Produto produtoNovo) {
         for (Produto elemento : listaProdutos)
-            if (elemento.getNome().equals(produtoNovo.getNome()))
+            if (elemento.getNome().toLowerCase().equals(produtoNovo.getNome().toLowerCase()))
                 return true;
 
         return false;
@@ -177,13 +131,13 @@ public class Gestao {
         Bebida bebida = new Bebida();
         String tipoProduto = "A bebida";
 
-        while ( !bebida.setNome( scan.receberTexto("Nome da bebida"), tipoProduto ) ){}
+        while ( !bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto ) ){}
             
 //            bebidaString = scan.receberTexto("Nome da bebida");
 //            if (bebida.setNome(scan.receberTexto("Nome da bebida"), tipoProduto)) {
 //                break;
 //            }
-//                System.out.println("ERRO: A bebida precisa de um nome!");
+//                System.out.println("ERRO: A bebida precisa de um NOME!");
 
         if (!verificarDuplicados(bebida)) {
 
@@ -542,83 +496,144 @@ public class Gestao {
                         pedidoTemp.abrirPedido(LocalDateTime.now());
                         listaMesa[i].setOcupada(); // Se a mesa é reservada para agora, é porque vai estar ocupada agora
                         listaMesa[i].setPedido(pedidoTemp);
+                        editarMesa(listaMesa[i]);
                         break;
                     case 't':
                         LocalDateTime dataAtual = LocalDateTime.now();
-                        LocalDateTime dataReserva = LocalDateTime.of(2011, 1, 1, 1,1);
+                        LocalDateTime dataReserva = LocalDateTime.of(2011, 1, 1, 23, 59);
                         String data;
                         String[] dataFormatada = new String[10];
+                        boolean temErros = false;
                         do{
                             try{
+                                temErros = false;
                                 data = scan.receberTexto("Introduza a data (DD-MM-AAAA)").trim(); // 2-12-2021
-                                    
+
                                 if(data.length() <= 10){
                                     if(data.contains("-"))
                                         dataFormatada = data.split("-");
-                                    
+
                                     else if(data.contains("/"))
                                         dataFormatada = data.split("/");
-                                    
+
                                     else if(data.contains(" "))
                                         dataFormatada = data.split(" ");
-                                    
-                                    else
-                                        System.err.println("ERRO: ");
                                 }
                                 
+                                // Caso o utilizador se esqueça de introduzir o dia e/ou mês e/ou ano
+                                if(dataFormatada == null || dataFormatada[0] == null || dataFormatada[1] == null || dataFormatada[2] == null){
+                                    throw new InvalidInputArgumentException("ERRO: Uma das partes da data está em falta!");
+                                }
+
                                 // ["1" , "5", "2005"]
-                                dataReserva = dataReserva.withYear(Integer.parseInt(dataFormatada[2]));
-                                dataReserva = dataReserva.withMonth(Integer.parseInt(dataFormatada[1]));
-                                dataReserva = dataReserva.withDayOfMonth(Integer.parseInt(dataFormatada[0]));
-                                
-                                if(dataReserva.isAfter(dataAtual))
-                                    break;
-                                else
-                                    System.err.println("ERRO: Ano introduzido deve ser posterior ao ano atual!");
-                            }catch (DateTimeException dataExcecao){
-                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado! (DD-MM-AAAA)");
-                            }catch (NumberFormatException dataParseExcecao){
-                                System.err.println("ERRO: Data introduzida não está formatada conforme especificado ou foram introduzidos outros caracteres não releveantes! (DD-MM-AAAA)");
+                                /*Verificar o ano introduzido*/
+                                try{
+                                    dataReserva = dataReserva.withYear(Integer.parseInt(dataFormatada[2]));
+                                }catch(DateTimeException ano){
+                                    System.err.println("ERRO: Ano introduzido é inválido!");
+                                    temErros = true;
+                                }
+
+                                /*Verificar o mês introduzido*/
+                                try{
+                                    dataReserva = dataReserva.withMonth(Integer.parseInt(dataFormatada[1]));
+                                }catch(DateTimeException mesErro){
+                                    System.err.println("ERRO: Mês introduzido é inválido!");
+                                    temErros = true;
+                                }
+
+                                /*Verificar o dia introduzido, verifica se foi introduzido o 29 de Fevereiro num ano bissexto*/
+                                try{
+                                    dataReserva = dataReserva.withDayOfMonth(Integer.parseInt(dataFormatada[0]));
+                                    if(!dataReserva.isAfter(dataAtual))
+                                        throw new InvalidInputArgumentException("ERRO: Data introduzida deve ser posterior à data atual!");
+
+                                }catch(DateTimeException diaErro){
+                                    int verificarAnoBissexto = Integer.parseInt(dataFormatada[2]);
+
+                                    if (verificarAnoBissexto % 4 == 0 && verificarAnoBissexto % 100 == 0 && verificarAnoBissexto % 400 == 0)
+                                        System.err.println("ERRO: Dia introduzido é inválido!");
+                                    else
+                                        System.err.println("ERRO: Dia introduzido é inválido, verifique se o ano é bissexto!");
+                                    temErros = true;
+
+                                }catch(InvalidInputArgumentException dataAnterior){
+                                    System.err.println(dataAnterior);
+                                    temErros = true;
+                                }
+                            }catch(InvalidInputArgumentException dataNull){
+                                System.err.println(dataNull);
+                                temErros = true;
                             }
-                            
-                        }while(dataReserva.isBefore(dataAtual));
+                        }while(temErros);
+                        
                         data = "";
+                        dataFormatada = null;
                         do{
+                            data = scan.receberTexto("Introduza a hora (HH:MM)").trim();
+
+                            if(data.contains(":"))
+                                dataFormatada = data.split(":");
+                            
+                            else if(data.contains("-"))
+                                dataFormatada = data.split("-");
+                            
+                            else if(data.contains("/"))
+                                dataFormatada = data.split("/");
+                            
+                            else if(data.contains(" "))
+                                dataFormatada = data.split(" ");
+
+                            // ["10", "30"]
+                            /*Verificar as horas introduzidas*/
                             try{
-                                data = scan.receberTexto("Introduza a hora (HH:MM)").trim();
-                                    
-                                if(data.length() <= 5){
-                                    if(data.contains(":"))
-                                        dataFormatada = data.split(":");
-                                    else if(data.contains("-"))
-                                        dataFormatada = data.split("-");
-                                    else if(data.contains("/"))
-                                        dataFormatada = data.split("/");
-                                    else if(data.contains(" "))
-                                        dataFormatada = data.split(" ");
-                                }
-                                
-                                // ["10", "30"]
-                                dataReserva = dataReserva.withHour(Integer.parseInt(dataFormatada[0]));
-                                dataReserva = dataReserva.withMinute(Integer.parseInt(dataFormatada[1]));
-                                
-                                if(dataReserva.isAfter(dataAtual)){
-                                    pedidoTemp.abrirPedido(dataReserva);
-                                    break;
-                                }
+                                if(dataFormatada[0].length() > 2)
+                                    throw new InvalidInputArgumentException("ERRO: Hora não pode ter mais do que 2 algarismos!");
                                 else
-                                    System.err.println("ERRO: Hora introduzida deve ser posterior à hora atual!");
-                            }catch (DateTimeException dataExcecao){
-                                System.err.println("ERRO: Hora introduzida não está formatada conforme especificado! (HH:MM)");
+                                    dataReserva = dataReserva.withHour(Integer.parseInt(dataFormatada[0]));
+                                
+                            }catch(InvalidInputArgumentException horaErro){
+                                System.out.println(horaErro);
+                                temErros = true;
+                                
+                            }catch(DateTimeException hora){
+                                System.err.println("ERRO: Hora introduzida é inválido (Não pode conter letras ou outros caracteres inválidos)!");
+                                temErros = true;
+                                
                             }catch (NumberFormatException dataParseExcecao){
                                 System.err.println("ERRO: Hora introduzida não está formatada conforme especificado ou foram introduzidos outros caracteres não releveantes! (HH:MM)");
+                                temErros = true;
+                                
                             }
                             
-                        }while(dataReserva.isBefore(dataAtual));
-                        
-                        listaMesa[i].setOcupada(); 
-                        listaMesa[i].setPedido(pedidoTemp);
-                        
+                            /*Verificar os minutos introduzidos*/
+                            try{
+                                dataReserva = dataReserva.withMinute(Integer.parseInt(dataFormatada[1]));
+                                
+                                if(dataFormatada[0].length() > 2)
+                                    throw new InvalidInputArgumentException("ERRO: Os minutos não podem ter mais do que 2 algarismos!");
+                                else if(!dataReserva.isAfter(dataAtual))
+                                    throw new InvalidInputArgumentException("ERRO: Data introduzida deve ser posterior à data atual!");
+                                
+                            }catch(DateTimeException minuto){
+                                System.err.println("ERRO: Minuto introduzido é inválido!");
+                                temErros = true;
+                                
+                            }catch (NumberFormatException dataParseExcecao){
+                                System.err.println("ERRO: Os minutos introduzidos não estam formatados conforme especificado ou foram introduzidos outros caracteres não releveantes! (HH:MM)");
+                                temErros = true;
+                                
+                            }catch(InvalidInputArgumentException dataErro){
+                                System.err.println(dataErro);
+                                temErros = true;
+                                
+                            }
+
+                    }while(temErros);
+
+                    pedidoTemp.abrirPedido(dataReserva);
+                    listaMesa[i].setOcupada(); 
+                    listaMesa[i].setPedido(pedidoTemp);
                 }
                 
                 System.out.println("++Mesa " + listaMesa[i].getNumero() + " reservada com sucesso!++");
@@ -635,12 +650,6 @@ public class Gestao {
         }
     }
 
-    public void setNome(String nomeRestaurante) {
-        if (nomeRestaurante != null || !"".equals(nomeRestaurante.trim())) {
-            nome = nomeRestaurante;
-        }
-    }
-
     public void setListaProdutos(ArrayList<Produto> listaProdutos) {
         this.listaProdutos = listaProdutos;
     }
@@ -648,10 +657,6 @@ public class Gestao {
     public void imprimirMesas(){
         for(Mesa element: listaMesa)
             System.out.println(element);
-    }
-    
-    public String getNome() {
-        return nome;
     }
 
     public ArrayList<Produto> getListaProdutos() {
