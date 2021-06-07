@@ -6,6 +6,7 @@ public abstract class Product implements ProductInterface, Serializable{
     
     private String name;
     private double price;
+    private final double IVA;
 
     public Product(String name, double price) {
         if (name != null || !name.trim().equals(""))
@@ -17,11 +18,13 @@ public abstract class Product implements ProductInterface, Serializable{
             this.price = price;
         else
             this.price = 0;
+        IVA = 0.23;
     }
     
     public Product(){
         this.price = 0;
         this.name = "Um produto qualquer";
+        IVA = 0.23;
     }
 
     /*

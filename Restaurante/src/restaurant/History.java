@@ -1,11 +1,7 @@
 package restaurant;
 
 import java.io.Serializable;
-import java.time.LocalTime;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class History implements Serializable {
@@ -32,14 +28,14 @@ public class History implements Serializable {
         boolean toOrder;
         
         // Pega num pedido temporariamente para o mover para um indice diferente
-        Order temporaryOrder = new Order();
         do{
+            Order temporaryOrder = new Order();
             toOrder = false;
             try{
                 for(int i = 0; i < orderList.size(); i++){
                     if(orderList.get(i+1) == null)
                         break;
-                    if(orderList.get(i+1) != null && orderList.get(i).getOpenHourFormatted().compareTo(orderList.get(i+1).getOpenHourFormatted()) < 0 ){
+                    else if(orderList.get(i).getOpenHour().compareTo( orderList.get(i+1).getOpenHour() ) < 0 ){
                         temporaryOrder = orderList.get(i+1);
 
                         orderList.set(i+1, orderList.get(i));
@@ -50,7 +46,7 @@ public class History implements Serializable {
             }catch(IndexOutOfBoundsException e){
                 
             }
-        }while(!toOrder);
+        }while(toOrder);
     }
     
     public void addOrder(Order order){
@@ -64,10 +60,10 @@ public class History implements Serializable {
     @Override
     public String toString(){
         String orders = "";
-        for (Iterator<Order> it = orderList.iterator(); it.hasNext();) {
-            Order element = it.next();
-            orders += element + "\n";
+        for(Order order: orderList){
+            orders += order + "\n";
         }
+        
         return orders;
     }
     

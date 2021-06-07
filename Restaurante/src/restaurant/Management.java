@@ -24,11 +24,39 @@ public class Management implements Serializable{
         orderHistory = new History();
         setNumberOfTables();
         
+        LocalDateTime reservationDate = LocalDateTime.of(2021, 05, 30, 23, 59);
+        Order temporaryOrder = new Order();
+        Order temporaryOrder2 = new Order();
+        Order temporaryOrder3 = new Order();
+        
+        temporaryOrder.openOrder(reservationDate);
+        tableList[0].setOccupied(); 
+        tableList[0].setOrder(temporaryOrder);
+        tableList[0].getOrder().closeOrder();
+        orderHistory.addOrder(tableList[0].getOrder());
+//        tableList[0].setOccupied();
+        
+        LocalDateTime reservationDate2 = LocalDateTime.of(2021, 04, 12, 23, 59);
+        temporaryOrder2.openOrder(reservationDate2);
+        tableList[1].setOccupied();
+        tableList[1].setOrder(temporaryOrder2);
+        tableList[1].getOrder().closeOrder();
+        orderHistory.addOrder(tableList[1].getOrder());
+//        tableList[1].setOccupied();
+        LocalDateTime reservationDate3 = LocalDateTime.of(2021, 05, 25, 23, 59);
+        temporaryOrder3.openOrder(reservationDate3);
+        tableList[2].setOccupied(); 
+        tableList[2].setOrder(temporaryOrder3);
+        tableList[2].getOrder().closeOrder();
+        orderHistory.addOrder(tableList[2].getOrder());
+//        tableList[2].setOccupied();
+        // */
         /*testes*/
         Product p1 = new Drink();
         Product p2 = new Drink("pop", 1, 5, true);
         productList.add(p1);
         productList.add(p2);
+        
     }
     
     private void setNumberOfTables(){
@@ -80,7 +108,7 @@ public class Management implements Serializable{
                     case 5:
                         editTable(selectTable());
                         break;
-                    case 6: // Teste todo: retirar
+                    case 6:
                         System.out.println(orderHistory);
                         break;
                     default:
@@ -307,7 +335,7 @@ public class Management implements Serializable{
     private boolean checkForUnoccupiedTables(){
         for(Table m: tableList)
             if(!m.isOccupied())
-                return true;
+                return true; // Há mesas disponiveis
         
         return false;
     }
@@ -325,7 +353,7 @@ public class Management implements Serializable{
                     return null;
                 else if(tableList[i].isOccupied() && 0 <= i && i<= tableList.length)
                     break;
-                else if(i<= tableList.length && i >= 0 && tableList[i].getOrder().getOpenHour() == null)
+                else if(i<= tableList.length && i >= 0 && tableList[i].getOrder() == null)
                     throw new InvalidInputArgumentException("ERRO: Mesa ainda não está reservada!");
             }catch(ArrayIndexOutOfBoundsException OutOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
@@ -350,13 +378,20 @@ public class Management implements Serializable{
                 while(true){
                     try{
                         System.out.println("A mesa " + table.getTableNumber() + " tem o estado: " + table.getOrder().showState());
-                        getChar = scan.getString("Deseja (a)dicionar mais produtos, passar o estado para (s)ervido, (f)echar o pedido ou sair(= 0)?").trim().toLowerCase().charAt(0);
+                        if(table.getOrder().getState().equals(orderState.PREPARATION))
+                            getChar = scan.getString("Deseja (a)dicionar mais produtos, passar o estado para (s)ervido, (f)echar o pedido ou sair(= 0)?").trim().toLowerCase().charAt(0);
+                        else
+                            getChar = scan.getString("Deseja (a)dicionar mais produtos, (f)echar o pedido ou sair(= 0)?").trim().toLowerCase().charAt(0);
                         switch(getChar){
                             case 'a':
                                 return true;
                             case 's':
-                                table.getOrder().setState(orderState.SERVED);
-                                return false;
+                                if(!table.getOrder().getState().equals(orderState.PREPARATION))
+                                    throw new InvalidInputArgumentException("ERRO: Estado do pedido já está como servido!");
+                                else{
+                                    table.getOrder().setState(orderState.SERVED);
+                                    return false;
+                                }
                             case 'f':
                                 table.getOrder().closeOrder();
                                 orderHistory.addOrder(table.getOrder());
@@ -395,7 +430,7 @@ public class Management implements Serializable{
                 --productNumber;
 
                 if(productNumber == -1)
-                    break;
+                    return;
                 else if(productNumber<= productList.size() && productNumber >= 0)
                     item.setProduct(productList.get(productNumber));
 
@@ -404,7 +439,7 @@ public class Management implements Serializable{
                         productNumber = scan.getInt("Introduza a quantidade");
 
                         if(productNumber == 0)
-                            break;
+                            return;
                         else if(productNumber < 0)
                             throw new InvalidInputArgumentException("ERRO: Quantidade não pode ser negativa!");
                         
@@ -464,11 +499,13 @@ public class Management implements Serializable{
                 if(tableNumber == -1)
                     return;
                 else if(tableList[tableNumber].isOccupied() == true)
-                    System.out.println("ERRO: Mesa já está reservada!");
+                    throw new InvalidInputArgumentException("ERRO: Mesa já está reservada!");
                 else if(tableNumber<= tableList.length && tableNumber >= 0 && !tableList[tableNumber].isOccupied())
                     break;
             }catch(ArrayIndexOutOfBoundsException OutOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
+            }catch(InvalidInputArgumentException e){
+                System.err.println(e.getMessage());
             }
         }
         
@@ -492,6 +529,8 @@ public class Management implements Serializable{
                         LocalDateTime reservationDate = LocalDateTime.of(2011, 1, 1, 23, 59);
                         String dateInput;
                         String[] formattedDate = new String[10];
+                        temporaryOrder.openOrder(reservationDate);
+
                         boolean hasErrors = false;
                         do{
                             try{
@@ -629,56 +668,5 @@ public class Management implements Serializable{
                 break;
             }
         }
-    }
-    
-    /*todo*/
-    public void saveBook(){
-        File ficheiro = new File("restaurante");
-        
-        try{
-            /* Criar ficheiro binário */
-            FileOutputStream fos = new FileOutputStream(ficheiro);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            
-            os.writeObject(tableList);
-            os.writeObject(productList);
-            os.writeObject(orderHistory);
-            
-            os.close();
-            
-            if(ficheiro.exists())
-                System.out.println("++Receita adicionada com sucesso!++");
-            
-        }catch(IOException erroIO){
-            System.err.println(erroIO.getMessage());
-            
-        }
-    }
-    
-    public void saveToFile() throws IOException {
-        File destination = makeAbsoluteFilename("restaurante");
-        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(destination));
-        os.writeObject(tableList);
-        os.writeObject(productList);
-        os.writeObject(orderHistory);
-        os.close();
-    }
-    
-    private File makeAbsoluteFilename(String filename) throws IOException{
-        try{File file = new File(filename);
-            if(!file.isAbsolute()){
-                file =new File(getProjectFolder(),filename);
-            }
-            return file;
-        }catch(URISyntaxException e){
-            throw new IOException("Unable to make a valid filename for "+filename);
-        }
-    }
-    
-    private File getProjectFolder() throws URISyntaxException{
-        String myClassFile=getClass().getName()+".class";
-        URL url=getClass().getResource(myClassFile);
-        return new File(url.toURI()).getParentFile();
-    }
-    
+    }    
 }

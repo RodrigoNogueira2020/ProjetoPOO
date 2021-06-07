@@ -13,16 +13,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Ricardo Reis 200262024
+ * @author Ricardo Reis     200262024
  *         Rodrigo Nogueira 200262002
  */
 public class Restaurant {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         Management restaurante = new Management();
         restaurante.menu();
-        
-        restaurante.saveBook();
-                
     }
 }

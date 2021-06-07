@@ -82,10 +82,7 @@ public class Order implements Serializable{
     }
     
     public void printBill(){
-        System.out.println("== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==");
-        System.out.println("- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + closeHour.getHour() + ":" + closeHour.getMinute());
-        
-        listItems();
+        System.out.println(this);
     }
     
     public void setState(orderState state) {
@@ -138,11 +135,27 @@ public class Order implements Serializable{
     @Override
     public String toString(){
         String returnBill = "";
-        returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";
-        returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
         
-        for(Item u: itemList)
-            returnBill += u + "\n";
+        returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";
+        returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + 
+                    closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
+        
+        if(itemList.size() > 0){
+            double precoFinal = 0;
+            double precoFinalIVA = 0;
+            double IVA = itemList.get(0).getProduct().getIVA();
+            
+            for(Item u: itemList){
+                returnBill += u + "\n";
+                precoFinal += u.getProduct().getPrice() * u.getQuantity();
+
+            }
+
+            precoFinalIVA += precoFinal + (precoFinal * IVA);
+
+            returnBill += "--PREÇO FINAL: " + precoFinal + " \n" + 
+                          "-- +IVA (" + IVA + "): " + precoFinalIVA + "\n";
+        }
         
         return returnBill;
     }
