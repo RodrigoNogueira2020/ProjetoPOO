@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 public class History implements Serializable {
-    ArrayList<Order> orderList;
+    private ArrayList<Order> orderList;
     
     public History(){
         orderList = new ArrayList<>();
@@ -55,6 +55,10 @@ public class History implements Serializable {
         
         orderList.add(order);
         sortOrder();
+    }
+
+    public ArrayList<Order> getOrderList() {
+        return orderList;
     }
     
     @Override

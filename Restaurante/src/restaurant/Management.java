@@ -2,13 +2,6 @@ package restaurant;
 
 import java.io.Serializable;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,36 +17,10 @@ public class Management implements Serializable{
         orderHistory = new History();
         setNumberOfTables();
         
-        LocalDateTime reservationDate = LocalDateTime.of(2021, 05, 30, 23, 59);
-        Order temporaryOrder = new Order();
-        Order temporaryOrder2 = new Order();
-        Order temporaryOrder3 = new Order();
-        
-        temporaryOrder.openOrder(reservationDate);
-        tableList[0].setOccupied(); 
-        tableList[0].setOrder(temporaryOrder);
-        tableList[0].getOrder().closeOrder();
-        orderHistory.addOrder(tableList[0].getOrder());
-//        tableList[0].setOccupied();
-        
-        LocalDateTime reservationDate2 = LocalDateTime.of(2021, 04, 12, 23, 59);
-        temporaryOrder2.openOrder(reservationDate2);
-        tableList[1].setOccupied();
-        tableList[1].setOrder(temporaryOrder2);
-        tableList[1].getOrder().closeOrder();
-        orderHistory.addOrder(tableList[1].getOrder());
-//        tableList[1].setOccupied();
-        LocalDateTime reservationDate3 = LocalDateTime.of(2021, 05, 25, 23, 59);
-        temporaryOrder3.openOrder(reservationDate3);
-        tableList[2].setOccupied(); 
-        tableList[2].setOrder(temporaryOrder3);
-        tableList[2].getOrder().closeOrder();
-        orderHistory.addOrder(tableList[2].getOrder());
-//        tableList[2].setOccupied();
-        // */
         /*testes*/
         Product p1 = new Drink();
         Product p2 = new Drink("pop", 1, 5, true);
+        
         productList.add(p1);
         productList.add(p2);
         
@@ -84,6 +51,7 @@ public class Management implements Serializable{
     public void menu() {
         int option=0;
         InputReader scan = new InputReader();
+        SaveFiles saveToFiles = new SaveFiles();
         
         do {
             try{
@@ -92,6 +60,7 @@ public class Management implements Serializable{
 
                 switch (option) {
                     case 0:
+                        saveToFiles.saveFile(this, "savedata.bin");
                         break;
                     case 1:
                         addProduct();
@@ -109,7 +78,7 @@ public class Management implements Serializable{
                         editTable(selectTable());
                         break;
                     case 6:
-                        System.out.println(orderHistory);
+                        viewPastOrders();
                         break;
                     default:
                         throw new InvalidInputArgumentException("ERRO! Opção inválida!");
@@ -145,6 +114,7 @@ public class Management implements Serializable{
             try{
                 Menu.mainMenuProducts();
                 option = scan.getInt("Que tipo de produto quer adicionar? ");
+                
                 if(option < 0 || option > 4)
                     throw new InvalidInputArgumentException("ERRO! Opção inválida!");
                 else if(option == 0)
@@ -373,7 +343,25 @@ public class Management implements Serializable{
         
         switch(table.getOrder().getState()){
             case OPEN:
-                return true;
+                if(table.getOrder().getOpenHour().isAfter( LocalDateTime.now() )){
+                    do{
+                        try{
+                            getChar = scan.getString("Ainda não chegou a data/hora deste pedido, deseja cancelar o pedido? [s/n]").trim().toLowerCase().charAt(0);
+                            if(getChar != 's' && getChar != 'n')
+                                throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                            else if(getChar == 's'){
+                                table.getOrder().closeOrder();
+                                table.setOccupied();
+                                table.removeOrder();
+                                
+                            }
+                            return false;
+                        }catch(InvalidInputArgumentException e){
+                            System.out.println(e.getMessage());
+                        }
+                    }while(true);
+                }else
+                    return true;
             case PREPARATION: case SERVED:
                 while(true){
                     try{
@@ -393,6 +381,7 @@ public class Management implements Serializable{
                                     return false;
                                 }
                             case 'f':
+                                /* todo: meter num método noutra classe */
                                 table.getOrder().closeOrder();
                                 orderHistory.addOrder(table.getOrder());
                                 table.setOccupied();
@@ -668,5 +657,28 @@ public class Management implements Serializable{
                 break;
             }
         }
-    }    
+    }
+
+    private void viewPastOrders() {
+        InputReader scan = new InputReader();
+        int option=0;
+        try{
+            while(true){
+                Menu.showHistory(orderHistory);
+
+                try{
+                    option = scan.getInt("Introduza o número do pedido que deseja consultar");
+                    --option;
+                    if(option == -1)
+                        return;
+                    else if(option<= orderHistory.getOrderList().size() && option >= 0)
+                        System.out.println(orderHistory.getOrderList().get(option));
+                }catch(InvalidInputArgumentException e){
+                    System.err.println(e.getMessage());
+                }
+            }
+        }catch(InvalidInputArgumentException e){
+            System.err.println(e.getMessage());
+        }
+    }
 }

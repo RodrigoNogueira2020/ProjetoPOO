@@ -28,9 +28,17 @@ public class Menu {
     
     public static void listProducts(ArrayList<Product> productList){
         int i = 0;
-        for(Product p: productList){
-            System.out.print(++i + ") ");
-            System.out.println(p);
+        try{
+            if(productList.isEmpty())
+                throw new InvalidInputArgumentException("ERRO: Ainda não foram introduzidos produtos!");
+            
+            for(Product p: productList){
+                System.out.print(++i + ") ");
+                System.out.println(p);
+            }
+            
+        }catch(InvalidInputArgumentException e){
+            System.err.println(e.getMessage());
         }
     }
     
@@ -40,5 +48,18 @@ public class Menu {
             System.out.print(++i + ") ");
             System.out.println(m);
         }
+    }
+    
+    public static void showHistory(History history){
+        int i = 0;
+        
+        switch(history.getOrderList().size()){
+            case 0:
+                throw new InvalidInputArgumentException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
+            default:
+                for(Order o: history.getOrderList()){
+                    System.out.println(++i + ") " + o.getOpenHourFormatted() + " - " + o.getCloseHourFormatted());
+                }
+        }     
     }
 }

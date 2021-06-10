@@ -119,7 +119,7 @@ public class Order implements Serializable{
     public ArrayList<Item> getItemList() {
         return itemList;
     }
-
+    
     public String getOpenHourFormatted() {
         return openHour.format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm"));
     }
@@ -128,6 +128,10 @@ public class Order implements Serializable{
         return openHour;
     }
 
+    public String getCloseHourFormatted() {
+        return closeHour.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+    
     public LocalDateTime getCloseHour() {
         return closeHour;
     }
@@ -137,16 +141,18 @@ public class Order implements Serializable{
         String returnBill = "";
         
         returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";
+        
         returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + 
                     closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
-        
+        returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + 
+                    closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
         if(itemList.size() > 0){
-            double precoFinal = 0;
-            double precoFinalIVA = 0;
+            double precoFinal = 0, precoFinalIVA = 0;
             double IVA = itemList.get(0).getProduct().getIVA();
             
             for(Item u: itemList){
                 returnBill += u + "\n";
+                
                 precoFinal += u.getProduct().getPrice() * u.getQuantity();
 
             }
