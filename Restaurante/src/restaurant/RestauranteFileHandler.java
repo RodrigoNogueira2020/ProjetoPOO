@@ -9,11 +9,12 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class SaveFiles {
+public class RestauranteFileHandler {
     
-    public SaveFiles(){
+    public RestauranteFileHandler(){
         
     }
+   
     
     private File getProjectFolder() throws URISyntaxException {
         String classFile = "";
@@ -51,6 +52,7 @@ public class SaveFiles {
             oos.writeObject(management);
             oos.flush();
             oos.close();
+            
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -62,12 +64,11 @@ public class SaveFiles {
         try {
             File destination = makeAbsoluteFilename(filename);
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(destination));
-
-            //é nesta linha que está a ocorrer o erro
             management = (Management) ois.readObject();
-
             ois.close();
+            
             return management;
+            
         } catch (IOException | ClassNotFoundException e) {
             return null;
         }

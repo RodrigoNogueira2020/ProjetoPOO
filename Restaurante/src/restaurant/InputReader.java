@@ -1,4 +1,5 @@
 package restaurant;
+
 import java.util.Scanner;
 
 public class InputReader {

@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Dish extends Product implements Serializable{
     private String description;
     
-    public Dish(String name, double price, String description) {
-        super(name, price);
+    public Dish(String name, double price, double iva, String description) {
+        super(name, price, iva);
         
         if(description != null || !description.trim().equals(""))
             this.description = description.trim();
@@ -29,7 +29,7 @@ public class Dish extends Product implements Serializable{
     
     @Override
     public String toString(){
-        return "Prato: " + super.toString() + "| " + 
+        return "Prato  -> " + super.toString() + "| " + 
                description;
     }
        

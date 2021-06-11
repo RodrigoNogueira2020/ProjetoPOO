@@ -7,8 +7,8 @@ public class Sweet extends Product implements Serializable{
     private String description;
     private boolean madeInRestaurant;
 
-    public Sweet(String name, double price, String description, boolean madeInRestaurant) {
-        super(name, price);
+    public Sweet(String name, double price, double iva, String description, boolean madeInRestaurant) {
+        super(name, price, iva);
 
         if (description != null || !description.trim().equals(""))
             this.description = description.trim();
@@ -61,7 +61,7 @@ public class Sweet extends Product implements Serializable{
     
     @Override
     public String toString() {
-        return "Doce: " + super.toString() + "| " +
+        return "Doce   -> " + super.toString() + "| " +
                 description + " | "+ madeInRestaurant();
     }
 

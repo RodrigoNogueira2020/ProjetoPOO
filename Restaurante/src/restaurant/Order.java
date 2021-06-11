@@ -148,7 +148,7 @@ public class Order implements Serializable{
                     closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
         if(itemList.size() > 0){
             double precoFinal = 0, precoFinalIVA = 0;
-            double IVA = itemList.get(0).getProduct().getIVA();
+            double IVA = itemList.get(0).getProduct().getIva();
             
             for(Item u: itemList){
                 returnBill += u + "\n";

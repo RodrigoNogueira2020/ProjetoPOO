@@ -7,8 +7,8 @@ public class Drink extends Product implements Serializable{
     private double capacity;
     private boolean hasAlcohol;
 
-    public Drink(String name, double price, double capacity, boolean hasAlcohol) {
-        super(name, price);
+    public Drink(String name, double price, double iva, double capacity, boolean hasAlcohol) {
+        super(name, price, iva);
         if (capacity > 0.33)
             this.capacity = capacity;
         else
@@ -69,7 +69,7 @@ public class Drink extends Product implements Serializable{
 
     @Override
     public String toString(){
-        return "Bebida ->" + super.toString() +
+        return "Bebida -> " + super.toString() +
                "| Capacidade: " + capacity + " L | " +
                isAlchoolic();
     }

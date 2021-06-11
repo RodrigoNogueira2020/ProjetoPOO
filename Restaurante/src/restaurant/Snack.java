@@ -6,8 +6,8 @@ public class Snack extends Product implements Serializable{
     private int quantity;
     private boolean isSpicy;
     
-    public Snack(String name, double price, int quantity, boolean isSpicy) {
-        super(name, price);
+    public Snack(String name, double price, double iva, int quantity, boolean isSpicy) {
+        super(name, price, iva);
         
         if(quantity > 0)
             this.quantity = quantity;
@@ -23,15 +23,12 @@ public class Snack extends Product implements Serializable{
     }
 
     public void setQuantity(int quantity) {
-        if(quantity > 0)
-            this.quantity = quantity;
-        else if(quantity < 0)
+        if(quantity < 0)
             throw new InvalidInputArgumentException("ERRO: O snack não pode ter uma quantidade negativa!");
         else if(quantity == 0)
             throw new InvalidInputArgumentException("ERRO: O snack não pode ter uma quantidade de zero!");
-        else
-            throw new InvalidInputArgumentException("ERRO: O snack precisa de uma quantidade!");
         
+        this.quantity = quantity;
     }
     
     /**
@@ -72,7 +69,7 @@ public class Snack extends Product implements Serializable{
     
     @Override
     public String toString(){
-        return "Snack: " + super.toString() + "| " + 
+        return "Snack  -> " + super.toString() + "| " + 
                "Quantidade: " + getQuantity() + " | " +
                spiciness();
     }

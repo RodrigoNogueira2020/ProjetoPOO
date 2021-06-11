@@ -19,7 +19,7 @@ public class Management implements Serializable{
         
         /*testes*/
         Product p1 = new Drink();
-        Product p2 = new Drink("pop", 1, 5, true);
+        Product p2 = new Drink("pop", 1, 10, 5, true);
         
         productList.add(p1);
         productList.add(p2);
@@ -51,7 +51,6 @@ public class Management implements Serializable{
     public void menu() {
         int option=0;
         InputReader scan = new InputReader();
-        SaveFiles saveToFiles = new SaveFiles();
         
         do {
             try{
@@ -60,7 +59,6 @@ public class Management implements Serializable{
 
                 switch (option) {
                     case 0:
-                        saveToFiles.saveFile(this, "savedata.bin");
                         break;
                     case 1:
                         addProduct();
@@ -108,7 +106,7 @@ public class Management implements Serializable{
         InputReader scan = new InputReader();
         int option;
         String productName;
-        double productPrice;
+        double productPrice, productIva;
         
         while(true){
             try{
@@ -123,7 +121,7 @@ public class Management implements Serializable{
                 //Verifica se o nome não está em branco ou se já existe um produto com o nome introduzido
                 do{
                     try{
-                        productName = scan.getString("Nome: ");
+                        productName = scan.getString("Nome");
                         if("0".equals(productName))
                             return;
                         else if(productName == null || productName.trim().equals(""))
@@ -141,7 +139,7 @@ public class Management implements Serializable{
                 //Verifica se o preço não é zero ou número negativo
                 do{
                     try{
-                        productPrice = scan.getDouble("Preço: ");
+                        productPrice = scan.getDouble("Preço");
                         if(productPrice == 0)
                             throw new InvalidInputArgumentException("ERRO: Preço não pode ser zero!");
                         else if(productPrice < 0)
@@ -151,7 +149,22 @@ public class Management implements Serializable{
                         System.err.println(e.getMessage());
                     }
                 }while(true);
+            
+                do{
+                    try{
+                        productIva = scan.getDouble("IVA (0-100%)");
+                        if(productIva > 100)
+                            throw new InvalidInputArgumentException("ERRO: IVA não pode exceder os 100%!");
+                        else if(productIva < 0)
+                            throw new InvalidInputArgumentException("ERRO: IVA não pode ser negativo!");
+                        break;
+                    }catch(InvalidInputArgumentException e){
+                        System.err.println(e.getMessage());
+                    }
+                }while(true);
+                
                 break;
+                
             }catch(InvalidInputArgumentException e){
                 System.out.println(e.getMessage());
             }
@@ -159,27 +172,26 @@ public class Management implements Serializable{
 
         switch(option) {
             case 1:
-                addDrink(productName, productPrice);
+                addDrink(productName, productPrice, productIva);
                 break;
             case 2:
-                addSweet(productName, productPrice);
+                addSweet(productName, productPrice, productIva);
                 break;
             case 3:
-                addDish(productName, productPrice);
+                addDish(productName, productPrice, productIva);
                 break;
             case 4:
-                addSnack(productName, productPrice);
+                addSnack(productName, productPrice, productIva);
         }
-                
-            
     }
    
-    private void addDrink(String drinkName, double drinkPrice) {
+    private void addDrink(String drinkName, double drinkPrice, double productIva) {
         Drink drink = new Drink();
         InputReader scan = new InputReader();
         
         drink.setName(drinkName);
         drink.setPrice(drinkPrice);
+        drink.setIva(productIva);
 
         while (true)
             try{
@@ -202,12 +214,13 @@ public class Management implements Serializable{
         
     }
 
-    private void addSweet(String drinkName, double drinkPrice) {
+    private void addSweet(String drinkName, double drinkPrice, double productIva) {
         Sweet sweet = new Sweet();
         InputReader scan = new InputReader();
         
         sweet.setName(drinkName);
         sweet.setPrice(drinkPrice);
+        sweet.setIva(productIva);
         
         while (true)
             try{
@@ -229,12 +242,13 @@ public class Management implements Serializable{
         System.out.println("++ Doce adicionado com sucesso! ++");
     }
 
-    private void addDish(String dishName, double dishPrice) {
+    private void addDish(String dishName, double dishPrice, double productIva) {
         Dish dish = new Dish();
         InputReader scan = new InputReader();
 
         dish.setName(dishName);
         dish.setPrice(dishPrice);
+        dish.setIva(productIva);
 
         while (true)
             try{
@@ -248,12 +262,13 @@ public class Management implements Serializable{
         System.out.println("++ Prato adicionado com sucesso! ++");
     }
 
-    private void addSnack(String snackName, double snackPrice) {
+    private void addSnack(String snackName, double snackPrice, double productIva) {
         Snack snack = new Snack();
         InputReader scan = new InputReader();
 
         snack.setName(snackName);
         snack.setPrice(snackPrice);
+        snack.setIva(productIva);
         
         while (true)
             try{
@@ -282,13 +297,13 @@ public class Management implements Serializable{
         while(true){
             try{
                 i = scan.getInt("Introduza o número do produto que deseja remover");
-                if(i <= productList.size())
-                    break;
-                else
+//                if(i <= productList.size() && i >=1)
+                if(i > productList.size() && i < 1)
                     throw new InvalidInputArgumentException("ERRO: Indique o número do produto apresentado na lista!");
+                break;
                 
             }catch(InvalidInputArgumentException e){
-                System.err.println(e);
+                System.err.println(e.getMessage());
                 
             }
             

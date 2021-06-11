@@ -8,7 +8,8 @@ public class RestaurantManagement {
     }
     
     public static void startProgram(){
-        SaveFiles saveFiles = new SaveFiles();
+        
+        RestauranteFileHandler saveFiles = new RestauranteFileHandler();
 
         if(saveFiles.readSerializedFile("savedata.bin") == null)
             restaurante = new Management();
@@ -16,5 +17,6 @@ public class RestaurantManagement {
             restaurante = saveFiles.readSerializedFile("savedata.bin");
         
         restaurante.menu();
+        saveFiles.saveFile(restaurante, "savedata.bin");
     }
 }
