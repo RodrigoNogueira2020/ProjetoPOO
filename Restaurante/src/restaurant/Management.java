@@ -16,14 +16,6 @@ public class Management implements Serializable{
         productList = new ArrayList<>();
         orderHistory = new History();
         setNumberOfTables();
-        
-        /*testes*/
-        Product p1 = new Drink();
-        Product p2 = new Drink("pop", 1, 10, 5, true);
-        
-        productList.add(p1);
-        productList.add(p2);
-        
     }
     
     private void setNumberOfTables(){
@@ -39,7 +31,6 @@ public class Management implements Serializable{
                     throw new InvalidInputArgumentException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
             }catch(InvalidInputArgumentException e){
                 System.err.println(e.getMessage());
-                
             }
         
         tableList = new Table[numberOfTables];
