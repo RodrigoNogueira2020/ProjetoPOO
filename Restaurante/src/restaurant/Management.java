@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.time.LocalDateTime;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class Management implements Serializable{
     private Table[] tableList;
     private ArrayList<Product> productList;
@@ -16,13 +22,6 @@ public class Management implements Serializable{
         productList = new ArrayList<>();
         orderHistory = new History();
         setNumberOfTables();
-        
-        /*testes*/
-        Product p1 = new Drink();
-        Product p2 = new Drink("pop", 1, 10, 5, true);
-        
-        productList.add(p1);
-        productList.add(p2);
         
     }
     
@@ -79,7 +78,7 @@ public class Management implements Serializable{
                         viewPastOrders();
                         break;
                     default:
-                        throw new InvalidInputArgumentException("ERRO! Opção inválida!");
+                        throw new InvalidInputArgumentException("ERRO: Opção inválida!");
                 }
             }catch(InvalidInputArgumentException e){
                 System.err.println(e.getMessage());
@@ -113,7 +112,7 @@ public class Management implements Serializable{
                 Menu.mainMenuProducts();
                 option = scan.getInt("Que tipo de produto quer adicionar? ");
                 
-                if(option < 0 || option > 4)
+                if(option < 0 || option > 4)     
                     throw new InvalidInputArgumentException("ERRO! Opção inválida!");
                 else if(option == 0)
                     return;
@@ -139,7 +138,7 @@ public class Management implements Serializable{
                 //Verifica se o preço não é zero ou número negativo
                 do{
                     try{
-                        productPrice = scan.getDouble("Preço");
+                        productPrice = scan.getDouble("Preço (€)");
                         if(productPrice == 0)
                             throw new InvalidInputArgumentException("ERRO: Preço não pode ser zero!");
                         else if(productPrice < 0)
@@ -214,12 +213,12 @@ public class Management implements Serializable{
         
     }
 
-    private void addSweet(String drinkName, double drinkPrice, double productIva) {
+    private void addSweet(String sweetName, double sweetPrice, double productIva) {
         Sweet sweet = new Sweet();
         InputReader scan = new InputReader();
         
-        sweet.setName(drinkName);
-        sweet.setPrice(drinkPrice);
+        sweet.setName(sweetName);
+        sweet.setPrice(sweetPrice);
         sweet.setIva(productIva);
         
         while (true)
@@ -294,25 +293,27 @@ public class Management implements Serializable{
         Menu.listProducts(productList);
         InputReader scan = new InputReader();
         
-        while(true){
+        while(true)
             try{
                 i = scan.getInt("Introduza o número do produto que deseja remover");
-//                if(i <= productList.size() && i >=1)
-                if(i > productList.size() && i < 1)
-                    throw new InvalidInputArgumentException("ERRO: Indique o número do produto apresentado na lista!");
-                break;
+                --i;
+                if(i == -1)
+                    return;
+                else if(i <= productList.size() && i >=0)
+                    break;
+                throw new InvalidInputArgumentException("ERRO: Indique o número do produto apresentado na lista!");
                 
             }catch(InvalidInputArgumentException e){
                 System.err.println(e.getMessage());
                 
             }
-            
-        }
-        --i;
+        
         for(Iterator<Product> it = productList.iterator(); it.hasNext(); )
             if ( it.next().getName().equals( productList.get(i).getName() ) ) {
+                
                 System.out.println("--" + productList.get(i).getName() + " removido com sucesso!");
                 it.remove();
+                
                 break;
             }
     }
@@ -340,6 +341,7 @@ public class Management implements Serializable{
                     break;
                 else if(i<= tableList.length && i >= 0 && tableList[i].getOrder() == null)
                     throw new InvalidInputArgumentException("ERRO: Mesa ainda não está reservada!");
+                
             }catch(ArrayIndexOutOfBoundsException OutOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
             }catch(InvalidInputArgumentException e){
@@ -359,12 +361,15 @@ public class Management implements Serializable{
         switch(table.getOrder().getState()){
             case OPEN:
                 if(table.getOrder().getOpenHour().isAfter( LocalDateTime.now() )){
-                    do{
+                    while(true)
                         try{
+                            
                             getChar = scan.getString("Ainda não chegou a data/hora deste pedido, deseja cancelar o pedido? [s/n]").trim().toLowerCase().charAt(0);
                             if(getChar != 's' && getChar != 'n')
                                 throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                            
                             else if(getChar == 's'){
+                                
                                 table.getOrder().closeOrder();
                                 table.setOccupied();
                                 table.removeOrder();
@@ -374,7 +379,6 @@ public class Management implements Serializable{
                         }catch(InvalidInputArgumentException e){
                             System.out.println(e.getMessage());
                         }
-                    }while(true);
                 }else
                     return true;
             case PREPARATION: case SERVED:
@@ -396,7 +400,6 @@ public class Management implements Serializable{
                                     return false;
                                 }
                             case 'f':
-                                /* todo: meter num método noutra classe */
                                 table.getOrder().closeOrder();
                                 orderHistory.addOrder(table.getOrder());
                                 table.setOccupied();
@@ -435,9 +438,11 @@ public class Management implements Serializable{
 
                 if(productNumber == -1)
                     return;
-                else if(productNumber<= productList.size() && productNumber >= 0)
+                else if(productNumber < productList.size() && productNumber >= 0)
                     item.setProduct(productList.get(productNumber));
-
+                else
+                    throw new InvalidInputArgumentException("ERRO: Indique o número do produto apresentado na lista!");
+                
                 while(true){
                     try{
                         productNumber = scan.getInt("Introduza a quantidade");
@@ -457,25 +462,25 @@ public class Management implements Serializable{
                 
                 table.getOrder().addItem(item);
                 System.out.println("++" + item.getProduct().getName() + " adicionado com sucesso!");
-            }catch(ArrayIndexOutOfBoundsException OutOfBounds){
-                System.err.println("ERRO: Indique o número do produto apresentado na lista!");
+                break;
+            }catch(InvalidInputArgumentException outOfBounds){
+                System.err.println(outOfBounds.getMessage());
             }
-
-            table.getOrder().setState(orderState.PREPARATION);
-            while(true)
-                try{
-                    getChar = scan.getString("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
-                    if(getChar != 's' && getChar != 'n')
-                        throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
-                    break;
-                }catch(InvalidInputArgumentException e){
-                    System.err.println(e.getMessage());
-                }
+        }
+        table.getOrder().setState(orderState.PREPARATION);
+        while(true){
+            try{
+                getChar = scan.getString("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
+                if(getChar != 's' && getChar != 'n')
+                    throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                break;
+            }catch(InvalidInputArgumentException e){
+                System.err.println(e.getMessage());
+            }
 
             if(getChar == 'n')
                 break;
         }
-        
         System.out.println("== Items adicionados ao pedido da mesa " + table.getTableNumber() + " ====");
         table.getOrder().listItems();
         System.out.println("== ===================================== ====");
@@ -484,7 +489,7 @@ public class Management implements Serializable{
     private void bookTable(){
         try{
             if(!checkForUnoccupiedTables())
-                throw new InvalidInputArgumentException("ERRO: Não há mesas disponíveis neste momento, feche um pedido");
+                throw new InvalidInputArgumentException("ERRO: Não há mesas disponíveis neste momento, feche um pedido.");
         }catch(InvalidInputArgumentException e){
             System.err.println(e.getMessage());
             return;
@@ -494,10 +499,9 @@ public class Management implements Serializable{
         int tableNumber;
         char tableOption;
         
-        while(true){
-            Menu.listTables(tableList);
-            
+        while(true)
             try{
+                Menu.listTables(tableList);
                 tableNumber = scan.getInt("Introduza o número da mesa que deseja reservar");
                 --tableNumber;
                 if(tableNumber == -1)
@@ -511,7 +515,6 @@ public class Management implements Serializable{
             }catch(InvalidInputArgumentException e){
                 System.err.println(e.getMessage());
             }
-        }
         
         for(int m = 0; m <= tableList.length; m++){
             if (tableList[tableNumber].equals(tableList[m])) {
@@ -557,7 +560,6 @@ public class Management implements Serializable{
                                     throw new InvalidInputArgumentException("ERRO: Uma das partes da data está em falta!");
                                 }
 
-                                // ["1" , "5", "2005"]
                                 /*Verificar o ano introduzido*/
                                 try{
                                     reservationDate = reservationDate.withYear(Integer.parseInt(formattedDate[2]));
@@ -590,11 +592,11 @@ public class Management implements Serializable{
                                     hasErrors = true;
 
                                 }catch(InvalidInputArgumentException dataAnterior){
-                                    System.err.println(dataAnterior);
+                                    System.err.println(dataAnterior.getMessage());
                                     hasErrors = true;
                                 }
                             }catch(InvalidInputArgumentException dataNull){
-                                System.err.println(dataNull);
+                                System.err.println(dataNull.getMessage());
                                 hasErrors = true;
                             }
                         }while(hasErrors);
@@ -602,6 +604,7 @@ public class Management implements Serializable{
                         dateInput = "";
                         formattedDate = null;
                         do{
+                            hasErrors = false;
                             dateInput = scan.getString("Introduza a hora (HH:MM)").trim();
 
                             if(dateInput.contains(":"))
@@ -625,11 +628,11 @@ public class Management implements Serializable{
                                     reservationDate = reservationDate.withHour(Integer.parseInt(formattedDate[0]));
                                 
                             }catch(InvalidInputArgumentException horaErro){
-                                System.out.println(horaErro);
+                                System.out.println(horaErro.getMessage());
                                 hasErrors = true;
                                 
                             }catch(DateTimeException hora){
-                                System.err.println("ERRO: Hora introduzida é inválido (Não pode conter letras ou outros caracteres inválidos)!");
+                                System.err.println("ERRO: Hora introduzida é inválida!");
                                 hasErrors = true;
                                 
                             }catch (NumberFormatException dataParseExcecao){
@@ -656,7 +659,7 @@ public class Management implements Serializable{
                                 hasErrors = true;
                                 
                             }catch(InvalidInputArgumentException dataErro){
-                                System.err.println(dataErro);
+                                System.err.println(dataErro.getMessage());
                                 hasErrors = true;
                                 
                             }
@@ -682,7 +685,7 @@ public class Management implements Serializable{
                 Menu.showHistory(orderHistory);
 
                 try{
-                    option = scan.getInt("Introduza o número do pedido que deseja consultar");
+                    option = scan.getInt("Introduza o número do pedido que deseja consultar (0 - Sair)");
                     --option;
                     if(option == -1)
                         return;
@@ -690,6 +693,8 @@ public class Management implements Serializable{
                         System.out.println(orderHistory.getOrderList().get(option));
                 }catch(InvalidInputArgumentException e){
                     System.err.println(e.getMessage());
+                }catch(IndexOutOfBoundsException outOfBounds){
+                    System.err.println("ERRO: Introduza um número da lista!");
                 }
             }
         }catch(InvalidInputArgumentException e){

@@ -1,20 +1,20 @@
 package restaurant;
 
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
 
 public class History implements Serializable {
     private ArrayList<Order> orderList;
     
     public History(){
         orderList = new ArrayList<>();
-    }
-    
-    public History(Order order){
-        orderList = new ArrayList<>();
-        if(order != null)
-            orderList.add(order);
     }
     
     private void sortOrder(){
@@ -44,8 +44,8 @@ public class History implements Serializable {
                     }
                 }
             }catch(IndexOutOfBoundsException e){
-                
             }
+            
         }while(toOrder);
     }
     

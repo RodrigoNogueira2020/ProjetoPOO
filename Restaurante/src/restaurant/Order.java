@@ -6,6 +6,12 @@ import java.util.Iterator;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class Order implements Serializable{
     private ArrayList<Item> itemList;
     private orderState state;
@@ -142,10 +148,7 @@ public class Order implements Serializable{
         
         returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";
         
-        returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + 
-                    closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
-        returnBill += "- " + openHour.getHour() + ":" + openHour.getMinute() + " - "  + 
-                    closeHour.getHour() + ":" + closeHour.getMinute() + "\n";
+        returnBill += "- " + getOpenHourFormatted() + " - "  + getCloseHourFormatted() + "\n";
         if(itemList.size() > 0){
             double precoFinal = 0, precoFinalIVA = 0;
             double IVA = itemList.get(0).getProduct().getIva();

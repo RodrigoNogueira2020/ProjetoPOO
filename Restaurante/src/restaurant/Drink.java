@@ -2,11 +2,22 @@ package restaurant;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class Drink extends Product implements Serializable{
 
     private double capacity;
     private boolean hasAlcohol;
 
+    public Drink() {
+        this.capacity = 0.33;
+        this.hasAlcohol = false;
+    }
+    
     public Drink(String name, double price, double iva, double capacity, boolean hasAlcohol) {
         super(name, price, iva);
         if (capacity > 0.33)
@@ -17,10 +28,6 @@ public class Drink extends Product implements Serializable{
         this.hasAlcohol = hasAlcohol;
     }
 
-    public Drink() {
-        this.capacity = 0.33;
-        this.hasAlcohol = false;
-    }
 
     public void setCapacity(double capacity) {
         if (capacity > 0)

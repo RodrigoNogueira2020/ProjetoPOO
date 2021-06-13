@@ -9,10 +9,15 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class RestauranteFileHandler {
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
+public class RestaurantFileHandler {
     
-    public RestauranteFileHandler(){
-        
+    public RestaurantFileHandler(){
     }
    
     
@@ -58,6 +63,11 @@ public class RestauranteFileHandler {
         }
     }
 
+    /**
+     * 
+     * @param filename Nome do ficheiro com dados guardados
+     * @return management o objeto da classe Management
+     */
     public Management readSerializedFile(String filename) {
         Management management;
 
