@@ -1,16 +1,19 @@
 package restaurant;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class RestaurantManagement {
     private static Management restaurante;
     
-    public RestaurantManagement(){
-        
-    }
-    
     public static void startProgram(){
         
-        RestauranteFileHandler saveFiles = new RestauranteFileHandler();
-
+        RestaurantFileHandler saveFiles = new RestaurantFileHandler();
+        
+        // Verifica se existe ficheiro binário de dados
         if(saveFiles.readSerializedFile("savedata.bin") == null)
             restaurante = new Management();
         else
@@ -19,4 +22,5 @@ public class RestaurantManagement {
         restaurante.menu();
         saveFiles.saveFile(restaurante, "savedata.bin");
     }
+    
 }

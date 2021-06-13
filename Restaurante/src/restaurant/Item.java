@@ -2,6 +2,12 @@ package restaurant;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class Item implements Serializable{
     private Product product;
     private int quantity;
@@ -27,8 +33,8 @@ public class Item implements Serializable{
     public void setProduct(Product product) {
         if(product != null)
             this.product = product;
-        else;
-//            this.product = new Product("", 0);
+        else
+            throw new InvalidInputArgumentException("ERRO: Produto introduzido é nulo!");
     }
 
     public void setQuantity(int quantity) {

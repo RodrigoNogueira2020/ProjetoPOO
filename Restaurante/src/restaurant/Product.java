@@ -2,12 +2,24 @@ package restaurant;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public abstract class Product implements Serializable{
     
     private String name;
     private double price;
     private double iva;
 
+    public Product(){
+        this.price = 0;
+        this.name = "Um produto qualquer";
+        iva = 0.23;
+    }
+    
     public Product(String name, double price, double iva) {
         if (name == null || name.trim().equals(""))
             throw new InvalidInputArgumentException("ERRO: Nome não pode ficar em branco!");
@@ -27,11 +39,6 @@ public abstract class Product implements Serializable{
             this.iva = iva;
     }
     
-    public Product(){
-        this.price = 0;
-        this.name = "Um produto qualquer";
-        iva = 0.23;
-    }
 
     /*
      * Introduz um novo name ao produto, caso não passe a validação deixa ficar

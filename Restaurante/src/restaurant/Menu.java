@@ -2,9 +2,15 @@ package restaurant;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Ricardo Reis     200262024 200262024@estudantes.ips.pt
+ *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
+ */
+
 public class Menu {
     
-    public static void mainMenu() { // todo: Dar a opção ao utlizador para escolher qual o pedido quer ver, introduzir ficheiros
+    public static void mainMenu() {
         System.out.println("=== Top Wings === Versão 0.6.0 07/06/2021 22:41");
         System.out.println("* 1 - Adicionar produto");
         System.out.println("* 2 - Remover produto");
@@ -57,9 +63,8 @@ public class Menu {
             case 0:
                 throw new InvalidInputArgumentException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
             default:
-                for(Order o: history.getOrderList()){
+                for(Order o: history.getOrderList())
                     System.out.println(++i + ") " + o.getOpenHourFormatted() + " - " + o.getCloseHourFormatted());
-                }
-        }     
+        }
     }
 }
