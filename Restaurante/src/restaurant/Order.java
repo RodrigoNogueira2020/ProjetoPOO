@@ -94,7 +94,7 @@ public class Order implements Serializable{
             case OPEN:  case PREPARATION:
             case SERVED: case CLOSED:
                 this.state = state;
-                break;
+                return;
         }
         
         throw new RestauranteException("ERRO: Estado do pedido inserido é inválido!");

@@ -43,6 +43,13 @@ public class Item implements Serializable{
             this.quantity = 0;
     }
     
+    public void addQuantity(int quantity) {
+        if(quantity > 0)
+            this.quantity += quantity;
+        else
+            this.quantity = 0;
+    }
+    
     public Product getProduct() {
         return product;
     }

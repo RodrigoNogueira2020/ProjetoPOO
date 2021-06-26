@@ -28,3 +28,6 @@ hs_err_pid*
 # Diagrams
 *.dia
 *.dia~
+
+# Savedata
+Restaurante/build/classes/restaurant/savedata.bin

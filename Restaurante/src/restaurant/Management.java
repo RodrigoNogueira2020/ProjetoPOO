@@ -21,33 +21,70 @@ public class Management implements Serializable{
     public Management() {
         productList = new ArrayList<>();
         orderHistory = new History();
-        setNumberOfTables();
         
+    }
+    
+    private void addTables(int numberOfTables){
+        Table[] tableTemp = new Table[tableList.length + numberOfTables];
+        int i = 0;
+        
+        // Atribui todas as mesas existentes para um array temporario
+        for(; i < tableList.length; i++)
+            tableTemp[i] = tableList[i];
+        
+        // Preenche os restantes indices do array temporario
+        for(;i < tableTemp.length;i++)
+            tableTemp[i] = new Table(i);
+        
+        tableList = new Table[tableTemp.length];
+        
+        // Cópia indice a indice do array temporario ao atributo da classe
+        for(i = 0; i < tableTemp.length; i++)
+            tableList[i] = tableTemp[i];
     }
     
     private void setNumberOfTables(){
         InputReader scan = new InputReader();
-        
-        int numberOfTables = 0;
-        while (numberOfTables < 4)
-            try{
-                numberOfTables = scan.getInt("Quantas mesas tem o restaurante?");
-                if(numberOfTables < 0)
-                    throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
-                else if(numberOfTables < 4)
-                    throw new RestauranteException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-                
-            }
-        
-        tableList = new Table[numberOfTables];
-        for(int i=0; i < tableList.length; i++)
-            tableList[i] = new Table(i);
+        int numberOfTables  = -1;
+
+        try{
+            numberOfTables = tableList.length;
+            numberOfTables = -1;
+            while (numberOfTables < 0)
+                try{
+                    numberOfTables = scan.getInt("Quantas mesas pretende adicionar?");
+                    if(numberOfTables < 0)
+                        throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
+                    
+                }catch(RestauranteException e){
+                    System.err.println(e.getMessage());
+
+                }
+            addTables(numberOfTables);
+            
+        }catch(NullPointerException noTablesSet){
+            
+            while (numberOfTables < 4)
+                try{
+                    numberOfTables = scan.getInt("Quantas mesas tem o restaurante?");
+                    if(numberOfTables < 0)
+                        throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
+                    else if(numberOfTables < 4)
+                        throw new RestauranteException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
+                }catch(RestauranteException e){
+                    System.err.println(e.getMessage());
+
+                }
+
+            tableList = new Table[numberOfTables];
+            for(int i=0; i < tableList.length; i++)
+                tableList[i] = new Table(i);
+        }
         
     }
 
     public void menu() {
+        setNumberOfTables();
         int option=0;
         InputReader scan = new InputReader();
         
@@ -419,8 +456,25 @@ public class Management implements Serializable{
         return false;
     }
     
+    private void checkItemDuplicatesInTableOrder(Table table, Item item){
+        
+        switch(table.getOrder().getItemList().size()){
+            default:
+                for(int i = 0; i < table.getOrder().getItemList().size(); i++){
+            
+                    if(table.getOrder().getItemList().get(i).getProduct().getName().equals(item.getProduct().getName())){
+                        table.getOrder().getItemList().get(i).addQuantity(item.getQuantity());
+                        break;
+                    }
+
+                }
+            case 0: case 1:
+                table.getOrder().addItem(item);
+        }
+    }
+    
     private void editTable(Table table){
-        int productNumber;
+        int productNumber = 0, productQuantity = 0;
         char getChar=' ';
         InputReader scan = new InputReader();
         
@@ -430,28 +484,39 @@ public class Management implements Serializable{
         while(true){
             Item item = new Item();
             try{
-                Menu.listProducts(productList);
-                
-                productNumber = scan.getInt("Introduza o número dos produtos que deseja adicionar (0 - Sair)");
-                --productNumber;
+                while(true){
+                    try{
+                        Menu.listProducts(productList);
 
-                if(productNumber == -1)
-                    return;
-                else if(productNumber < productList.size() && productNumber >= 0)
-                    item.setProduct(productList.get(productNumber));
-                else
-                    throw new RestauranteException("ERRO: Indique o número do produto apresentado na lista!");
+                        productNumber = scan.getInt("Introduza o número correspondente ao produto que deseja adicionar (0 - Sair)");
+                        --productNumber;
+
+                        if(productNumber == -1)
+                            return;
+                        else if(productNumber > productList.size() || productNumber < 0)
+                            throw new RestauranteException("ERRO: Indique o números correspondentes aos produtos apresentado na lista!");
+                        
+                        
+                        item.setProduct(productList.get(productNumber));
+                        break;
+                    }catch(RestauranteException e){
+                        System.err.println(e.getMessage());
+                    }
+                }
+                
                 
                 while(true){
                     try{
-                        productNumber = scan.getInt("Introduza a quantidade");
+                        productQuantity = scan.getInt("Introduza a quantidade");
 
-                        if(productNumber == 0)
+                        if(productQuantity == 0)
                             return;
-                        else if(productNumber < 0)
+                        else if(productQuantity < 0)
                             throw new RestauranteException("ERRO: Quantidade não pode ser negativa!");
+                        else if(productQuantity == 0)
+                            throw new RestauranteException("ERRO: Quantidade não pode ser menor que zero!");
                         
-                        item.setQuantity(productNumber);
+                        item.setQuantity(productQuantity);
                         break;
                         
                     }catch(RestauranteException e){
@@ -459,13 +524,15 @@ public class Management implements Serializable{
                     }
                 }
                 
-                table.getOrder().addItem(item);
+                checkItemDuplicatesInTableOrder(table, item);
+                
                 System.out.println("++" + item.getProduct().getName() + " adicionado com sucesso!");
             }catch(RestauranteException outOfBounds){
                 System.err.println(outOfBounds.getMessage());
             }
-        
+            
             table.getOrder().setState(orderState.PREPARATION);
+            
             while(true){
                 try{
                     getChar = scan.getString("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
