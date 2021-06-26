@@ -26,7 +26,7 @@ public class Dish extends Product implements Serializable{
         if (descricao != null && !descricao.trim().equals(""))
             this.description = descricao.trim();
         else
-            throw new InvalidInputArgumentException("ERRO: O doce precisa de uma descrição!");
+            throw new RestauranteException("ERRO: O doce precisa de uma descrição!");
     }
 
     public String getDescription() {

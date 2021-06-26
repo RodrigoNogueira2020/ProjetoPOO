@@ -33,7 +33,7 @@ public class Order implements Serializable{
      * Fecha o pedido, guarda a data e hora que foi fechado
      * e imprime o recibo
      */
-    public void closeOrder(){
+    public void closeOrder() throws RestauranteException{
         switch(state){
             case OPEN: case PREPARATION: case SERVED:
                 state = orderState.CLOSED;
@@ -41,16 +41,16 @@ public class Order implements Serializable{
                 printBill();
                 break;
             case CLOSED:
-                System.out.println("ERRO: O pedido já está fechado!");
+                throw new RestauranteException("ERRO: O pedido já está fechado!");
         }
         
     }
     
-    public void addItem(Item item) {
+    public void addItem(Item item) throws RestauranteException{
         if(state == orderState.CLOSED)
-                System.out.println("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
+            throw new RestauranteException("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
         else if(item == null)
-            System.out.println("ERRO: Pedido introduzido está nulo!");
+            throw new RestauranteException("ERRO: Pedido introduzido está nulo!");
         else
             itemList.add(item);
     }
@@ -62,17 +62,15 @@ public class Order implements Serializable{
      * @return «true» se o indice introduzido estiver dentro do tamanho, «false»
      * caso o contrario.
      */
-    public boolean deleteItem(int i){
-        if(i > itemList.size()){
-            System.out.println("ERRO: Número fora do indice da lista de itens.");
-            return false;
-        }
+    public boolean deleteItem(int i) throws RestauranteException{
+        if(i > itemList.size())
+            throw new RestauranteException("ERRO: Número fora do indice da lista de itens.");
 
         for(Iterator<Item> it = itemList.iterator(); it.hasNext(); ){
             Item temp = it.next();
             System.out.println(temp);
             if (temp.equals(itemList.get(i))) {
-//                System.out.println("--" + itemList.get(i).getProduto().getNome() + " removido com sucesso!");
+                System.out.println("--" + itemList.get(i).getProduct().getName() + " removido com sucesso!");
                 it.remove();
                 return true;
             }
@@ -91,16 +89,15 @@ public class Order implements Serializable{
         System.out.println(this);
     }
     
-    public void setState(orderState state) {
+    public void setState(orderState state) throws RestauranteException{
         switch(state){
             case OPEN:  case PREPARATION:
             case SERVED: case CLOSED:
                 this.state = state;
                 break;
-            default:
-                System.out.println("ERRO: Estado do pedido inserido é inválido!");
         }
         
+        throw new RestauranteException("ERRO: Estado do pedido inserido é inválido!");
     }
 
     public String showState(){
@@ -113,9 +110,8 @@ public class Order implements Serializable{
                 return "servido";
              case CLOSED:
                 return "fechado";
-             default:
-                 return "";
         }
+        return "";
     }
     
     public orderState getState() {
@@ -127,7 +123,7 @@ public class Order implements Serializable{
     }
     
     public String getOpenHourFormatted() {
-        return openHour.format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm"));
+        return openHour.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public LocalDateTime getOpenHour() {
@@ -148,7 +144,7 @@ public class Order implements Serializable{
         
         returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";
         
-        returnBill += "- " + getOpenHourFormatted() + " - "  + getCloseHourFormatted() + "\n";
+        returnBill += getOpenHourFormatted() + " - "  + getCloseHourFormatted() + "\n";
         if(itemList.size() > 0){
             double precoFinal = 0, precoFinalIVA = 0;
             double IVA = itemList.get(0).getProduct().getIva();

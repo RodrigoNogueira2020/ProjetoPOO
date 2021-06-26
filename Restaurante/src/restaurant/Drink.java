@@ -33,9 +33,9 @@ public class Drink extends Product implements Serializable{
         if (capacity > 0)
             this.capacity = capacity;
         else if(capacity < 0)
-            throw new InvalidInputArgumentException("ERRO: A capacidade da bebida não pode ser negativa!");
+            throw new RestauranteException("ERRO: A capacidade da bebida não pode ser negativa!");
         else if(capacity < 0.33)
-            throw new InvalidInputArgumentException("ERRO: A capacidade da bebida tem de ter, pelo menos, 0,33L.");
+            throw new RestauranteException("ERRO: A capacidade da bebida tem de ter, pelo menos, 0,33L.");
     }
 
     /**
@@ -55,7 +55,7 @@ public class Drink extends Product implements Serializable{
                 hasAlcohol = false;
                 break;
             default:
-                throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
         }
     }
 

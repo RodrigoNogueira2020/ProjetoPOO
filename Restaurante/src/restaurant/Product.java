@@ -22,19 +22,19 @@ public abstract class Product implements Serializable{
     
     public Product(String name, double price, double iva) {
         if (name == null || name.trim().equals(""))
-            throw new InvalidInputArgumentException("ERRO: Nome não pode ficar em branco!");
+            throw new RestauranteException("ERRO: Nome não pode ficar em branco!");
         else
             this.name = name.trim();
 
         if(price < 0)
-            throw new InvalidInputArgumentException("ERRO: Preço não pode ser menor que zero!");
+            throw new RestauranteException("ERRO: Preço não pode ser menor que zero!");
         else
             this.price = price;
         
         if(iva > 1)
-            throw new InvalidInputArgumentException("ERRO: IVA não pode exceder os 100%!");
+            throw new RestauranteException("ERRO: IVA não pode exceder os 100%!");
         else if(iva < 0)
-            throw new InvalidInputArgumentException("ERRO: IVA não pode ser negativo!");
+            throw new RestauranteException("ERRO: IVA não pode ser negativo!");
         else
             this.iva = iva;
     }
@@ -48,16 +48,16 @@ public abstract class Product implements Serializable{
      */
     public void setName(String nome) {
         if (nome == null || nome.trim().equals(""))
-            throw new InvalidInputArgumentException("ERRO: Nome não pode ficar em branco!");
+            throw new RestauranteException("ERRO: Nome não pode ficar em branco!");
         
         this.name = nome.trim();
     }
 
     public void setPrice(double price) {
         if(price == 0)
-            throw new InvalidInputArgumentException("ERRO: Preço não pode ser zero!");
+            throw new RestauranteException("ERRO: Preço não pode ser zero!");
         else if(price < 0)
-            throw new InvalidInputArgumentException("ERRO: Preço não pode ser negativo!");
+            throw new RestauranteException("ERRO: Preço não pode ser negativo!");
         
         this.price = price;
     }
@@ -66,9 +66,9 @@ public abstract class Product implements Serializable{
         iva /= 100;
         
         if(iva > 1)
-            throw new InvalidInputArgumentException("ERRO: IVA não pode exceder os 100%!");
+            throw new RestauranteException("ERRO: IVA não pode exceder os 100%!");
         else if(iva < 0)
-            throw new InvalidInputArgumentException("ERRO: IVA não pode ser negativo!");
+            throw new RestauranteException("ERRO: IVA não pode ser negativo!");
         
         this.iva = iva;
     }

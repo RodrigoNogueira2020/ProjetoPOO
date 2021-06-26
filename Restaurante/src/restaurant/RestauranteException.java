@@ -6,9 +6,9 @@ package restaurant;
  *         Rodrigo Nogueira 200262002 200262002@estudantes.ips.pt
  */
 
-public class InvalidInputArgumentException extends IllegalArgumentException{
+public class RestauranteException extends RuntimeException{
     
-    public InvalidInputArgumentException(String error){
+    public RestauranteException(String error){
         super(error);
     }
 }

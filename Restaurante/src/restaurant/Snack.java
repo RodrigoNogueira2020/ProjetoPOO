@@ -30,9 +30,9 @@ public class Snack extends Product implements Serializable{
 
     public void setQuantity(int quantity) {
         if(quantity < 0)
-            throw new InvalidInputArgumentException("ERRO: O snack não pode ter uma quantidade negativa!");
+            throw new RestauranteException("ERRO: O snack não pode ter uma quantidade negativa!");
         else if(quantity == 0)
-            throw new InvalidInputArgumentException("ERRO: O snack não pode ter uma quantidade de zero!");
+            throw new RestauranteException("ERRO: O snack não pode ter uma quantidade de zero!");
         
         this.quantity = quantity;
     }
@@ -54,7 +54,7 @@ public class Snack extends Product implements Serializable{
                 isSpicy = false;
                 break;
             default:
-                throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
         }
     }
     

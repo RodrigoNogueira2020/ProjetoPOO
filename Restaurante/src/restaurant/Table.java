@@ -37,9 +37,9 @@ public class Table implements Serializable{
             this.tableNumber = -1;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Order order) throws RestauranteException{
         if(!occupied)
-            throw new InvalidInputArgumentException("ERRO: Mesa ainda não está ocupada!");
+            throw new RestauranteException("ERRO: Mesa ainda não está ocupada!");
         else if(order != null)
             this.order = order;
     }

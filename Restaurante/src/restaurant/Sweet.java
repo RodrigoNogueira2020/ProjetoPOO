@@ -31,7 +31,7 @@ public class Sweet extends Product implements Serializable{
         if (description != null && !description.trim().equals(""))
             this.description = description.trim();
         else
-            throw new InvalidInputArgumentException("ERRO: O doce precisa uma descrição!");
+            throw new RestauranteException("ERRO: O doce precisa uma descrição!");
     }
 
     public void setMadeInRestaurant() {
@@ -47,7 +47,7 @@ public class Sweet extends Product implements Serializable{
                 madeInRestaurant = false;
                 break;
             default:
-                throw new InvalidInputArgumentException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
         }
     }
 

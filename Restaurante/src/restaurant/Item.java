@@ -17,16 +17,15 @@ public class Item implements Serializable{
         quantity = 0;
     }
     
-    public Item(Product product, int quantity) {
+    public Item(Product product, int quantity){
+        /* Não tem valores predefinidos, a verificação dos valores recebidos
+          são feitos de fora no management.java*/
+        
         if(product != null)
             this.product = product;
-        else;
-//            throw exception;
         
         if(quantity > 0)
             this.quantity = quantity;
-        else
-            this.quantity = 0;
             
     }
 
@@ -34,7 +33,7 @@ public class Item implements Serializable{
         if(product != null)
             this.product = product;
         else
-            throw new InvalidInputArgumentException("ERRO: Produto introduzido é nulo!");
+            throw new RestauranteException("ERRO: Produto introduzido é nulo!");
     }
 
     public void setQuantity(int quantity) {

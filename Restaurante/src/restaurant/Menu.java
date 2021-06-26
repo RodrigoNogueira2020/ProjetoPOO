@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Menu {
     
     public static void mainMenu() {
-        System.out.println("=== Top Wings === Versão 0.6.0 07/06/2021 22:41");
+        System.out.println("=== Top Wings === Versão 1.0.0 26/06/2021 15:59");
         System.out.println("* 1 - Adicionar produto");
         System.out.println("* 2 - Remover produto");
         System.out.println("* 3 - Listar produtos");
@@ -36,14 +36,14 @@ public class Menu {
         int i = 0;
         try{
             if(productList.isEmpty())
-                throw new InvalidInputArgumentException("ERRO: Ainda não foram introduzidos produtos!");
+                throw new RestauranteException("ERRO: Ainda não foram introduzidos produtos!");
             
             for(Product p: productList){
                 System.out.print(++i + ") ");
                 System.out.println(p);
             }
             
-        }catch(InvalidInputArgumentException e){
+        }catch(RestauranteException e){
             System.err.println(e.getMessage());
         }
     }
@@ -61,7 +61,7 @@ public class Menu {
         
         switch(history.getOrderList().size()){
             case 0:
-                throw new InvalidInputArgumentException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
+                throw new RestauranteException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
             default:
                 for(Order o: history.getOrderList())
                     System.out.println(++i + ") " + o.getOpenHourFormatted() + " - " + o.getCloseHourFormatted());
