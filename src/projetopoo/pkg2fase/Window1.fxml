@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="projetopoo.pkg2fase.Window1Controller">
+   <children>
+      <Label fx:id="lblNomeRestaurante" layoutX="219.0" layoutY="30.0" text="Top Wings" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS" size="33.0" />
+         </font>
+      </Label>
+      <Button fx:id="btProdutos" layoutX="252.0" layoutY="103.0" mnemonicParsing="false" onAction="#btProdutosClicked" text="Produtos">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btMesas" layoutX="263.0" layoutY="161.0" mnemonicParsing="false" onAction="#btMesasClicked" text="Mesas">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btHistorico" layoutX="206.0" layoutY="219.0" mnemonicParsing="false" onAction="#btHistoricoClicked" text="Histórico de pedidos">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btSair" layoutX="239.0" layoutY="318.0" mnemonicParsing="false" onAction="#btSairClicked" text="Sair e gravar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="14.0" layoutY="369.0" prefHeight="17.0" prefWidth="205.0" text="27/06/2021 - 17:35">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
