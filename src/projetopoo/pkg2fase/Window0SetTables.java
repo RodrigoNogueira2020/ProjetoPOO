@@ -34,18 +34,21 @@ public class Window0SetTables implements Initializable {
     @FXML
     private Label lblErro;
     
+    /* Dá problemas se o new for posto no initialize */
     @FXML
-    private TextField txtTables = new TextField("txtTables");
+    private TextField txtTables  = new TextField("txtTables");
     
     @FXML
     private void btAddTablesClicked(ActionEvent event) {
         System.out.println("You clicked me!");
         
+        String txtTableValue = txtTables.getText().trim();
+        
         try{
-            if(txtTables.getText().equals("") && management.getTableList() == null)
-                throw new RestauranteException("ERRO: Número de mesas não pode ficar vazio!");
-            else if(!txtTables.getText().equals("")){
-                int numberOfTables = parseInt(txtTables.getText());
+            if(txtTableValue.equals("") && management.getTableList() == null)
+                throw new RestaurantException("ERRO: Número de mesas não pode ficar vazio!");
+            else if(!txtTableValue.equals("")){
+                int numberOfTables = parseInt(txtTableValue);
 
                 management.addTables(numberOfTables);
                 
@@ -56,7 +59,7 @@ public class Window0SetTables implements Initializable {
                 System.out.println(management.getTable(j));
             
             ProjetoPOO2fase.changeScreen(1);
-        }catch(RestauranteException e){
+        }catch(RestaurantException e){
             lblErro.setText(e.getMessage());
             
         }catch(NumberFormatException e){
@@ -68,7 +71,6 @@ public class Window0SetTables implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
     
 }

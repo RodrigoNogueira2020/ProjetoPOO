@@ -33,7 +33,7 @@ public class Order implements Serializable{
      * Fecha o pedido, guarda a data e hora que foi fechado
      * e imprime o recibo
      */
-    public void closeOrder() throws RestauranteException{
+    public void closeOrder() throws RestaurantException{
         switch(state){
             case OPEN: case PREPARATION: case SERVED:
                 state = orderState.CLOSED;
@@ -41,16 +41,16 @@ public class Order implements Serializable{
                 printBill();
                 break;
             case CLOSED:
-                throw new RestauranteException("ERRO: O pedido já está fechado!");
+                throw new RestaurantException("ERRO: O pedido já está fechado!");
         }
         
     }
     
-    public void addItem(Item item) throws RestauranteException{
+    public void addItem(Item item) throws RestaurantException{
         if(state == orderState.CLOSED)
-            throw new RestauranteException("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
+            throw new RestaurantException("ERRO: Não é possivel adicionar nenhum item ao pedido porque este já está fechado!");
         else if(item == null)
-            throw new RestauranteException("ERRO: Pedido introduzido está nulo!");
+            throw new RestaurantException("ERRO: Pedido introduzido está nulo!");
         else
             itemList.add(item);
     }
@@ -62,9 +62,9 @@ public class Order implements Serializable{
      * @return «true» se o indice introduzido estiver dentro do tamanho, «false»
      * caso o contrario.
      */
-    public boolean deleteItem(int i) throws RestauranteException{
+    public boolean deleteItem(int i) throws RestaurantException{
         if(i > itemList.size())
-            throw new RestauranteException("ERRO: Número fora do indice da lista de itens.");
+            throw new RestaurantException("ERRO: Número fora do indice da lista de itens.");
 
         for(Iterator<Item> it = itemList.iterator(); it.hasNext(); ){
             Item temp = it.next();
@@ -89,7 +89,7 @@ public class Order implements Serializable{
         System.out.println(this);
     }
     
-    public void setState(orderState state) throws RestauranteException{
+    public void setState(orderState state) throws RestaurantException{
         switch(state){
             case OPEN:  case PREPARATION:
             case SERVED: case CLOSED:
@@ -97,7 +97,7 @@ public class Order implements Serializable{
                 return;
         }
         
-        throw new RestauranteException("ERRO: Estado do pedido inserido é inválido!");
+        throw new RestaurantException("ERRO: Estado do pedido inserido é inválido!");
     }
 
     public String showState(){

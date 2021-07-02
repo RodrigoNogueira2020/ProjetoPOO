@@ -1,27 +1,23 @@
 package projetopoo.pkg2fase;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import projetopoo.pkg2fase.RestaurantFileHandler;
 
-/**
- *
- * @author Ricardo Reis
- */
+
 public class ProjetoPOO2fase extends Application {
     
     private static Scene sceneWindow0, sceneWindow1, sceneWindow2,
-                         sceneWindow2ProductsDrink, sceneWindow2ProductsSnack, sceneWindow2ProductsDish, sceneWindow2ProductsSweet;
+                         sceneWindow2ProductsDrink, sceneWindow2ProductsSnack,
+                         sceneWindow2ProductsDish, sceneWindow2ProductsSweet;
+    
     private static Stage primaryStage;
     
     public static Management management;
+    public static RestaurantFileHandler fileHandler;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -52,7 +48,7 @@ public class ProjetoPOO2fase extends Application {
         sceneWindow2ProductsDish = new Scene(parentWindow2ProductsDish);
         sceneWindow2ProductsSnack = new Scene(parentWindow2ProductsSnack);
         
-        management = readSerializedFile("savedata.bin");
+        management = RestaurantFileHandler.readSerializedFile("savedata.bin");
         
         stage.setScene(sceneWindow0);
         stage.show();
@@ -86,41 +82,9 @@ public class ProjetoPOO2fase extends Application {
                 break;
         }
     }
-    
-    public static void saveFile(Management management, String filename){
-        try{
-            ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(filename));
-            oos.writeObject(management);
-            oos.flush();
-            oos.close();
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    public static Management readSerializedFile(String filename){
-        Management management;
-        
-        try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
-            management = (Management)ois.readObject();
-            ois.close();
-            
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            management = new Management();
-            
-        }catch(ClassNotFoundException e){
-            System.out.println(e.getMessage());
-            management = new Management();
-            
-        }
-        
-        return management;
-    }
 
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

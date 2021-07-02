@@ -31,15 +31,15 @@ public class Management implements Serializable{
         return tableList[i];
     }
     
-    public void addTables(int numberOfTables) throws RestauranteException{
+    public void addTables(int numberOfTables) throws RestaurantException{
         Table[] tableTemp;
         
         try{
             
             if(numberOfTables < 0)
-                throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
+                throw new RestaurantException("ERRO: Número de mesas precisa de ser um valor positivo!");
             else if(numberOfTables < 4)
-                throw new RestauranteException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
+                throw new RestaurantException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
             
             tableTemp = new Table[tableList.length + numberOfTables];
 
@@ -68,7 +68,11 @@ public class Management implements Serializable{
             
         }
     }
-    
+
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
     // Todo: Remover
     private void setNumberOfTables(){
         InputReader scan = new InputReader();
@@ -81,9 +85,9 @@ public class Management implements Serializable{
                 try{
                     numberOfTables = scan.getInt("Quantas mesas pretende adicionar?");
                     if(numberOfTables < 0)
-                        throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
+                        throw new RestaurantException("ERRO: Número de mesas precisa de ser um valor positivo!");
                     
-                }catch(RestauranteException e){
+                }catch(RestaurantException e){
                     System.err.println(e.getMessage());
 
                 }
@@ -101,10 +105,10 @@ public class Management implements Serializable{
                 try{
                     numberOfTables = scan.getInt("Quantas mesas tem o restaurante?");
                     if(numberOfTables < 0)
-                        throw new RestauranteException("ERRO: Número de mesas precisa de ser um valor positivo!");
+                        throw new RestaurantException("ERRO: Número de mesas precisa de ser um valor positivo!");
                     else if(numberOfTables < 4)
-                        throw new RestauranteException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
-                }catch(RestauranteException e){
+                        throw new RestaurantException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
+                }catch(RestaurantException e){
                     System.err.println(e.getMessage());
 
                 }
@@ -116,248 +120,22 @@ public class Management implements Serializable{
         
     }
 
-    public void menu() {
-        setNumberOfTables();
-        int option=0;
-        InputReader scan = new InputReader();
-        
-        do {
-            try{
-                Menu.mainMenu();
-                option = scan.getInt("Escolha uma opção: ");
-
-                switch (option) {
-                    case 0:
-                        break;
-                    case 1:
-                        addProduct();
-                        break;
-                    case 2:
-                        removeProduct();
-                        break;
-                    case 3:
-                        Menu.listProducts(productList);
-                        break;
-                    case 4:
-                        bookTable();
-                        break;
-                    case 5:
-                        editTable(selectTable());
-                        break;
-                    case 6:
-                        viewPastOrders();
-                        break;
-                    default:
-                        throw new RestauranteException("ERRO: Opção inválida!");
-                }
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-
-            }
-            
-        } while (option != 0);
-    }
-
     /**
      *
-     * @param newProduct Product a ser introduzido na lista, verifica se o NOME
+     * @param productName Product a ser introduzido na lista, verifica se o NOME
      * de um produto já existe.
-     * @return true - se já houver um produto com o mesmo NOME
      */
-    private void checkProductDuplicates(String productName) {
+    public void checkProductDuplicates(String productName) {
         for (Product elemento : productList)
-            if (elemento.getName().toLowerCase().equals(productName.toLowerCase()))
-                throw new RestauranteException("ERRO: Já existe um produto com esse nome!");
+            if (elemento.getName().toLowerCase().equals(productName.toLowerCase().trim()))
+                throw new RestaurantException("ERRO: Já existe um produto com esse nome!");
 
     }
     
-    public void addProduct() {
-        InputReader scan = new InputReader();
-        int option;
-        String productName;
-        double productPrice, productIva;
-        
-        while(true){
-            try{
-                Menu.mainMenuProducts();
-                option = scan.getInt("Que tipo de produto quer adicionar? ");
-                
-                if(option < 0 || option > 4)     
-                    throw new RestauranteException("ERRO! Opção inválida!");
-                else if(option == 0)
-                    return;
-                
-                //Verifica se o nome não está em branco ou se já existe um produto com o nome introduzido
-                do{
-                    try{
-                        productName = scan.getString("Nome");
-                        if("0".equals(productName))
-                            return;
-                        else if(productName == null || productName.trim().equals(""))
-                            throw new RestauranteException("ERRO: Nome não pode ficar em branco!");
-                        else{
-                            checkProductDuplicates(productName);
-                            break;
-                        }
-
-                    }catch(RestauranteException e){
-                        System.err.println(e.getMessage());
-                    }
-                }while(true);
-                
-                //Verifica se o preço não é zero ou número negativo
-                do{
-                    try{
-                        productPrice = scan.getDouble("Preço (€)");
-                        if(productPrice == 0)
-                            throw new RestauranteException("ERRO: Preço não pode ser zero!");
-                        else if(productPrice < 0)
-                            throw new RestauranteException("ERRO: Preço não pode ser negativo!");
-                        break;
-                    }catch(RestauranteException e){
-                        System.err.println(e.getMessage());
-                    }
-                }while(true);
-            
-                do{
-                    try{
-                        productIva = scan.getDouble("IVA (0-100%)");
-                        if(productIva > 100)
-                            throw new RestauranteException("ERRO: IVA não pode exceder os 100%!");
-                        else if(productIva < 0)
-                            throw new RestauranteException("ERRO: IVA não pode ser negativo!");
-                        break;
-                    }catch(RestauranteException e){
-                        System.err.println(e.getMessage());
-                    }
-                }while(true);
-                
-                break;
-                
-            }catch(RestauranteException e){
-                System.out.println(e.getMessage());
-            }
-        }
-
-        switch(option) {
-            case 1:
-                addDrink(productName, productPrice, productIva);
-                break;
-            case 2:
-                addSweet(productName, productPrice, productIva);
-                break;
-            case 3:
-                addDish(productName, productPrice, productIva);
-                break;
-            case 4:
-                addSnack(productName, productPrice, productIva);
-        }
+    public void addProduct(Product newProduct) {
+        productList.add(newProduct);
     }
-   
-    private void addDrink(String drinkName, double drinkPrice, double productIva) {
-        Drink drink = new Drink();
-        InputReader scan = new InputReader();
-        
-        drink.setName(drinkName);
-        drink.setPrice(drinkPrice);
-        drink.setIva(productIva);
-
-        while (true)
-            try{
-                drink.setCapacity(scan.getDouble("Capacidade da bebida (L)"));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-
-        while (true)
-            try{
-                drink.setHasAlcohol(scan.getString("Bebida alcoólica? (s/n)").toLowerCase().charAt(0));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-
-        productList.add(drink);
-        System.out.println("++ Bebida adicionada com sucesso! ++");
-        
-    }
-
-    private void addSweet(String sweetName, double sweetPrice, double productIva) {
-        Sweet sweet = new Sweet();
-        InputReader scan = new InputReader();
-        
-        sweet.setName(sweetName);
-        sweet.setPrice(sweetPrice);
-        sweet.setIva(productIva);
-        
-        while (true)
-            try{
-                sweet.setDescription(scan.getString("Descrição do doce"));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-        
-        while (true)
-            try{
-                sweet.setMadeInRestaurant(scan.getString("É feito no restaurante? (s/n)").toLowerCase().charAt(0));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-
-        productList.add(sweet);
-        System.out.println("++ Doce adicionado com sucesso! ++");
-    }
-
-    private void addDish(String dishName, double dishPrice, double productIva) {
-        Dish dish = new Dish();
-        InputReader scan = new InputReader();
-
-        dish.setName(dishName);
-        dish.setPrice(dishPrice);
-        dish.setIva(productIva);
-
-        while (true)
-            try{
-                dish.setDescription(scan.getString("Descrição do prato"));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-
-        productList.add(dish);
-        System.out.println("++ Prato adicionado com sucesso! ++");
-    }
-
-    private void addSnack(String snackName, double snackPrice, double productIva) {
-        Snack snack = new Snack();
-        InputReader scan = new InputReader();
-
-        snack.setName(snackName);
-        snack.setPrice(snackPrice);
-        snack.setIva(productIva);
-        
-        while (true)
-            try{
-                snack.setQuantity(scan.getInt("Quantidade do snack"));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-        while (true)
-            try{
-                snack.setIsSpicy(scan.getString("É picante? (s/n)").toLowerCase().charAt(0));
-                break;
-            }catch(RestauranteException e){
-                System.err.println(e.getMessage());
-            }
-
-        productList.add(snack);
-        System.out.println("++ Snack adicionado com sucesso! ++");
-    }
-
+    
     private void removeProduct(){
         int i;
         Menu.listProducts(productList);
@@ -371,9 +149,9 @@ public class Management implements Serializable{
                     return;
                 else if(i <= productList.size() && i >=0)
                     break;
-                throw new RestauranteException("ERRO: Indique o número do produto apresentado na lista!");
+                throw new RestaurantException("ERRO: Indique o número do produto apresentado na lista!");
                 
-            }catch(RestauranteException e){
+            }catch(RestaurantException e){
                 System.err.println(e.getMessage());
                 
             }
@@ -410,11 +188,11 @@ public class Management implements Serializable{
                 else if(tableList[i].isOccupied() && 0 <= i && i<= tableList.length)
                     break;
                 else if(i<= tableList.length && i >= 0 && tableList[i].getOrder() == null)
-                    throw new RestauranteException("ERRO: Mesa ainda não está reservada!");
+                    throw new RestaurantException("ERRO: Mesa ainda não está reservada!");
                 
             }catch(ArrayIndexOutOfBoundsException outOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
-            }catch(RestauranteException e){
+            }catch(RestaurantException e){
                 System.err.println(e.getMessage());
             }
         }
@@ -436,7 +214,7 @@ public class Management implements Serializable{
                             
                             getChar = scan.getString("Ainda não chegou a data/hora deste pedido, deseja cancelar o pedido? [s/n]").trim().toLowerCase().charAt(0);
                             if(getChar != 's' && getChar != 'n')
-                                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                                throw new RestaurantException("ERRO: Introduza apenas (s)im ou (n)ão!");
                             
                             else if(getChar == 's'){
                                 table.getOrder().closeOrder();
@@ -445,7 +223,7 @@ public class Management implements Serializable{
                                 
                             }
                             return false;
-                        }catch(RestauranteException e){
+                        }catch(RestaurantException e){
                             System.out.println(e.getMessage());
                         }
                 }else
@@ -463,7 +241,7 @@ public class Management implements Serializable{
                                 return true;
                             case 's':
                                 if(!table.getOrder().getState().equals(orderState.PREPARATION))
-                                    throw new RestauranteException("ERRO: Estado do pedido já está como servido!");
+                                    throw new RestaurantException("ERRO: Estado do pedido já está como servido!");
                                 else{
                                     table.getOrder().setState(orderState.SERVED);
                                     return false;
@@ -477,9 +255,9 @@ public class Management implements Serializable{
                             case '0':
                                 return false;
                             default:
-                                throw new RestauranteException("ERRO: Introduza (a), (s) ou (f) apenas.");
+                                throw new RestaurantException("ERRO: Introduza (a), (s) ou (f) apenas.");
                         }
-                    }catch(RestauranteException e){
+                    }catch(RestaurantException e){
                         System.err.println(e.getMessage());
                     }
                 }
@@ -526,12 +304,12 @@ public class Management implements Serializable{
                         if(productNumber == -1)
                             return;
                         else if(productNumber > productList.size() || productNumber < 0)
-                            throw new RestauranteException("ERRO: Indique o números correspondentes aos produtos apresentado na lista!");
+                            throw new RestaurantException("ERRO: Indique o números correspondentes aos produtos apresentado na lista!");
                         
                         
                         item.setProduct(productList.get(productNumber));
                         break;
-                    }catch(RestauranteException e){
+                    }catch(RestaurantException e){
                         System.err.println(e.getMessage());
                     }
                 }
@@ -544,14 +322,14 @@ public class Management implements Serializable{
                         if(productQuantity == 0)
                             return;
                         else if(productQuantity < 0)
-                            throw new RestauranteException("ERRO: Quantidade não pode ser negativa!");
+                            throw new RestaurantException("ERRO: Quantidade não pode ser negativa!");
                         else if(productQuantity == 0)
-                            throw new RestauranteException("ERRO: Quantidade não pode ser menor que zero!");
+                            throw new RestaurantException("ERRO: Quantidade não pode ser menor que zero!");
                         
                         item.setQuantity(productQuantity);
                         break;
                         
-                    }catch(RestauranteException e){
+                    }catch(RestaurantException e){
                         System.err.println(e.getMessage());
                     }
                 }
@@ -559,7 +337,7 @@ public class Management implements Serializable{
                 checkItemDuplicatesInTableOrder(table, item);
                 
                 System.out.println("++" + item.getProduct().getName() + " adicionado com sucesso!");
-            }catch(RestauranteException outOfBounds){
+            }catch(RestaurantException outOfBounds){
                 System.err.println(outOfBounds.getMessage());
             }
             
@@ -569,9 +347,9 @@ public class Management implements Serializable{
                 try{
                     getChar = scan.getString("Deseja adicionar mais? [s/n]").trim().toLowerCase().charAt(0);
                     if(getChar != 's' && getChar != 'n')
-                        throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
+                        throw new RestaurantException("ERRO: Introduza apenas (s)im ou (n)ão!");
                     break;
-                }catch(RestauranteException e){
+                }catch(RestaurantException e){
                     System.err.println(e.getMessage());
                 }
 
@@ -589,8 +367,8 @@ public class Management implements Serializable{
     private void bookTable(){
         try{
             if(!checkForUnoccupiedTables())
-                throw new RestauranteException("ERRO: Não há mesas disponíveis neste momento, feche um pedido.");
-        }catch(RestauranteException e){
+                throw new RestaurantException("ERRO: Não há mesas disponíveis neste momento, feche um pedido.");
+        }catch(RestaurantException e){
             System.err.println(e.getMessage());
             return;
         }
@@ -607,12 +385,12 @@ public class Management implements Serializable{
                 if(tableNumber == -1)
                     return;
                 else if(tableList[tableNumber].isOccupied() == true)
-                    throw new RestauranteException("ERRO: Mesa já está reservada!");
+                    throw new RestaurantException("ERRO: Mesa já está reservada!");
                 else if(tableNumber<= tableList.length && tableNumber >= 0 && !tableList[tableNumber].isOccupied())
                     break;
             }catch(ArrayIndexOutOfBoundsException OutOfBounds){
                 System.err.println("ERRO: Indique o número da mesa apresentado na lista!");
-            }catch(RestauranteException e){
+            }catch(RestaurantException e){
                 System.err.println(e.getMessage());
             }
         
@@ -657,7 +435,7 @@ public class Management implements Serializable{
                                 
                                 // Caso o utilizador se esqueça de introduzir o dia e/ou mês e/ou ano
                                 if(formattedDate == null || formattedDate[0] == null || formattedDate[1] == null || formattedDate[2] == null){
-                                    throw new RestauranteException("ERRO: Uma das partes da data está em falta!");
+                                    throw new RestaurantException("ERRO: Uma das partes da data está em falta!");
                                 }
 
                                 /*Verificar o ano introduzido*/
@@ -680,7 +458,7 @@ public class Management implements Serializable{
                                 try{
                                     reservationDate = reservationDate.withDayOfMonth(Integer.parseInt(formattedDate[0]));
                                     if(!reservationDate.isAfter(currentDate))
-                                        throw new RestauranteException("ERRO: Data introduzida deve ser posterior à data atual!");
+                                        throw new RestaurantException("ERRO: Data introduzida deve ser posterior à data atual!");
 
                                 }catch(DateTimeException diaErro){
                                     int verificarAnoBissexto = Integer.parseInt(formattedDate[2]);
@@ -691,11 +469,11 @@ public class Management implements Serializable{
                                         System.err.println("ERRO: Dia introduzido é inválido, verifique se o ano é bissexto!");
                                     hasErrors = true;
 
-                                }catch(RestauranteException dataAnterior){
+                                }catch(RestaurantException dataAnterior){
                                     System.err.println(dataAnterior.getMessage());
                                     hasErrors = true;
                                 }
-                            }catch(RestauranteException dataNull){
+                            }catch(RestaurantException dataNull){
                                 System.err.println(dataNull.getMessage());
                                 hasErrors = true;
                             }
@@ -723,11 +501,11 @@ public class Management implements Serializable{
                             /*Verificar as horas introduzidas*/
                             try{
                                 if(formattedDate[0].length() > 2)
-                                    throw new RestauranteException("ERRO: Hora não pode ter mais do que 2 algarismos!");
+                                    throw new RestaurantException("ERRO: Hora não pode ter mais do que 2 algarismos!");
                                 else
                                     reservationDate = reservationDate.withHour(Integer.parseInt(formattedDate[0]));
                                 
-                            }catch(RestauranteException horaErro){
+                            }catch(RestaurantException horaErro){
                                 System.out.println(horaErro.getMessage());
                                 hasErrors = true;
                                 
@@ -746,9 +524,9 @@ public class Management implements Serializable{
                                 reservationDate = reservationDate.withMinute(Integer.parseInt(formattedDate[1]));
                                 
                                 if(formattedDate[0].length() > 2)
-                                    throw new RestauranteException("ERRO: Os minutos não podem ter mais do que 2 algarismos!");
+                                    throw new RestaurantException("ERRO: Os minutos não podem ter mais do que 2 algarismos!");
                                 else if(!reservationDate.isAfter(currentDate))
-                                    throw new RestauranteException("ERRO: Data introduzida deve ser posterior à data atual!");
+                                    throw new RestaurantException("ERRO: Data introduzida deve ser posterior à data atual!");
                                 
                             }catch(DateTimeException minuto){
                                 System.err.println("ERRO: Minuto introduzido é inválido!");
@@ -758,7 +536,7 @@ public class Management implements Serializable{
                                 System.err.println("ERRO: Os minutos introduzidos não estam formatados conforme especificado ou foram introduzidos outros caracteres não releveantes! (HH:MM)");
                                 hasErrors = true;
                                 
-                            }catch(RestauranteException dataErro){
+                            }catch(RestaurantException dataErro){
                                 System.err.println(dataErro.getMessage());
                                 hasErrors = true;
                                 
@@ -792,13 +570,13 @@ public class Management implements Serializable{
                     else if(option <= orderHistory.getOrderList().size() && option >= 0)
                         System.out.println(orderHistory.getOrderList().get(option));
                     
-                }catch(RestauranteException e){
+                }catch(RestaurantException e){
                     System.err.println(e.getMessage());
                 }catch(IndexOutOfBoundsException outOfBounds){
                     System.err.println("ERRO: Introduza um número da lista!");
                 }
             }
-        }catch(RestauranteException e){
+        }catch(RestaurantException e){
             System.err.println(e.getMessage());
         }
     }

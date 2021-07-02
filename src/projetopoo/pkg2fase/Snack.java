@@ -30,9 +30,9 @@ public class Snack extends Product implements Serializable{
 
     public void setQuantity(int quantity) {
         if(quantity < 0)
-            throw new RestauranteException("ERRO: O snack não pode ter uma quantidade negativa!");
+            throw new RestaurantException("ERRO: O snack não pode ter uma quantidade negativa!");
         else if(quantity == 0)
-            throw new RestauranteException("ERRO: O snack não pode ter uma quantidade de zero!");
+            throw new RestaurantException("ERRO: O snack não pode ter uma quantidade de zero!");
         
         this.quantity = quantity;
     }
@@ -41,21 +41,12 @@ public class Snack extends Product implements Serializable{
      *  Muda se tem picante para o estado oposto, se tiver picante muda para que
      * nao tenha e vice-versa
      */
-    public void setIsSpicy() {
+    public void toggleIsSpicy() {
         isSpicy = !isSpicy;
     }
     
-    public void setIsSpicy(char spicy) {
-        switch(spicy){
-            case 's':case 'S':
-                isSpicy = true;
-                break;
-            case 'n':case 'N':
-                isSpicy = false;
-                break;
-            default:
-                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
-        }
+    public void setIsSpicy(boolean isSpicy) {
+        this.isSpicy = isSpicy;
     }
     
     public int getQuantity() {

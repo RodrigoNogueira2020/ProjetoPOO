@@ -50,15 +50,13 @@ public class RestaurantFileHandler {
         }
     }
     
-    public void saveFile(Management management, String filename) {
-        try {
-            File destination = makeAbsoluteFilename(filename);
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(destination));
+    public static void saveFile(Management management,String filename){
+        try{
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
             oos.writeObject(management);
             oos.flush();
             oos.close();
-            
-        } catch (IOException e) {
+        }catch(IOException e){
             System.out.println(e.getMessage());
         }
     }
@@ -68,20 +66,22 @@ public class RestaurantFileHandler {
      * @param filename Nome do ficheiro com dados guardados
      * @return management o objeto da classe Management
      */
-    public Management readSerializedFile(String filename) {
+    public static Management readSerializedFile(String filename){
         Management management;
-
-        try {
-            File destination = makeAbsoluteFilename(filename);
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(destination));
+        try{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
             management = (Management) ois.readObject();
             ois.close();
             
-            return management;
+        }catch(IOException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+            management = new Management();
             
-        } catch (IOException | ClassNotFoundException e) {
-            return null;
         }
+        
+        return management;
     }
+    
+    
     
 }

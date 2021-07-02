@@ -31,24 +31,15 @@ public class Sweet extends Product implements Serializable{
         if (description != null && !description.trim().equals(""))
             this.description = description.trim();
         else
-            throw new RestauranteException("ERRO: O doce precisa de uma descrição!");
+            throw new RestaurantException("ERRO: O doce precisa de uma descrição!");
     }
 
-    public void setMadeInRestaurant() {
+    public void toggleMadeInRestaurant() {
         madeInRestaurant = !madeInRestaurant;
     }
     
-    public void setMadeInRestaurant(char res) {
-        switch(res){
-            case 's':case 'S':
-                madeInRestaurant = true;
-                break;
-            case 'n':case 'N':
-                madeInRestaurant = false;
-                break;
-            default:
-                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
-        }
+    public void setMadeInRestaurant(boolean madeInRestaurant) {
+        this.madeInRestaurant = madeInRestaurant;
     }
 
     public boolean isMadeInRestaurant() {

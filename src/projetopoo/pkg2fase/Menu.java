@@ -36,14 +36,14 @@ public class Menu {
         int i = 0;
         try{
             if(productList.isEmpty())
-                throw new RestauranteException("ERRO: Ainda não foram introduzidos produtos!");
+                throw new RestaurantException("ERRO: Ainda não foram introduzidos produtos!");
             
             for(Product p: productList){
                 System.out.print(++i + ") ");
                 System.out.println(p);
             }
             
-        }catch(RestauranteException e){
+        }catch(RestaurantException e){
             System.err.println(e.getMessage());
         }
     }
@@ -61,7 +61,7 @@ public class Menu {
         
         switch(history.getOrderList().size()){
             case 0:
-                throw new RestauranteException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
+                throw new RestaurantException("ERRO: Ainda não há pedidos, feche um para que seja adicionado aqui!");
             default:
                 for(Order o: history.getOrderList())
                     System.out.println(++i + ") " + o.getOpenHourFormatted() + " - " + o.getCloseHourFormatted());

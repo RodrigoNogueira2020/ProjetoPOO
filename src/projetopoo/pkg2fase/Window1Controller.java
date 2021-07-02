@@ -5,6 +5,7 @@
  */
 package projetopoo.pkg2fase;
 
+import javafx.scene.text.Font;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,13 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import static projetopoo.pkg2fase.ProjetoPOO2fase.management;
-import static projetopoo.pkg2fase.ProjetoPOO2fase.saveFile;
+import static projetopoo.pkg2fase.RestaurantFileHandler.saveFile;
 
-/**
- * FXML Controller class
- *
- * @author Ricardo Reis
- */
+
 public class Window1Controller implements Initializable {
 
     @FXML
@@ -33,6 +30,8 @@ public class Window1Controller implements Initializable {
     
     @FXML
     private Button btHistorico;
+    
+    int font = 0;
     
     @FXML
     private void btProdutosClicked(ActionEvent event) {
@@ -52,6 +51,8 @@ public class Window1Controller implements Initializable {
     @FXML
     private void btSairClicked(ActionEvent event) {
         saveFile(management, "savedata.bin");
+        if(++font >= 3)
+            lblNomeRestaurante.setFont(Font.font("Comic Sans MS", 33));
     }
     
     @Override

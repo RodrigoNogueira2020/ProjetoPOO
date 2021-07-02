@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="477.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="projetopoo.pkg2fase.Window2ProductsDishController">
+<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetopoo.pkg2fase.Window2ProductsDishController">
    <children>
       <TextField fx:id="txtProdutoNome" layoutX="187.0" layoutY="43.0" prefHeight="27.0" prefWidth="189.0" />
       <Label layoutX="99.0" layoutY="197.0" prefHeight="27.0" prefWidth="88.0" text="Descrição:">
@@ -16,12 +15,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btGravarVoltar" layoutX="168.0" layoutY="307.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
+      <Button fx:id="btGravarVoltar" layoutX="31.0" layoutY="307.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="lblErro" layoutX="113.0" layoutY="280.0" prefHeight="27.0" prefWidth="251.0" />
+      <Label fx:id="lblErro" layoutX="14.0" layoutY="280.0" prefHeight="27.0" prefWidth="448.0" />
       <Label layoutX="56.0" layoutY="43.0" prefHeight="27.0" prefWidth="132.0" text="Nome do Prato:">
          <font>
             <Font size="18.0" />
@@ -50,5 +49,10 @@
          </font>
       </Label>
       <TextArea fx:id="txtProdutoDescricao" layoutX="187.0" layoutY="197.0" prefHeight="76.0" prefWidth="189.0" />
+      <Button fx:id="btCancelar" layoutX="306.0" layoutY="307.0" mnemonicParsing="false" onAction="#btCancelarClicked" prefHeight="39.0" prefWidth="141.0" text="Cancelar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

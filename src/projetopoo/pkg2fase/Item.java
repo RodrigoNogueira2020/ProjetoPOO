@@ -33,7 +33,7 @@ public class Item implements Serializable{
         if(product != null)
             this.product = product;
         else
-            throw new RestauranteException("ERRO: Produto introduzido é nulo!");
+            throw new RestaurantException("ERRO: Produto introduzido é nulo!");
     }
 
     public void setQuantity(int quantity) {

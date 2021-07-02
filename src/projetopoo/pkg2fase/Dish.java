@@ -11,11 +11,14 @@ import java.io.Serializable;
 public class Dish extends Product implements Serializable{
     private String description;
     
-    public Dish(String name, double price, double iva, String description) {
+    public Dish(String name, double price, double iva, String description) throws RestaurantException{
         super(name, price, iva);
         
         if(description != null || !description.trim().equals(""))
             this.description = description.trim();
+        else
+            throw new RestaurantException("ERRO: O prato precisa de uma descrição!");
+            
     }
     
     public Dish(){
@@ -26,7 +29,7 @@ public class Dish extends Product implements Serializable{
         if (descricao != null && !descricao.trim().equals(""))
             this.description = descricao.trim();
         else
-            throw new RestauranteException("ERRO: O prato precisa de uma descrição!");
+            throw new RestaurantException("ERRO: O prato precisa de uma descrição!");
     }
 
     public String getDescription() {

@@ -35,12 +35,12 @@
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Button fx:id="btGravarVoltar" layoutX="157.0" layoutY="334.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
+      <Button fx:id="btGravarVoltar" layoutX="20.0" layoutY="332.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="lblErro" layoutX="102.0" layoutY="293.0" prefHeight="27.0" prefWidth="251.0" />
+      <Label fx:id="lblErro" layoutX="7.0" layoutY="293.0" prefHeight="27.0" prefWidth="437.0" />
       <Label layoutX="26.0" layoutY="23.0" prefHeight="27.0" prefWidth="141.0" text="Nome da bebida:">
          <font>
             <Font size="18.0" />
@@ -68,5 +68,10 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Button fx:id="btCancelar" layoutX="307.0" layoutY="332.0" mnemonicParsing="false" onAction="#btCancelarClicked" prefHeight="39.0" prefWidth="141.0" text="Cancelar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -3,21 +3,20 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetopoo.pkg2fase.Window2ProductsSnackController">
+<AnchorPane id="AnchorPane" prefHeight="390.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetopoo.pkg2fase.Window2ProductsSnackController">
    <children>
       <TextField fx:id="txtProdutoNome" layoutX="177.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" />
-      <Label layoutX="89.0" layoutY="187.0" prefHeight="27.0" prefWidth="88.0" text="Descrição:">
+      <Label layoutX="77.0" layoutY="187.0" prefHeight="27.0" prefWidth="100.0" text="Quantidade:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <RadioButton fx:id="rbtNao" layoutX="180.0" layoutY="297.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" selected="true" text="Não">
+      <RadioButton fx:id="rbtNao" layoutX="180.0" layoutY="251.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" selected="true" text="Não">
          <font>
             <Font size="18.0" />
          </font>
@@ -25,17 +24,17 @@
             <ToggleGroup fx:id="snackGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rbtSim" layoutX="180.0" layoutY="270.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" text="Sim" toggleGroup="$snackGroup">
+      <RadioButton fx:id="rbtSim" layoutX="180.0" layoutY="224.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" text="Sim" toggleGroup="$snackGroup">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Button fx:id="btGravarVoltar" layoutX="168.0" layoutY="431.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
+      <Button fx:id="btGravarVoltar" layoutX="21.0" layoutY="317.0" mnemonicParsing="false" onAction="#btGravarVoltarClicked" text="Gravar e voltar">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="lblErro" layoutX="113.0" layoutY="398.0" prefHeight="27.0" prefWidth="251.0" />
+      <Label fx:id="lblErro" layoutX="14.0" layoutY="290.0" prefHeight="27.0" prefWidth="452.0" />
       <Label layoutX="46.0" layoutY="33.0" prefHeight="27.0" prefWidth="132.0" text="Nome do Snack:">
          <font>
             <Font size="18.0" />
@@ -63,11 +62,16 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="txtProdutoDescricao" layoutX="177.0" layoutY="187.0" prefHeight="76.0" prefWidth="189.0" />
-      <Label layoutX="101.0" layoutY="270.0" prefHeight="27.0" prefWidth="64.0" text="Picante:">
+      <Label layoutX="112.0" layoutY="224.0" prefHeight="27.0" prefWidth="64.0" text="Picante:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <TextField fx:id="txtProdutoQuantidade" layoutX="177.0" layoutY="188.0" prefHeight="25.0" prefWidth="189.0" />
+      <Button fx:id="btCancelar" layoutX="316.0" layoutY="317.0" mnemonicParsing="false" onAction="#btCancelarClicked" prefHeight="39.0" prefWidth="141.0" text="Cancelar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -33,30 +33,21 @@ public class Drink extends Product implements Serializable{
         if (capacity > 0)
             this.capacity = capacity;
         else if(capacity < 0)
-            throw new RestauranteException("ERRO: A capacidade da bebida não pode ser negativa!");
+            throw new RestaurantException("ERRO: A capacidade da bebida não pode ser negativa!");
         else if(capacity < 0.33)
-            throw new RestauranteException("ERRO: A capacidade da bebida tem de ter, pelo menos, 0,33L.");
+            throw new RestaurantException("ERRO: A capacidade da bebida tem de ter, pelo menos, 0,33L.");
     }
 
     /**
      * Muda se tem alcool para o estado oposto, se tiver alcool muda para que
      * nao tenha e vice-versa
      */
-    public void setHasAlcohol() {
+    public void toggleHasAlcohol() {
         hasAlcohol = !hasAlcohol;
     }
     
-    public void setHasAlcohol(char alc) {
-        switch(alc){
-            case 's':case 'S':
-                hasAlcohol = true;
-                break;
-            case 'n':case 'N':
-                hasAlcohol = false;
-                break;
-            default:
-                throw new RestauranteException("ERRO: Introduza apenas (s)im ou (n)ão!");
-        }
+    public void setHasAlcohol(boolean hasAlcohol) {
+        this.hasAlcohol = hasAlcohol;
     }
 
     public double getCapacity() {
