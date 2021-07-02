@@ -136,30 +136,11 @@ public class Management implements Serializable{
         productList.add(newProduct);
     }
     
-    private void removeProduct(){
-        int i;
-        Menu.listProducts(productList);
-        InputReader scan = new InputReader();
-        
-        while(true)
-            try{
-                i = scan.getInt("Introduza o número do produto que deseja remover");
-                --i;
-                if(i == -1)
-                    return;
-                else if(i <= productList.size() && i >=0)
-                    break;
-                throw new RestaurantException("ERRO: Indique o número do produto apresentado na lista!");
-                
-            }catch(RestaurantException e){
-                System.err.println(e.getMessage());
-                
-            }
-        // for(int i = 0; i < 5; i++)
+    public void removeProduct(Product i){
         for(Iterator<Product> it = productList.iterator(); it.hasNext(); )
-            if ( it.next().getName().equals( productList.get(i).getName() ) ) {
+            if ( it.next().getName().equals( i.getName() ) ) {
                 
-                System.out.println("--" + productList.get(i).getName() + " removido com sucesso!");
+                System.out.println("--" + i.getName() + " removido com sucesso!");
                 it.remove();
                 
                 break;

@@ -31,8 +31,6 @@ public class Window1Controller implements Initializable {
     @FXML
     private Button btHistorico;
     
-    int font = 0;
-    
     @FXML
     private void btProdutosClicked(ActionEvent event) {
         ProjetoPOO2fase.changeScreen(2);
@@ -51,8 +49,6 @@ public class Window1Controller implements Initializable {
     @FXML
     private void btSairClicked(ActionEvent event) {
         saveFile(management, "savedata.bin");
-        if(++font >= 3)
-            lblNomeRestaurante.setFont(Font.font("Comic Sans MS", 33));
     }
     
     @Override

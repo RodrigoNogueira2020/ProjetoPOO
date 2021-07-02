@@ -42,7 +42,12 @@ public class Window2ProductsController implements Initializable {
     @FXML
     private Label lblErro;
 
-    Product product;
+    public Product product;
+    
+    public Product getProduct(){
+        return product;
+    }
+    
     
     @FXML
     private void btAtualizarDetalhesGeraisClicked(ActionEvent event) {
@@ -59,6 +64,11 @@ public class Window2ProductsController implements Initializable {
         }catch(RestaurantException e){
             lblErro.setText(e.getMessage());
         }
+    }
+    
+    @FXML
+    private void btApagarClicked(ActionEvent event) {
+        management.removeProduct(product);
     }
     
     @FXML

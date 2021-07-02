@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import projetopoo.pkg2fase.RestaurantFileHandler;
 
 
 public class ProjetoPOO2fase extends Application {
