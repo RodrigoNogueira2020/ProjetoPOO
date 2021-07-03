@@ -32,7 +32,7 @@ public class Window2ProductsDrinkController implements Initializable {
     
     @FXML
     private RadioButton rbtAlcoolica = new RadioButton("rbtAlcoolica");
-    Drink drinkTemporary = new Drink();
+    Drink drinkTemporary;
     
     @FXML
     private void btGravarVoltarClicked(ActionEvent event) {
@@ -40,7 +40,8 @@ public class Window2ProductsDrinkController implements Initializable {
         txtProdutoIVA.setText(txtProdutoIVA.getText().trim());
         
         try{
-            management.checkProductDuplicates(txtProdutoNome.getText().trim());
+            drinkTemporary = new Drink();
+            management.checkProductDuplicates(txtProdutoNome.getText().trim() );
             
             drinkTemporary.setName(txtProdutoNome.getText());
             drinkTemporary.setPrice(parseInt(txtProdutoPreco.getText()));

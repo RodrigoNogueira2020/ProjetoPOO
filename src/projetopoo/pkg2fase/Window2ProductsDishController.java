@@ -26,7 +26,7 @@ public class Window2ProductsDishController implements Initializable {
     
     @FXML
     private TextArea txtProdutoDescricao = new TextArea("txtProdutoDescricao");
-    Dish dishTemporary = new Dish();
+    Dish dishTemporary;
     
     @FXML
     private void btGravarVoltarClicked(ActionEvent event) {
@@ -34,6 +34,7 @@ public class Window2ProductsDishController implements Initializable {
         txtProdutoIVA.setText(txtProdutoIVA.getText().trim());
         
         try{
+            dishTemporary = new Dish();
             management.checkProductDuplicates(txtProdutoNome.getText().trim());
             
             dishTemporary.setName(txtProdutoNome.getText());

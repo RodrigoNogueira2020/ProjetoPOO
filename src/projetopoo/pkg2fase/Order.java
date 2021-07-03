@@ -140,6 +140,17 @@ public class Order implements Serializable{
     
     @Override
     public String toString(){
+        try{
+            return "Ocupada (" + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + ")";
+            
+        }catch(NullPointerException e){
+            return "Livre";
+            
+        }
+        
+    }
+    
+    public String toStringOLD(){
         String returnBill = "";
         
         returnBill += "== " + openHour.format(DateTimeFormatter.ofPattern("dd/MM/YYYY")) + " ==\n";

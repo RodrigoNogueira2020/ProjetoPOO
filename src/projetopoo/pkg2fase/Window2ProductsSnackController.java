@@ -41,7 +41,7 @@ public class Window2ProductsSnackController implements Initializable {
     // Picante -> Sim
     @FXML
     private RadioButton rbtSim = new RadioButton("rbtSim");
-    Snack snackTemporary = new Snack();
+    Snack snackTemporary;
     
     @FXML
     private void btGravarVoltarClicked(ActionEvent event) {
@@ -49,6 +49,7 @@ public class Window2ProductsSnackController implements Initializable {
         txtProdutoIVA.setText(txtProdutoIVA.getText().trim());
         
         try{
+            snackTemporary = new Snack();
             management.checkProductDuplicates(txtProdutoNome.getText().trim());
             
             snackTemporary.setName(txtProdutoNome.getText());

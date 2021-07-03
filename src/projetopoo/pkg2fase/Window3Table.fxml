@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetopoo.pkg2fase.Window3TableController">
-    
+<AnchorPane id="AnchorPane" prefHeight="632.0" prefWidth="1009.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetopoo.pkg2fase.Window3TableController">
+   <children>
+      <TableView fx:id="tbMesas" layoutX="14.0" layoutY="14.0" onMouseClicked="#btMesasClicked" prefHeight="604.0" prefWidth="228.0">
+        <columns>
+          <TableColumn fx:id="clMesaNumero" prefWidth="75.0" text="Mesa" />
+            <TableColumn fx:id="clMesaDataHora" prefWidth="152.0" text="Data/hora" />
+        </columns>
+      </TableView>
+      <Button fx:id="btVoltarWindow1" layoutX="916.0" layoutY="583.0" mnemonicParsing="false" onAction="#btVoltarWindow1Clicked" prefHeight="35.0" prefWidth="79.0" text="Voltar">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tbProdutosParaAdicionar" layoutX="264.0" layoutY="14.0" onMouseClicked="#tbProdutosParaAdicionarClicked" prefHeight="200.0" prefWidth="222.0">
+         <columns>
+            <TableColumn fx:id="clNome" prefWidth="113.0" text="Nome" />
+            <TableColumn fx:id="clPreco" prefWidth="56.0" text="Preço" />
+            <TableColumn fx:id="clIVA" prefWidth="45.0" text="IVA" />
+            <TableColumn fx:id="clNome1" prefWidth="113.0" text="Nome" />
+         </columns>
+      </TableView>
+      <Button fx:id="btAdicionarProdutoAoPedido" layoutX="508.0" layoutY="14.0" mnemonicParsing="false" onAction="#btAdicionarProdutoAoPedidoClicked" prefHeight="35.0" prefWidth="159.0" text="Adicionar →">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btRemoverProdutoAoPedido" layoutX="508.0" layoutY="67.0" mnemonicParsing="false" onAction="#btRemoverProdutoAoPedidoClicked" prefHeight="35.0" prefWidth="159.0" text="※ Remover ※">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tbProdutosAdicionados" layoutX="689.0" layoutY="14.0" onMouseClicked="#tbProdutosAdicionadosClicked" prefHeight="200.0" prefWidth="222.0">
+         <columns>
+            <TableColumn fx:id="clNome1" prefWidth="113.0" text="Nome" />
+            <TableColumn fx:id="clPreco1" prefWidth="56.0" text="Preço" />
+            <TableColumn fx:id="clIVA1" prefWidth="45.0" text="IVA" />
+            <TableColumn fx:id="clNome11" prefWidth="113.0" text="Nome" />
+         </columns>
+      </TableView>
+      <DatePicker layoutX="421.0" layoutY="356.0" />
+   </children>
 </AnchorPane>

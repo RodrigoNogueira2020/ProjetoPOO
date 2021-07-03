@@ -30,7 +30,7 @@ public class Window2ProductsSweetController implements Initializable {
     private TextArea txtProdutoDescricao = new TextArea("txtProdutoDescricao");
     @FXML
     private RadioButton feitoNoRestaurante = new RadioButton("rbtSim");
-    Sweet sweetTemporary = new Sweet();
+    Sweet sweetTemporary;
     
     @FXML
     private void btGravarVoltarClicked(ActionEvent event) {
@@ -38,6 +38,7 @@ public class Window2ProductsSweetController implements Initializable {
         txtProdutoIVA.setText(txtProdutoIVA.getText().trim());
         
         try{
+            sweetTemporary = new Sweet();
             management.checkProductDuplicates(txtProdutoNome.getText().trim());
             
             sweetTemporary.setName(txtProdutoNome.getText());

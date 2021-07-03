@@ -38,7 +38,7 @@ public class Window1Controller implements Initializable {
     
     @FXML
     private void btMesasClicked(ActionEvent event) {
-        ProjetoPOO2fase.changeScreen(1);
+        ProjetoPOO2fase.changeScreen(3);
     }
     
     @FXML

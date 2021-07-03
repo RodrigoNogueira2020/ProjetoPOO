@@ -73,62 +73,31 @@ public class Management implements Serializable{
         return productList;
     }
 
-    // Todo: Remover
-    private void setNumberOfTables(){
-        InputReader scan = new InputReader();
-        int numberOfTables  = -1;
-
-        try{
-            numberOfTables = tableList.length;
-            numberOfTables = -1;
-            while (numberOfTables < 0)
-                try{
-                    numberOfTables = scan.getInt("Quantas mesas pretende adicionar?");
-                    if(numberOfTables < 0)
-                        throw new RestaurantException("ERRO: Número de mesas precisa de ser um valor positivo!");
-                    
-                }catch(RestaurantException e){
-                    System.err.println(e.getMessage());
-
-                }
-            
-            switch(numberOfTables){
-                case 0:
-                    break;
-                default:
-                    addTables(numberOfTables);
-            }
-            
-        }catch(NullPointerException noTablesSet){
-            
-            while (numberOfTables < 4)
-                try{
-                    numberOfTables = scan.getInt("Quantas mesas tem o restaurante?");
-                    if(numberOfTables < 0)
-                        throw new RestaurantException("ERRO: Número de mesas precisa de ser um valor positivo!");
-                    else if(numberOfTables < 4)
-                        throw new RestaurantException("ERRO: Número de mesas precisa de ser, no minimo, 4!");
-                }catch(RestaurantException e){
-                    System.err.println(e.getMessage());
-
-                }
-
-            tableList = new Table[numberOfTables];
-            for(int i=0; i < tableList.length; i++)
-                tableList[i] = new Table(i);
-        }
-        
-    }
-
     /**
-     *
-     * @param productName Product a ser introduzido na lista, verifica se o NOME
-     * de um produto já existe.
+     * Verifica se o NOME de um produto já existe,
+     * utilizado quando se introduz um produto pela primeira vez.
+     * 
+     * @param productName Product a ser introduzido na lista
      */
     public void checkProductDuplicates(String productName) {
         for (Product elemento : productList)
             if (elemento.getName().toLowerCase().equals(productName.toLowerCase().trim()))
                 throw new RestaurantException("ERRO: Já existe um produto com esse nome!");
+
+    }
+    
+    public void checkProductDuplicates(Product newProduct, int index) {
+        ArrayList<Product> temporaryProductList = productList;
+        temporaryProductList.set(index, newProduct);
+        int i = 0;
+        
+        for(Product elemento : productList)
+            if(elemento.getName().equals(newProduct.getName()))
+                ++i;
+            else switch(i){
+                case 2:
+                    throw new RestaurantException("ERRO: Já existe um produto com esse nome!");
+            }
 
     }
     

@@ -43,16 +43,16 @@ public class Window2ProductsController implements Initializable {
     private Label lblErro;
 
     public Product product;
+    public int productIndex;
     
     public Product getProduct(){
         return product;
     }
-    
-    
+        
     @FXML
     private void btAtualizarDetalhesGeraisClicked(ActionEvent event) {
         try{
-            management.checkProductDuplicates(txtProdutoNome.getText());
+            management.checkProductDuplicates(product, productIndex);
             System.out.print(product.getName() + " -> ");
             for(Product p: management.getProductList())
                 if(p.getName().equals(product.getName())){
@@ -61,6 +61,7 @@ public class Window2ProductsController implements Initializable {
                     p.setIva(parseDouble(txtProdutoIVA.getText()));
                 }
             System.out.println(product.getName());
+            fillTbProducts();
         }catch(RestaurantException e){
             lblErro.setText(e.getMessage());
         }
@@ -73,16 +74,18 @@ public class Window2ProductsController implements Initializable {
     
     @FXML
     private void btProductClicked(MouseEvent event) {
+        fillTbProducts();
         try{
-            product = tbProdutos.getSelectionModel().getSelectedItem();
+            productIndex = tbProdutos.getSelectionModel().getSelectedIndex();
+            product = management.getProductList().get( productIndex );
 
             txtProdutoNome.setText(product.getName());
             txtProdutoPreco.setText(""+product.getPrice());
             txtProdutoIVA.setText(""+(int)(product.getIva()*100));
             System.out.println(product.getName());
             
-        }catch(NullPointerException e){
-            fillTbProducts(management.getProductList());
+        }catch(NullPointerException | ArrayIndexOutOfBoundsException e){
+            System.out.println(e.getMessage());
         }
     }
     
@@ -107,21 +110,17 @@ public class Window2ProductsController implements Initializable {
     }
     
     @FXML
-    private void btProdutosClicked(ActionEvent event) {
-        ProjetoPOO2fase.changeScreen(1);
-    }
-    
-    @FXML
     private void btVoltarWindow1Clicked(ActionEvent event) {
         ProjetoPOO2fase.changeScreen(1);
     }
     
     @FXML
     private void mostrarProdutosClicked(ActionEvent event) {
-        fillTbProducts(management.getProductList());
+        fillTbProducts();
     }
     
-    private void fillTbProducts(ArrayList<Product> arr){
+    private void fillTbProducts(){
+        ArrayList<Product> arr = management.getProductList();
         tbProdutos.refresh();
         ObservableList<Product> data = FXCollections.observableArrayList(arr);
         

@@ -11,7 +11,8 @@ public class ProjetoPOO2fase extends Application {
     
     private static Scene sceneWindow0, sceneWindow1, sceneWindow2,
                          sceneWindow2ProductsDrink, sceneWindow2ProductsSnack,
-                         sceneWindow2ProductsDish, sceneWindow2ProductsSweet;
+                         sceneWindow2ProductsDish, sceneWindow2ProductsSweet,
+                         sceneWindow3Table;
     
     private static Stage primaryStage;
     
@@ -27,6 +28,7 @@ public class ProjetoPOO2fase extends Application {
         FXMLLoader window2ProductsSweet = new FXMLLoader(getClass().getResource("Window2ProductsSweet.fxml"));
         FXMLLoader window2ProductsDish = new FXMLLoader(getClass().getResource("Window2ProductsDish.fxml"));
         FXMLLoader window2ProductsSnack = new FXMLLoader(getClass().getResource("Window2ProductsSnack.fxml"));
+        FXMLLoader window3Table = new FXMLLoader(getClass().getResource("Window3Table.fxml"));
         
         primaryStage = stage;
         primaryStage.setTitle("Restaurante");
@@ -38,6 +40,7 @@ public class ProjetoPOO2fase extends Application {
         Parent parentWindow2ProductsSweet = window2ProductsSweet.load();
         Parent parentWindow2ProductsDish = window2ProductsDish.load();
         Parent parentWindow2ProductsSnack = window2ProductsSnack.load();
+        Parent parentWindow3Table = window3Table.load();
         
         sceneWindow0 = new Scene(parentWindow0);
         sceneWindow1 = new Scene(parentWindow1);
@@ -46,6 +49,7 @@ public class ProjetoPOO2fase extends Application {
         sceneWindow2ProductsSweet = new Scene(parentWindow2ProductsSweet);
         sceneWindow2ProductsDish = new Scene(parentWindow2ProductsDish);
         sceneWindow2ProductsSnack = new Scene(parentWindow2ProductsSnack);
+        sceneWindow3Table = new Scene(parentWindow3Table);
         
         management = RestaurantFileHandler.readSerializedFile("savedata.bin");
         
@@ -78,6 +82,9 @@ public class ProjetoPOO2fase extends Application {
                 break;
             case 24:
                 primaryStage.setScene(sceneWindow2ProductsSnack);
+                break;
+            case 3:
+                primaryStage.setScene(sceneWindow3Table);
                 break;
         }
     }

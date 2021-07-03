@@ -64,16 +64,12 @@ public class Table implements Serializable{
         return occupied;
     }
     
-    private String occupied(){
-        if(occupied)
-            return "Ocupada -> " + order.getOpenHourFormatted();
-        
-        return "Livre";
-    }
-    
     @Override
     public String toString(){
-        return "Mesa " + (tableNumber+1) + " | " + occupied();
+        if(occupied)
+            return "Ocupada";
+        
+        return "Livre";
     }
     
 }

@@ -8,4 +8,19 @@ package projetopoo.pkg2fase;
 
 public enum orderState {
     OPEN, PREPARATION, SERVED, CLOSED;
+    
+    @Override
+    public String toString(){
+        switch(this){
+            case OPEN:
+                return "aberto";
+            case PREPARATION:
+                return "em preparação";
+            case SERVED:
+                return "servido";
+             case CLOSED:
+                return "fechado";
+        }
+        return "";
+    }
 }
