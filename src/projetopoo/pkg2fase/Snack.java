@@ -64,11 +64,4 @@ public class Snack extends Product implements Serializable{
         return "";
     }
     
-    @Override
-    public String toString(){
-        return "Snack  -> " + super.toString() + "| " + 
-               "Quantidade: " + getQuantity() + " | " +
-               spiciness();
-    }
-    
 }

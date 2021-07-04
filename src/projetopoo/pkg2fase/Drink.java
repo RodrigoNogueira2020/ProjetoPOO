@@ -65,11 +65,4 @@ public class Drink extends Product implements Serializable{
         return "Bebida não álcoolica";
     }
 
-    @Override
-    public String toString(){
-        return "Bebida -> " + super.toString() +
-               "| Capacidade: " + capacity + " L | " +
-               isAlchoolic();
-    }
-
 }

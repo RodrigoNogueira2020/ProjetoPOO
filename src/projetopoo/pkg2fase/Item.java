@@ -24,7 +24,7 @@ public class Item implements Serializable{
         if(product != null)
             this.product = product;
         
-        if(quantity > 0)
+        if(quantity >= 0)
             this.quantity = quantity;
             
     }

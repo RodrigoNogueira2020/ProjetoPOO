@@ -92,13 +92,9 @@ public abstract class Product implements Serializable{
         return iva;
     }
     
-    
     @Override
     public String toString() {
-        return "Nome: " + name + 
-               " | Preco: " + price + 
-               " (com IVA: " + (price + (price * iva)) + ")" +
-               " | IVA: " + (int)(iva * 100) + " ";
+        return name;
     }
 
 }

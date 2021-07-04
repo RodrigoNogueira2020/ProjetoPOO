@@ -72,6 +72,10 @@ public class Order implements Serializable{
             if (temp.equals(itemList.get(i))) {
                 System.out.println("--" + itemList.get(i).getProduct().getName() + " removido com sucesso!");
                 it.remove();
+                if(itemList.isEmpty()){
+                    this.state = orderState.OPEN;
+                    openHour = null;
+                }
                 return true;
             }
         }

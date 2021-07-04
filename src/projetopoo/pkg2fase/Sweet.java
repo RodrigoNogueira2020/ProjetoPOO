@@ -55,11 +55,5 @@ public class Sweet extends Product implements Serializable{
             return "Feito no restaurante";
         return "";
     }
-    
-    @Override
-    public String toString() {
-        return "Doce   -> " + super.toString() + "| " +
-                description + " | "+ madeInRestaurant();
-    }
 
 }

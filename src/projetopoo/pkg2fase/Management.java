@@ -86,13 +86,22 @@ public class Management implements Serializable{
 
     }
     
-    public void checkProductDuplicates(Product newProduct, int index) {
+    /**
+     * Cria uma cópia da lista de produtos e substitui o produto com os valores editados
+     * pelo produto original de forma a que, caso o nome alterado coincida com um produto
+     * já existente, é lançada uma exceção.
+     * @param editedProduct Produto com valores alterados
+     * @param index O indice do produto alterado
+     * @throws RestaurantException Se o novo nome de um produto já existente coincidir com
+     * o nome de outro produto.
+     */
+    public void checkProductDuplicates(Product editedProduct, int index) throws RestaurantException{
         ArrayList<Product> temporaryProductList = productList;
-        temporaryProductList.set(index, newProduct);
+        temporaryProductList.set(index, editedProduct);
         int i = 0;
         
         for(Product elemento : productList)
-            if(elemento.getName().equals(newProduct.getName()))
+            if(elemento.getName().equals(editedProduct.getName()))
                 ++i;
             else switch(i){
                 case 2:
@@ -218,6 +227,26 @@ public class Management implements Serializable{
     }
     
     private void checkItemDuplicatesInTableOrder(Table table, Item item){
+        
+        switch(table.getOrder().getItemList().size()){
+            case 0:
+                table.getOrder().addItem(item);
+                return;
+        }
+        
+        for(int i = 0; i < table.getOrder().getItemList().size(); i++)
+            if(table.getOrder().getItemList().get(i).getProduct().getName().equals(item.getProduct().getName())){
+                table.getOrder().getItemList().get(i).addQuantity(item.getQuantity());
+                return;
+            }
+        table.getOrder().addItem(item);
+    }
+    
+    public void isItemDuplicate(Table table, Item item){
+        
+        System.out.println(table.getOrder());
+        System.out.println(table.getOrder().getItemList());
+        System.out.println(table.getOrder().getItemList().size());
         
         switch(table.getOrder().getItemList().size()){
             case 0:

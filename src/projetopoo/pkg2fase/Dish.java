@@ -35,11 +35,5 @@ public class Dish extends Product implements Serializable{
     public String getDescription() {
         return description;
     }
-    
-    @Override
-    public String toString(){
-        return "Prato  -> " + super.toString() + "| " + 
-               description;
-    }
        
 }
