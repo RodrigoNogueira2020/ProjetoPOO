@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -45,21 +47,50 @@
             <TableColumn fx:id="clQuantidadePedido" prefWidth="108.0" text="Quantidade" />
          </columns>
       </TableView>
-      <AnchorPane layoutX="279.0" layoutY="325.0">
+      <AnchorPane layoutX="285.0" layoutY="317.0">
          <children>
             <DatePicker fx:id="datePickerReserva" prefHeight="25.0" prefWidth="200.0" />
-            <TextField fx:id="txtMinutos" alignment="CENTER" layoutX="110.0" layoutY="28.0" prefHeight="25.0" prefWidth="90.0" />
             <Label alignment="CENTER" layoutX="89.0" layoutY="32.0" prefHeight="17.0" prefWidth="23.0" text=":" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="txtHora" alignment="CENTER" layoutY="28.0" prefHeight="25.0" prefWidth="90.0" />
+            <ComboBox fx:id="cbBoxHour" layoutY="28.0" prefHeight="25.0" prefWidth="90.0" />
+            <ComboBox fx:id="cbBoxMinute" layoutX="110.0" layoutY="28.0" prefHeight="25.0" prefWidth="90.0" />
          </children>
       </AnchorPane>
       <Label layoutX="264.0" layoutY="217.0" prefHeight="17.0" prefWidth="102.0" text="Estado do pedido: " />
       <Label fx:id="lblEstadoPedido" layoutX="364.0" layoutY="217.0" prefHeight="17.0" prefWidth="118.0" />
       <Label layoutX="690.0" layoutY="218.0" prefHeight="17.0" prefWidth="63.0" text="Preço total:" />
       <Label fx:id="lblPreco" layoutX="752.0" layoutY="218.0" prefHeight="17.0" prefWidth="73.0" />
+      <RadioButton fx:id="rbtReservarAgora" layoutX="261.0" layoutY="262.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="228.0" selected="true" text="Reservar para agora">
+         <toggleGroup>
+            <ToggleGroup fx:id="dataReserva" />
+         </toggleGroup>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="rbtReservarMaisTarde" layoutX="261.0" layoutY="295.0" mnemonicParsing="false" text="Reservar para mais tarde" toggleGroup="$dataReserva">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Label fx:id="lblEstadoPedido1" layoutX="374.0" layoutY="227.0" prefHeight="17.0" prefWidth="118.0" />
+      <Label fx:id="lblErro" layoutX="258.0" layoutY="597.0" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btPassarAServido" layoutX="508.0" layoutY="139.0" mnemonicParsing="false" onAction="#btPassarAServidoClicked" prefHeight="35.0" prefWidth="159.0" text="Passar a servido" textFill="#0030ff">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btFecharPedido" layoutX="508.0" layoutY="183.0" mnemonicParsing="false" onAction="#btFecharPedidoClicked" prefHeight="35.0" prefWidth="159.0" text="Fechar o pedido" textFill="RED">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

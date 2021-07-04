@@ -1,5 +1,6 @@
 package projetopoo.pkg2fase;
 
+import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -49,12 +52,25 @@ public class Window3TableController implements Initializable {
     private TableColumn<Product, String> clQuantidadePedido;
     
     /* Labels */
-    
-    
     @FXML
     private Label lblEstadoPedido;
     @FXML
     private Label lblPreco;
+    @FXML
+    private Label lblErro;
+    
+    /* ComboBox */
+    @FXML
+    private ComboBox cbBoxHour = new ComboBox();
+    @FXML
+    private ComboBox cbBoxMinute = new ComboBox();
+    
+    /* Radiobuttons */
+    
+    @FXML
+    private RadioButton rbtReservarAgora = new RadioButton("rbtReservarAgora");
+    @FXML
+    private RadioButton rbtReservarMaisTarde = new RadioButton("rbtReservarMaisTarde");
     
     private Table table;
     private int tableIndex;
@@ -128,13 +144,37 @@ public class Window3TableController implements Initializable {
     
     @FXML
     private void btAdicionarProdutoAoPedidoClicked(ActionEvent event) {
-        item = new Item(product, 1);
-        management.getTable(tableIndex).getOrder().openOrder(LocalDateTime.now());
-        management.isItemDuplicate(table, item);
-        table.getOrder().setState(orderState.PREPARATION);
-        fillTbOrderProducts();
-        lblEstadoPedido.setText(table.getOrder().showState());
+        try{
+            if(rbtReservarAgora.isSelected())
+                management.getTable(tableIndex).getOrder().openOrder(LocalDateTime.now());
+            else{
+                LocalDateTime reservaData;
+                String data[] = datePickerReserva.getEditor().getText().split("-");
+
+                reservaData = LocalDateTime.of(parseInt(data[2]), // YYYY
+                                               parseInt(data[1]), // MM
+                                               parseInt(data[0]), // DD
+                                               parseInt(cbBoxHour.getSelectionModel().getSelectedItem().toString()),
+                                               parseInt(cbBoxMinute.getSelectionModel().getSelectedItem().toString()));
+
+                management.bookTable(table, reservaData);
+                management.getTable(tableIndex).getOrder().openOrder(reservaData);
+
+            }
+            item = new Item(product, 1);
+            management.isItemDuplicate(table, item);
+            table.getOrder().setState(orderState.PREPARATION);
+            
+            fillTbOrderProducts();
+            
+            lblEstadoPedido.setText(table.getOrder().showState());
+        }catch(ArrayIndexOutOfBoundsException e){
+            lblErro.setText("ERRO: Falta definir a data/hora!");
+        }catch(RestaurantException e){
+            lblErro.setText(e.getMessage());
+        }
     }
+    
     @FXML
     private void btRemoverProdutoAoPedidoClicked(ActionEvent event) {
         table.getOrder().deleteItem(productIndexInTableOrder);
@@ -159,9 +199,46 @@ public class Window3TableController implements Initializable {
         tbProdutosAdicionados.setItems(data);
     }
     
+    @FXML
+    private void btPassarAServidoClicked(ActionEvent event){
+        if(table.getOrder().getState() == orderState.PREPARATION)
+            table.getOrder().setState(orderState.SERVED);
+        else
+            lblErro.setText("ERRO: Apenas mesas com pedidos em preparação podem passar os pedidos para servido!");
+        lblEstadoPedido.setText(table.getOrder().showState());
+    }
+    
+    @FXML
+    private void btFecharPedidoClicked(ActionEvent event){
+        if(table.getOrder().getState() == orderState.SERVED){
+            table.getOrder().setState(orderState.CLOSED);
+            
+        }
+        else
+            lblErro.setText("ERRO: Apenas mesas que já foram servidas podem fechar pedidos!");
+        
+        fillTbTables();
+        lblEstadoPedido.setText(table.getOrder().showState());
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        String hours[] = new String[24];
+        String minutes[] = new String[60];
+        
+        for(int i = 0; i < 24; i++)
+            hours[i] = ""+i;
+        
+        for(int i = 0; i < 60; i++)
+            minutes[i] = ""+i;
+        
         datePickerReserva.setEditable(false);
+        
+        cbBoxHour.setPromptText("Horas");
+        cbBoxMinute.setPromptText("Minutos");
+        
+        cbBoxHour.getItems().setAll(FXCollections.observableArrayList(hours));
+        cbBoxMinute.getItems().setAll(FXCollections.observableArrayList(minutes));
     }
     
 }
